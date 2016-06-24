@@ -108,7 +108,7 @@ int32_t sched_be(void)
 		if (!krnl_task) panic(PANIC_NO_TASKS_RUN);
 		if (hf_queue_addtail(krnl_run_queue, krnl_task))
 			panic(PANIC_CANT_PLACE_RUN);
-	} while ((krnl_task->state == TASK_BLOCKED) || (i++ != r));
+	} while ((krnl_task->state == TASK_BLOCKED) || ((i++ % krnl_tasks) != r));
 	krnl_task->jobs++;
 
 	return krnl_task->id;
