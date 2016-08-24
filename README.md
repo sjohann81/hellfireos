@@ -1,5 +1,8 @@
 # HellfireOS Realtime Operating System
 
+---
+### Instruções usadas na aula de laboratório 01:
+
 optional: 
 - Download GNU cross (MIPS) toolchain (4.6 series, pre-built)
   - [32 bits](https://dl.dropboxusercontent.com/u/7936618/gcc-4.6.1_x86.tar.gz)
@@ -16,3 +19,4 @@ $ cd /platform/single_core
 $ make image
 $ ./usr/sim/hf_risc_sim/hf_risc_sim platform/single_core/image.bin 
 ```
+---
