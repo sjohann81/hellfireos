@@ -30,8 +30,11 @@ struct list *hf_list_init(void)
 	struct list *lst;
 	
 	lst = (struct list *)hf_malloc(sizeof(struct list));
-	lst->next = NULL;
-	lst->elem = NULL;
+	
+	if (lst){
+		lst->next = NULL;
+		lst->elem = NULL;
+	}
 
 	return lst;
 }
