@@ -13,10 +13,11 @@ $ export PATH=$PATH:<PATH_TO_TOOLCHAIN>/bin/
  - Execute 
 ```sh
 $ git clone git@github.com/sjohan81/hellfireos.git
-$ cd /usr/sim/hf_risc/
-$ gcc hf_risc_sim.c -o hf_risc_sim
-$ cd /platform/single_core
+$ cd hellfireos
+$ gcc /usr/sim/hf_risc_sim/hf_risc_sim.c -o /usr/sim/hf_risc_sim/hf_risc_sim
+$ cd platform/single_core
 $ make image
+$ cd ../../
 $ ./usr/sim/hf_risc_sim/hf_risc_sim platform/single_core/image.bin 
 ```
 ---
