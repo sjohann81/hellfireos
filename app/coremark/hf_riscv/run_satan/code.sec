@@ -1,0 +1,21 @@
+
+test.axf:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00002ac8  40000000  40000000  00000074  2**2
+                  CONTENTS, ALLOC, LOAD, CODE
+  1 .rodata       000006cc  40002ac8  40002ac8  00002b3c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .data         0000000c  40003194  40003194  00003208  2**0
+                  ALLOC
+  3 .sdata.seed3_volatile 00000004  400031a0  400031a0  00003208  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .sdata.default_num_contexts 00000004  400031a4  400031a4  0000320c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  5 .sdata.seed4_volatile 00000004  400031a8  400031a8  00003210  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .bss          00000094  400031ac  400031ac  00003214  2**2
+                  ALLOC
+  7 .comment      00000011  00000000  00000000  00003214  2**0
+                  CONTENTS, READONLY

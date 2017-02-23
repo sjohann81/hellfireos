@@ -5,9 +5,11 @@
  */
 
 #include <hellfire.h>
+#include <spi.h>
 #include <mcp23s17.h>
 
-void mcp23s17_dir(uint8_t device, uint8_t bank, uint8_t reg){
+void mcp23s17_dir(uint8_t device, uint8_t bank, uint8_t reg)
+{
 	spi_start();
 	spi_sendrecv(MCP23x17_ADDR | ((device & 0x07) << 1));
 	if (bank)
@@ -18,7 +20,8 @@ void mcp23s17_dir(uint8_t device, uint8_t bank, uint8_t reg){
 	spi_stop();
 }
 
-uint8_t mcp23s17_read(uint8_t device, uint8_t bank){
+uint8_t mcp23s17_read(uint8_t device, uint8_t bank)
+{
 	uint8_t reg;
 
 	spi_start();
@@ -33,7 +36,8 @@ uint8_t mcp23s17_read(uint8_t device, uint8_t bank){
 	return reg;
 }
 
-void mcp23s17_write(uint8_t device, uint8_t bank, uint8_t reg){
+void mcp23s17_write(uint8_t device, uint8_t bank, uint8_t reg)
+{
 	spi_start();
 	spi_sendrecv(MCP23x17_ADDR | ((device & 0x07) << 1));
 	if (bank)
@@ -44,7 +48,8 @@ void mcp23s17_write(uint8_t device, uint8_t bank, uint8_t reg){
 	spi_stop();
 }
 
-void mcp23s17_inten(uint8_t device, uint8_t bank, uint8_t reg){
+void mcp23s17_inten(uint8_t device, uint8_t bank, uint8_t reg)
+{
 	spi_start();
 	spi_sendrecv(MCP23x17_ADDR | ((device & 0x07) << 1));
 	if (bank)
@@ -55,11 +60,8 @@ void mcp23s17_inten(uint8_t device, uint8_t bank, uint8_t reg){
 	spi_stop();
 }
 
-void mcp23s17_init(uint8_t device, uint8_t portdir_a, uint8_t portdir_b){
-	uint8_t byte;
-	
-	spi_setup();
-
+void mcp23s17_init(uint8_t device, uint8_t portdir_a, uint8_t portdir_b)
+{
 	// configure device, enable device addressing
 	spi_start();
 	spi_sendrecv(MCP23x17_ADDR | ((device & 0x07) << 1));

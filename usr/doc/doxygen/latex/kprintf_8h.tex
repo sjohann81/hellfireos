@@ -1,0 +1,53 @@
+\hypertarget{kprintf_8h}{\section{sys/include/kprintf.h File Reference}
+\label{kprintf_8h}\index{sys/include/kprintf.\-h@{sys/include/kprintf.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{kprintf_8h_a80682af286bf85737036e5c569ab942a}{kprintf} (const int8\-\_\-t $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Kernel short version of printf(). \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{kprintf_8h_ad59de227a667120c5cd292e8882fa598}{dprintf} (const int8\-\_\-t $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Kernel debug version of printf(). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{kprintf_8h_ad59de227a667120c5cd292e8882fa598}{\index{kprintf.\-h@{kprintf.\-h}!dprintf@{dprintf}}
+\index{dprintf@{dprintf}!kprintf.h@{kprintf.\-h}}
+\subsubsection[{dprintf}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t dprintf (
+\begin{DoxyParamCaption}
+\item[{const int8\-\_\-t $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{kprintf_8h_ad59de227a667120c5cd292e8882fa598}
+
+
+Kernel debug version of printf(). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & is a pointer to formatted data to be printed on the debug output.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0. 
+\end{DoxyReturn}
+\hypertarget{kprintf_8h_a80682af286bf85737036e5c569ab942a}{\index{kprintf.\-h@{kprintf.\-h}!kprintf@{kprintf}}
+\index{kprintf@{kprintf}!kprintf.h@{kprintf.\-h}}
+\subsubsection[{kprintf}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t kprintf (
+\begin{DoxyParamCaption}
+\item[{const int8\-\_\-t $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{kprintf_8h_a80682af286bf85737036e5c569ab942a}
+
+
+Kernel short version of printf(). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & is a pointer to formatted data to be printed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0. 
+\end{DoxyReturn}

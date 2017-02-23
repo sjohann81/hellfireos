@@ -5,6 +5,8 @@ int8_t *hf_selfname(void);
 int32_t hf_state(uint16_t id);
 int32_t hf_jobs(uint16_t id);
 int32_t hf_dlm(uint16_t id);
+int32_t hf_priorityset(uint16_t id, uint8_t priority);
+int32_t hf_priorityget(uint16_t id);
 int32_t hf_spawn(void (*task)(), uint16_t period, uint16_t capacity, uint16_t deadline, int8_t *name, uint32_t stack_size);
 void hf_yield(void);
 int32_t hf_block(uint16_t id);

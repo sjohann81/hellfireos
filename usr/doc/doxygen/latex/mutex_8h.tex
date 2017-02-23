@@ -1,0 +1,81 @@
+\hypertarget{mutex_8h}{\section{sys/include/mutex.h File Reference}
+\label{mutex_8h}\index{sys/include/mutex.\-h@{sys/include/mutex.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmtx}{mtx}
+\begin{DoxyCompactList}\small\item\em Mutex data structure. \end{DoxyCompactList}\item 
+struct \hyperlink{structmtx}{mtx}
+\begin{DoxyCompactList}\small\item\em Mutex data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structmtx}{mtx} \hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{mutex_8h_a6f1ebabb7d6134515d620770be8b3e99}{hf\-\_\-mtxinit} (\hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} $\ast$m)
+\begin{DoxyCompactList}\small\item\em Initializes a mutex, defining its initial value. \end{DoxyCompactList}\item 
+void \hyperlink{mutex_8h_a99e45d9cb59a325c9661733914f5c097}{hf\-\_\-mtxlock} (\hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} $\ast$m)
+\begin{DoxyCompactList}\small\item\em Locks a mutex. \end{DoxyCompactList}\item 
+void \hyperlink{mutex_8h_a7e6734fa0c286410af45c3143fffb2bc}{hf\-\_\-mtxunlock} (\hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} $\ast$m)
+\begin{DoxyCompactList}\small\item\em Unlocks a mutex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{\index{mutex.\-h@{mutex.\-h}!mutex\-\_\-t@{mutex\-\_\-t}}
+\index{mutex\-\_\-t@{mutex\-\_\-t}!mutex.h@{mutex.\-h}}
+\subsubsection[{mutex\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf mtx} {\bf mutex\-\_\-t}}}\label{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}
+
+
+\subsection{Function Documentation}
+\hypertarget{mutex_8h_a6f1ebabb7d6134515d620770be8b3e99}{\index{mutex.\-h@{mutex.\-h}!hf\-\_\-mtxinit@{hf\-\_\-mtxinit}}
+\index{hf\-\_\-mtxinit@{hf\-\_\-mtxinit}!mutex.h@{mutex.\-h}}
+\subsubsection[{hf\-\_\-mtxinit}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mtxinit (
+\begin{DoxyParamCaption}
+\item[{{\bf mutex\-\_\-t} $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{mutex_8h_a6f1ebabb7d6134515d620770be8b3e99}
+
+
+Initializes a mutex, defining its initial value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a mutex. \\
+\hline
+\end{DoxyParams}
+\hypertarget{mutex_8h_a99e45d9cb59a325c9661733914f5c097}{\index{mutex.\-h@{mutex.\-h}!hf\-\_\-mtxlock@{hf\-\_\-mtxlock}}
+\index{hf\-\_\-mtxlock@{hf\-\_\-mtxlock}!mutex.h@{mutex.\-h}}
+\subsubsection[{hf\-\_\-mtxlock}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mtxlock (
+\begin{DoxyParamCaption}
+\item[{{\bf mutex\-\_\-t} $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{mutex_8h_a99e45d9cb59a325c9661733914f5c097}
+
+
+Locks a mutex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a mutex.\\
+\hline
+\end{DoxyParams}
+If the mutex is not locked, the calling task continues execution. Otherwise, the task spins. \hypertarget{mutex_8h_a7e6734fa0c286410af45c3143fffb2bc}{\index{mutex.\-h@{mutex.\-h}!hf\-\_\-mtxunlock@{hf\-\_\-mtxunlock}}
+\index{hf\-\_\-mtxunlock@{hf\-\_\-mtxunlock}!mutex.h@{mutex.\-h}}
+\subsubsection[{hf\-\_\-mtxunlock}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mtxunlock (
+\begin{DoxyParamCaption}
+\item[{{\bf mutex\-\_\-t} $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{mutex_8h_a7e6734fa0c286410af45c3143fffb2bc}
+
+
+Unlocks a mutex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a mutex. \\
+\hline
+\end{DoxyParams}

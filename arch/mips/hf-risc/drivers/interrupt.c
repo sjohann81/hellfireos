@@ -42,13 +42,16 @@ void _irq_mask_set(uint32_t mask)
 	IRQ_MASK = m;
 }
 
-void _irq_mask_clr(uint32_t mask)
+uint32_t _irq_mask_clr(uint32_t mask)
 {
-	uint32_t m;
+	uint32_t m, r;
 	
 	m = IRQ_MASK;
+	r = m;
 	m &= ~mask;
 	IRQ_MASK = m;
+	
+	return r;
 }
 
 void _exception_handler(uint32_t epc, uint32_t opcode)

@@ -13,6 +13,7 @@ LDFLAGS_STRIP = --gc-sections
 # remember the kernel, as well as the application, will be compiled using the *same* compiler and flags!
 ASFLAGS = -m32 -msoft-float #-fPIC
 CFLAGS = -Wall -march=RV32I -O2 -c -msoft-float -fshort-double -ffreestanding -nostdlib -ffixed-s10 -ffixed-s11 $(INC_DIRS) -DCPU_SPEED=${F_CLK} -DTIME_SLICE=${TIME_SLICE} -DLITTLE_ENDIAN $(CFLAGS_STRIP) -DKERN_VER=\"$(KERNEL_VER)\" #-mrvc -fPIC -DDEBUG_PORT
+#CFLAGS = -Wall -march=RV32I -O2 -c -msoft-float -ffreestanding -nostdlib -ffixed-s10 -ffixed-s11 $(INC_DIRS) -DCPU_SPEED=${F_CLK} -DTIME_SLICE=${TIME_SLICE} -DLITTLE_ENDIAN $(CFLAGS_STRIP) -DKERN_VER=\"$(KERNEL_VER)\" #-mrvc -fPIC -DDEBUG_PORT
 LDFLAGS = -melf32lriscv $(LDFLAGS_STRIP)
 LINKER_SCRIPT = $(ARCH_DIR)/hf-riscv.ld
 
@@ -28,5 +29,6 @@ hal:
 	$(AS) $(ASFLAGS) -o crt0.o $(ARCH_DIR)/boot/crt0.s
 	$(CC) $(CFLAGS) \
 		$(ARCH_DIR)/drivers/interrupt.c \
-		$(ARCH_DIR)/drivers/hal.c
-
+		$(ARCH_DIR)/drivers/hal.c \
+		$(ARCH_DIR)/drivers/eth_enc28j60.c
+		

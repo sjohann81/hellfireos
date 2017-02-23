@@ -20,7 +20,7 @@ void sender(void)
 					printf("queue is full!\n");
 					free(buf);
 				}
-				hf_mtxunlock(&m);	
+				hf_mtxunlock(&m);
 			}else{
 				printf("malloc() failed!\n");
 			}
@@ -45,10 +45,10 @@ void receiver(void)
 	}
 }
 
-void log(void)
+void logthread(void)
 {
 	for(;;){
-		printf("queue: %d\n", hf_queue_count(q));
+		printf("queue: %d (tick time %dus)\n", hf_queue_count(q), hf_ticktime());
 		hf_yield();
 	}
 }
@@ -59,9 +59,13 @@ void app_main(void){
 
 	hf_spawn(sender, 0, 0, 0, "sender 1", 1024);
 	hf_spawn(sender, 0, 0, 0, "sender 2", 1024);
+	hf_spawn(sender, 0, 0, 0, "sender 3", 1024);
+	hf_spawn(sender, 0, 0, 0, "sender 4", 1024);
+	hf_spawn(sender, 0, 0, 0, "sender 5", 1024);
+	hf_spawn(sender, 0, 0, 0, "sender 6", 1024);
 	hf_spawn(receiver, 0, 0, 0, "receiver 1", 1024);
 	hf_spawn(receiver, 0, 0, 0, "receiver 2", 1024);
 	hf_spawn(receiver, 0, 0, 0, "receiver 3", 1024);
-	hf_spawn(log, 100, 1, 100, "log", 512);
+	hf_spawn(logthread, 100, 1, 100, "log", 1024);
 }
 

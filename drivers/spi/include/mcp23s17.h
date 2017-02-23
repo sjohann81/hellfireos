@@ -41,6 +41,6 @@
 void mcp23s17_dir(uint8_t device, uint8_t bank, uint8_t reg);
 uint8_t mcp23s17_read(uint8_t device, uint8_t bank);
 void mcp23s17_write(uint8_t device, uint8_t bank, uint8_t reg);
-void mcp23s17_inten(uint8_t device, uint8_t bank, uint8_t reg)
+void mcp23s17_inten(uint8_t device, uint8_t bank, uint8_t reg);
 void mcp23s17_init(uint8_t device, uint8_t portdir_a, uint8_t portdir_b);
 

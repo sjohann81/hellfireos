@@ -1,6 +1,7 @@
 #define PANIC_ABORTED			0x00
 #define PANIC_GPF			0x01
 #define PANIC_STACK_OVERFLOW		0x02
+#define PANIC_STACK_CORRUPT		0x0e
 #define PANIC_NO_TASKS_LEFT		0x03
 #define PANIC_OOM			0x04
 #define PANIC_NO_TASKS_RUN		0x05

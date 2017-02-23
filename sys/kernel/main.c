@@ -31,7 +31,7 @@ static void print_config(void)
 {
 	kprintf("\n===========================================================");
 	kprintf("\nHellfireOS %s [%s, %s]", KERN_VER, __DATE__, __TIME__);
-	kprintf("\nEmbedded Systems Group - GSE, PUCRS - [2007 - 2016]");
+	kprintf("\nEmbedded Systems Group - GSE, PUCRS - [2007 - 2017]");
 	kprintf("\n===========================================================\n");
 	kprintf("\narch:          %s", CPU_ARCH);
 	kprintf("\nsys clk:       %d kHz", CPU_SPEED/1000);
@@ -50,6 +50,8 @@ static void clear_tcb(void)
 		krnl_task->id = -1;
 		memset(krnl_task->name, 0, sizeof(krnl_task->name));
 		krnl_task->state = TASK_IDLE;
+		krnl_task->priority = 0;
+		krnl_task->priority_rem = 0;
 		krnl_task->delay = 0;
 		krnl_task->rtjobs = 0;
 		krnl_task->bgjobs = 0;
@@ -72,9 +74,12 @@ static void clear_tcb(void)
 
 static void clear_pcb(void)
 {
+	krnl_pcb.sched_rt = sched_rma;
+	krnl_pcb.sched_be = sched_priorityrr;
 	krnl_pcb.coop_cswitch = 0;
 	krnl_pcb.preempt_cswitch = 0;
 	krnl_pcb.interrupts = 0;
+	krnl_pcb.tick_time = 0;
 }
 
 static void init_queues(void)
@@ -89,6 +94,11 @@ static void init_queues(void)
 
 static void idletask(void)
 {
+	kprintf("\nKERNEL: free heap: %d bytes", krnl_free);
+	kprintf("\nKERNEL: HellfireOS is running\n");
+
+	hf_schedlock(0);
+	
 	for (;;){
 		_cpu_idle();
 	}
@@ -130,11 +140,7 @@ int main(void)
 		_device_init();
 		_task_init();
 		app_main();
-		kprintf("\nKERNEL: free heap: %d bytes", krnl_free);
-		kprintf("\nKERNEL: HellfireOS is running\n");
-		_ei(1);
-		hf_schedlock(0);
-		for (;;);
+		_restoreexec(krnl_task->task_context, 1, krnl_current_task);
 		panic(PANIC_ABORTED);
 	}else{
 		panic(PANIC_GPF);

@@ -117,3 +117,11 @@ uint32_t hf_freemem(void)
 #endif
 	return krnl_free;
 }
+
+uint32_t hf_ticktime(void)
+{
+#if KERNEL_LOG == 2
+	dprintf("hf_ticktime() %d ", (uint32_t)_read_us());
+#endif
+	return krnl_pcb.tick_time;
+}

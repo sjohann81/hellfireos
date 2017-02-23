@@ -1,0 +1,25 @@
+
+test.axf:     file format elf32-bigmips
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000026f0  40000000  40000000  00000074  2**2
+                  CONTENTS, ALLOC, LOAD, CODE
+  1 .rodata       00000718  400026f0  400026f0  00002764  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .data         00000008  40002e08  40002e08  00002e7c  2**0
+                  ALLOC
+  3 .sdata.default_num_contexts 00000004  40002e10  40002e10  00002e7c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .sdata.seed4_volatile 00000004  40002e14  40002e14  00002e80  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  5 .sdata.seed3_volatile 00000004  40002e18  40002e18  00002e84  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .bss          00000094  40002e1c  40002e1c  00002e88  2**2
+                  ALLOC
+  7 .reginfo      00000018  00000000  00000000  00002e88  2**2
+                  CONTENTS, READONLY, LINK_ONCE_SAME_SIZE
+  8 .comment      00000011  00000000  00000000  00002ea0  2**0
+                  CONTENTS, READONLY
+  9 .gnu.attributes 00000010  00000000  00000000  00002eb1  2**0
+                  CONTENTS, READONLY

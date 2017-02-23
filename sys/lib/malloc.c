@@ -10,6 +10,8 @@ static mutex_t krnl_malloc;
 /*
  * very simple and fast memory allocator.
  * causes lots of fragmentation, but its no big deal if memory is rarely freed.
+ *
+ * this allocator is not recommended.
  */
 
 static mem_chunk *compact(mem_chunk *p, uint32_t nsize)
@@ -112,6 +114,8 @@ void heapinit(void *heap, uint32_t len)
  * memory is allocated using multiples of MIN_POOL_ALLOC_QUANTAS.
  * each 'quanta' is sizeof(mem_header_t), which is 8 bytes.
  * calls to alloc_update_hf_free() on malloc() can be avoided to improve speed.
+ * 
+ * this allocator is not recommended.
  */
 
 static mem_header_t base;
@@ -254,7 +258,7 @@ void heapinit(void *heap, uint32_t len)
 
 #if MEM_ALLOC == 2
 /*
- * new memory allocator using first-fit
+ * memory allocator using first-fit
  * 
  * simple linked list of used/free areas. malloc() is very fast on sucessive
  * allocations as a pointer to the last allocated area is kept, while hf_free()
@@ -269,6 +273,7 @@ void hf_free(void *ptr)
 	hf_mtxlock(&krnl_malloc);
 	p = ((struct mem_block *)ptr) - 1;
 	p->size &= 0xfffffffe;
+	krnl_free += p->size + sizeof(struct mem_block);
 
 	p = (struct mem_block *)krnl_heap;
 	ff = p;
@@ -278,19 +283,20 @@ void hf_free(void *ptr)
 			p = p->next;
 			q = p;
 		}
-		while (!(p->size & 1) && p->next != NULL) p = p->next;
+		while (!(p->size & 1) && p->next != NULL)
+			p = p->next;
 		if (p){
 			q->size = (size_t)p - (size_t)q - sizeof(struct mem_block);
 			q->next = p;
 		}
 	}
-	krnl_free += p->size + sizeof(struct mem_block);
+	
 	hf_mtxunlock(&krnl_malloc);
 }
 
 void *hf_malloc(uint32_t size)
 {
-	struct mem_block *p, *q, *r, n;
+	struct mem_block *p, *r, n;
 	size_t psize;
 	
 	size = align4(size);
@@ -323,8 +329,8 @@ void *hf_malloc(uint32_t size)
 
 void heapinit(void *heap, uint32_t len)
 {
-	struct mem_block *p = (struct mem_block *)krnl_heap;
-	struct mem_block *q = (struct mem_block *)((size_t)(struct mem_block *)krnl_heap + sizeof(krnl_heap) - (sizeof(struct mem_block)));
+	struct mem_block *p = (struct mem_block *)heap;
+	struct mem_block *q = (struct mem_block *)((size_t)(struct mem_block *)heap + len - (sizeof(struct mem_block)));
 	
 	len = align4(len);
 	p->next = q;
@@ -339,7 +345,7 @@ void heapinit(void *heap, uint32_t len)
 
 #if MEM_ALLOC == 3
 /*
- * new memory allocator using first-fit
+ * memory allocator using first-fit
  * 
  * simple linked list of used/free areas. malloc() is slower, because free areas
  * are searched from the beginning of the heap and are coalesced on demand. yet,
@@ -354,6 +360,7 @@ void hf_free(void *ptr)
 	hf_mtxlock(&krnl_malloc);
 	p = ((struct mem_block *)ptr) - 1;
 	p->size &= ~1L;
+	last_free = first_free;
 	krnl_free += p->size + sizeof(struct mem_block);
 	hf_mtxunlock(&krnl_malloc);
 }
@@ -361,13 +368,12 @@ void hf_free(void *ptr)
 void *hf_malloc(uint32_t size)
 {
 	struct mem_block *p, *q, *r, n;
-	size_t psize;
 	
 	size = align4(size);
 	
 	hf_mtxlock(&krnl_malloc);
 
-	p = (struct mem_block *)krnl_heap;
+	p = last_free;
 	q = p;
 
 	while (p->next){
@@ -375,14 +381,11 @@ void *hf_malloc(uint32_t size)
 			p = p->next;
 			q = p;
 		}
-		while (!(p->size & 1) && p->next) p = p->next;
+		while (!(p->size & 1) && p->next)
+			p = p->next;
 		if (p){
 			q->size = (size_t)p - (size_t)q - sizeof(struct mem_block);
 			q->next = p;
-		}
-		if (!p->next && q->size < size + sizeof(struct mem_block)){
-			hf_mtxunlock(&krnl_malloc);
-			return 0;
 		}
 		if (q->size >= size + sizeof(struct mem_block)){
 			p = q;
@@ -390,14 +393,17 @@ void *hf_malloc(uint32_t size)
 		}
 	}
 
-	psize = (p->size & ~1L) - size - sizeof(struct mem_block);
+	if (p->next == NULL){
+		hf_mtxunlock(&krnl_malloc);
+		return 0;
+	}
 	
+	last_free = p;
 	r = p->next;
 	p->next = (struct mem_block *)((size_t)p + size + sizeof(struct mem_block));
 	p->size = size | 1;
-	
 	n.next = r;
-	n.size = psize;
+	n.size = (p->size & ~1L) - size - sizeof(struct mem_block);
 	*p->next = n;
 	krnl_free -= size + sizeof(struct mem_block);
 	
@@ -409,13 +415,15 @@ void *hf_malloc(uint32_t size)
 void heapinit(void *heap, uint32_t len)
 {
 	struct mem_block *p = (struct mem_block *)heap;
-	struct mem_block *q = (struct mem_block *)((size_t)(struct mem_block *)heap + sizeof(heap) - (sizeof(struct mem_block)));
+	struct mem_block *q = (struct mem_block *)((size_t)(struct mem_block *)heap + len - (sizeof(struct mem_block)));
 	
 	len = align4(len);
 	p->next = q;
 	p->size = len - sizeof(struct mem_block) - sizeof(struct mem_block);
 	q->next = NULL;
 	q->size = 0;
+	first_free = (struct mem_block *)heap;
+	last_free = (struct mem_block *)heap;
 	krnl_free = p->size;
 	hf_mtxinit(&krnl_malloc);
 }

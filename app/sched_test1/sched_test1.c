@@ -4,7 +4,7 @@ void thread(void)
 {
 	for(;;){
 		printf("t%d ", hf_selfid());
-		delay_ms(1000);
+//		delay_ms(1000);
 	}
 }
 

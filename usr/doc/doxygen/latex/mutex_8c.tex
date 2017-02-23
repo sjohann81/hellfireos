@@ -1,0 +1,74 @@
+\hypertarget{mutex_8c}{\section{sys/sync/mutex.c File Reference}
+\label{mutex_8c}\index{sys/sync/mutex.\-c@{sys/sync/mutex.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{mutex_8c_a6f1ebabb7d6134515d620770be8b3e99}{hf\-\_\-mtxinit} (\hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} $\ast$m)
+\begin{DoxyCompactList}\small\item\em Initializes a mutex, defining its initial value. \end{DoxyCompactList}\item 
+void \hyperlink{mutex_8c_a99e45d9cb59a325c9661733914f5c097}{hf\-\_\-mtxlock} (\hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} $\ast$m)
+\begin{DoxyCompactList}\small\item\em Locks a mutex. \end{DoxyCompactList}\item 
+void \hyperlink{mutex_8c_a7e6734fa0c286410af45c3143fffb2bc}{hf\-\_\-mtxunlock} (\hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} $\ast$m)
+\begin{DoxyCompactList}\small\item\em Unlocks a mutex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+February 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Mutex synchronization primitives. 
+
+\subsection{Function Documentation}
+\hypertarget{mutex_8c_a6f1ebabb7d6134515d620770be8b3e99}{\index{mutex.\-c@{mutex.\-c}!hf\-\_\-mtxinit@{hf\-\_\-mtxinit}}
+\index{hf\-\_\-mtxinit@{hf\-\_\-mtxinit}!mutex.c@{mutex.\-c}}
+\subsubsection[{hf\-\_\-mtxinit}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mtxinit (
+\begin{DoxyParamCaption}
+\item[{{\bf mutex\-\_\-t} $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{mutex_8c_a6f1ebabb7d6134515d620770be8b3e99}
+
+
+Initializes a mutex, defining its initial value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a mutex. \\
+\hline
+\end{DoxyParams}
+\hypertarget{mutex_8c_a99e45d9cb59a325c9661733914f5c097}{\index{mutex.\-c@{mutex.\-c}!hf\-\_\-mtxlock@{hf\-\_\-mtxlock}}
+\index{hf\-\_\-mtxlock@{hf\-\_\-mtxlock}!mutex.c@{mutex.\-c}}
+\subsubsection[{hf\-\_\-mtxlock}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mtxlock (
+\begin{DoxyParamCaption}
+\item[{{\bf mutex\-\_\-t} $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{mutex_8c_a99e45d9cb59a325c9661733914f5c097}
+
+
+Locks a mutex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a mutex.\\
+\hline
+\end{DoxyParams}
+If the mutex is not locked, the calling task continues execution. Otherwise, the task spins. \hypertarget{mutex_8c_a7e6734fa0c286410af45c3143fffb2bc}{\index{mutex.\-c@{mutex.\-c}!hf\-\_\-mtxunlock@{hf\-\_\-mtxunlock}}
+\index{hf\-\_\-mtxunlock@{hf\-\_\-mtxunlock}!mutex.c@{mutex.\-c}}
+\subsubsection[{hf\-\_\-mtxunlock}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mtxunlock (
+\begin{DoxyParamCaption}
+\item[{{\bf mutex\-\_\-t} $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{mutex_8c_a7e6734fa0c286410af45c3143fffb2bc}
+
+
+Unlocks a mutex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a mutex. \\
+\hline
+\end{DoxyParams}

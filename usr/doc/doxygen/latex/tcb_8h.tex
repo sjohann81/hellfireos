@@ -1,0 +1,127 @@
+\hypertarget{tcb_8h}{\section{sys/include/tcb.h File Reference}
+\label{tcb_8h}\index{sys/include/tcb.\-h@{sys/include/tcb.\-h}}
+}
+This graph shows which files directly or indirectly include this file\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tcb_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structtcb__entry}{tcb\-\_\-entry}
+\begin{DoxyCompactList}\small\item\em Task control block (T\-C\-B) entry data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tcb_8h_aa56ba1aed5aa073e789fd485da6202f0}{T\-A\-S\-K\-\_\-\-I\-D\-L\-E}~0
+\item 
+\#define \hyperlink{tcb_8h_a4b78a26b7a5f1543a2d0d5127fb0754a}{T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y}~1
+\item 
+\#define \hyperlink{tcb_8h_a17e3f99a030e5dfefb8f9815600e3fed}{T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G}~2
+\item 
+\#define \hyperlink{tcb_8h_ac992e32269ecc3d8a38fd95b70cba372}{T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D}~3
+\item 
+\#define \hyperlink{tcb_8h_a798d21ca82c245fd26f4a5f3efbd4014}{T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D}~4
+\item 
+\#define \hyperlink{tcb_8h_aa62d19f3e8e48cdbcd2259661c184fc3}{T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G}~5
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structtcb__entry}{tcb\-\_\-entry} \hyperlink{tcb_8h_a3fc9c4d501dff3892623466e7d1c479d}{krnl\-\_\-tcb} \mbox{[}M\-A\-X\-\_\-\-T\-A\-S\-K\-S\mbox{]}
+\begin{DoxyCompactList}\small\item\em The task control block. \end{DoxyCompactList}\item 
+struct \hyperlink{structtcb__entry}{tcb\-\_\-entry} $\ast$volatile \hyperlink{tcb_8h_a2865081b33ac2f8aad40e74c8d1ba236}{krnl\-\_\-task}
+\item 
+volatile uint16\-\_\-t \hyperlink{tcb_8h_a0930912e1a59474390cea4f92c9cd49e}{krnl\-\_\-tasks}
+\item 
+volatile uint16\-\_\-t \hyperlink{tcb_8h_a2c835b3df63910e6401268dfef38610d}{krnl\-\_\-current\-\_\-task}
+\item 
+volatile uint16\-\_\-t \hyperlink{tcb_8h_ae4c8dc30e9ddf772219155ba034b953a}{krnl\-\_\-schedule}
+\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{tcb_8h_a5141ea9b1498a972a227094289188047}{krnl\-\_\-run\-\_\-queue}
+\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{tcb_8h_ae4bf97399eec663eacfa816d0b81082e}{krnl\-\_\-delay\-\_\-queue}
+\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{tcb_8h_ada5d16f9dd5684be324c7cf3a06d05bf}{krnl\-\_\-rt\-\_\-queue}
+\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{tcb_8h_a5903b31cf96f8d2697316b67a0b1f10b}{krnl\-\_\-event\-\_\-queue}
+\item 
+uint8\-\_\-t \hyperlink{tcb_8h_a2db720ce5f1ce81dba0cf5c773b2610a}{krnl\-\_\-heap} \mbox{[}H\-E\-A\-P\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+uint32\-\_\-t \hyperlink{tcb_8h_a6bada0206d47773f897a3c58528c794a}{krnl\-\_\-free}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+February 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Task management primitives and auxiliary functions. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tcb_8h_ac992e32269ecc3d8a38fd95b70cba372}{\index{tcb.\-h@{tcb.\-h}!T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D@{T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D}}
+\index{T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D@{T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D}!tcb.h@{tcb.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D~3}}\label{tcb_8h_ac992e32269ecc3d8a38fd95b70cba372}
+task blocked, can be resumed later (on run queue) \hypertarget{tcb_8h_a798d21ca82c245fd26f4a5f3efbd4014}{\index{tcb.\-h@{tcb.\-h}!T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D@{T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D}}
+\index{T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D@{T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D}!tcb.h@{tcb.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D~4}}\label{tcb_8h_a798d21ca82c245fd26f4a5f3efbd4014}
+task being delayed (on delay queue) \hypertarget{tcb_8h_aa56ba1aed5aa073e789fd485da6202f0}{\index{tcb.\-h@{tcb.\-h}!T\-A\-S\-K\-\_\-\-I\-D\-L\-E@{T\-A\-S\-K\-\_\-\-I\-D\-L\-E}}
+\index{T\-A\-S\-K\-\_\-\-I\-D\-L\-E@{T\-A\-S\-K\-\_\-\-I\-D\-L\-E}!tcb.h@{tcb.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-I\-D\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-I\-D\-L\-E~0}}\label{tcb_8h_aa56ba1aed5aa073e789fd485da6202f0}
+task does not exist / not ready \hypertarget{tcb_8h_a4b78a26b7a5f1543a2d0d5127fb0754a}{\index{tcb.\-h@{tcb.\-h}!T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y@{T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y}}
+\index{T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y@{T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y}!tcb.h@{tcb.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y~1}}\label{tcb_8h_a4b78a26b7a5f1543a2d0d5127fb0754a}
+task ready to run (on run queue) \hypertarget{tcb_8h_a17e3f99a030e5dfefb8f9815600e3fed}{\index{tcb.\-h@{tcb.\-h}!T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G@{T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G}}
+\index{T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G@{T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G}!tcb.h@{tcb.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G~2}}\label{tcb_8h_a17e3f99a030e5dfefb8f9815600e3fed}
+task running (only one task/core can be in this state, on run queue) \hypertarget{tcb_8h_aa62d19f3e8e48cdbcd2259661c184fc3}{\index{tcb.\-h@{tcb.\-h}!T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G@{T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G}}
+\index{T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G@{T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G}!tcb.h@{tcb.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G~5}}\label{tcb_8h_aa62d19f3e8e48cdbcd2259661c184fc3}
+task waiting for an event (on event queue) 
+
+\subsection{Variable Documentation}
+\hypertarget{tcb_8h_a2c835b3df63910e6401268dfef38610d}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-current\-\_\-task@{krnl\-\_\-current\-\_\-task}}
+\index{krnl\-\_\-current\-\_\-task@{krnl\-\_\-current\-\_\-task}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-current\-\_\-task}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t krnl\-\_\-current\-\_\-task}}\label{tcb_8h_a2c835b3df63910e6401268dfef38610d}
+the current running task id \hypertarget{tcb_8h_ae4bf97399eec663eacfa816d0b81082e}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-delay\-\_\-queue@{krnl\-\_\-delay\-\_\-queue}}
+\index{krnl\-\_\-delay\-\_\-queue@{krnl\-\_\-delay\-\_\-queue}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-delay\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ krnl\-\_\-delay\-\_\-queue}}\label{tcb_8h_ae4bf97399eec663eacfa816d0b81082e}
+pointer to a queue of delayed tasks \hypertarget{tcb_8h_a5903b31cf96f8d2697316b67a0b1f10b}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-event\-\_\-queue@{krnl\-\_\-event\-\_\-queue}}
+\index{krnl\-\_\-event\-\_\-queue@{krnl\-\_\-event\-\_\-queue}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-event\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ krnl\-\_\-event\-\_\-queue}}\label{tcb_8h_a5903b31cf96f8d2697316b67a0b1f10b}
+pointer to a queue of tasks waiting for an event \hypertarget{tcb_8h_a6bada0206d47773f897a3c58528c794a}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-free@{krnl\-\_\-free}}
+\index{krnl\-\_\-free@{krnl\-\_\-free}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t krnl\-\_\-free}}\label{tcb_8h_a6bada0206d47773f897a3c58528c794a}
+amount of free heap memory, in bytes \hypertarget{tcb_8h_a2db720ce5f1ce81dba0cf5c773b2610a}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-heap@{krnl\-\_\-heap}}
+\index{krnl\-\_\-heap@{krnl\-\_\-heap}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-heap}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t krnl\-\_\-heap\mbox{[}H\-E\-A\-P\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{tcb_8h_a2db720ce5f1ce81dba0cf5c773b2610a}
+contiguous heap memory area to be used as a memory pool. the memory allocator (malloc() and free()) controls this data structure \hypertarget{tcb_8h_ada5d16f9dd5684be324c7cf3a06d05bf}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-rt\-\_\-queue@{krnl\-\_\-rt\-\_\-queue}}
+\index{krnl\-\_\-rt\-\_\-queue@{krnl\-\_\-rt\-\_\-queue}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-rt\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ krnl\-\_\-rt\-\_\-queue}}\label{tcb_8h_ada5d16f9dd5684be324c7cf3a06d05bf}
+pointer to a queue of real time tasks \hypertarget{tcb_8h_a5141ea9b1498a972a227094289188047}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-run\-\_\-queue@{krnl\-\_\-run\-\_\-queue}}
+\index{krnl\-\_\-run\-\_\-queue@{krnl\-\_\-run\-\_\-queue}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-run\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ krnl\-\_\-run\-\_\-queue}}\label{tcb_8h_a5141ea9b1498a972a227094289188047}
+pointer to a queue of best effort tasks \hypertarget{tcb_8h_ae4c8dc30e9ddf772219155ba034b953a}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-schedule@{krnl\-\_\-schedule}}
+\index{krnl\-\_\-schedule@{krnl\-\_\-schedule}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-schedule}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t krnl\-\_\-schedule}}\label{tcb_8h_ae4c8dc30e9ddf772219155ba034b953a}
+scheduler enable / disable flag \hypertarget{tcb_8h_a2865081b33ac2f8aad40e74c8d1ba236}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-task@{krnl\-\_\-task}}
+\index{krnl\-\_\-task@{krnl\-\_\-task}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-task}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf tcb\-\_\-entry}$\ast$ volatile krnl\-\_\-task}}\label{tcb_8h_a2865081b33ac2f8aad40e74c8d1ba236}
+pointer to a task control block entry \hypertarget{tcb_8h_a0930912e1a59474390cea4f92c9cd49e}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-tasks@{krnl\-\_\-tasks}}
+\index{krnl\-\_\-tasks@{krnl\-\_\-tasks}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-tasks}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint16\-\_\-t krnl\-\_\-tasks}}\label{tcb_8h_a0930912e1a59474390cea4f92c9cd49e}
+number of tasks in the system \hypertarget{tcb_8h_a3fc9c4d501dff3892623466e7d1c479d}{\index{tcb.\-h@{tcb.\-h}!krnl\-\_\-tcb@{krnl\-\_\-tcb}}
+\index{krnl\-\_\-tcb@{krnl\-\_\-tcb}!tcb.h@{tcb.\-h}}
+\subsubsection[{krnl\-\_\-tcb}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf tcb\-\_\-entry} krnl\-\_\-tcb\mbox{[}M\-A\-X\-\_\-\-T\-A\-S\-K\-S\mbox{]}}}\label{tcb_8h_a3fc9c4d501dff3892623466e7d1c479d}
+
+
+The task control block. 
+

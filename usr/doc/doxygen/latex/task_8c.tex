@@ -1,0 +1,339 @@
+\hypertarget{task_8c}{\section{sys/kernel/task.c File Reference}
+\label{task_8c}\index{sys/kernel/task.\-c@{sys/kernel/task.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{task_8c_a42142901db333dad480df5a5c35dcea4}{hf\-\_\-id} (int8\-\_\-t $\ast$name)
+\begin{DoxyCompactList}\small\item\em Get a task id by its name. \end{DoxyCompactList}\item 
+int8\-\_\-t $\ast$ \hyperlink{task_8c_ab77bc8efef3b3f5c6abd8c411715eca8}{hf\-\_\-name} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Get a task name by its id. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{task_8c_ac70031d8f3665ab81d28924a08ee70e9}{hf\-\_\-selfid} (void)
+\begin{DoxyCompactList}\small\item\em Get the current task id. \end{DoxyCompactList}\item 
+int8\-\_\-t $\ast$ \hyperlink{task_8c_a77f08c956533d6a07f02561055db7628}{hf\-\_\-selfname} (void)
+\begin{DoxyCompactList}\small\item\em Get the current task name. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_a216d821d031358c9916be26d08aeadb1}{hf\-\_\-state} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Get the current state of a task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_aa3c3c5cd358f2a6d1bedc3fe8eae01fb}{hf\-\_\-jobs} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Get the number of executed jobs of a task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_addf6b201c03bd8385007e27ce153ce95}{hf\-\_\-dlm} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Get the number of deadline misses of a task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_a6a7b70b7f5f90a419285d2afa21b8b46}{hf\-\_\-priorityset} (uint16\-\_\-t id, uint8\-\_\-t priority)
+\begin{DoxyCompactList}\small\item\em Set the priority of a best effort task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_af0d5e893fc4328f60b045e970c743904}{hf\-\_\-priorityget} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Get the priority of a best effort task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_aaeee0c090ef6594128e992462378dc79}{hf\-\_\-spawn} (void($\ast$task)(), uint16\-\_\-t period, uint16\-\_\-t capacity, uint16\-\_\-t deadline, int8\-\_\-t $\ast$name, uint32\-\_\-t stack\-\_\-size)
+\begin{DoxyCompactList}\small\item\em Spawn a new task. \end{DoxyCompactList}\item 
+void \hyperlink{task_8c_a001531473ded340a50bf9c3405402545}{hf\-\_\-yield} (void)
+\begin{DoxyCompactList}\small\item\em Yields the current task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_a140180f18def85a2264c391fa7e1215a}{hf\-\_\-block} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Blocks a task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_ad1d0aa0315e89bd0a933343c809b3899}{hf\-\_\-resume} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Resumes a blocked task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_ae369e4112ea0585309f59dc9039767f6}{hf\-\_\-kill} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Kills a task. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{task_8c_a10ae0383048d96d7b7e7a8567c39f0d9}{hf\-\_\-delay} (uint16\-\_\-t id, uint32\-\_\-t delay)
+\begin{DoxyCompactList}\small\item\em Delays a task for an amount of time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+March 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Task management primitives and auxiliary functions. 
+
+\subsection{Function Documentation}
+\hypertarget{task_8c_a140180f18def85a2264c391fa7e1215a}{\index{task.\-c@{task.\-c}!hf\-\_\-block@{hf\-\_\-block}}
+\index{hf\-\_\-block@{hf\-\_\-block}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-block}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-block (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_a140180f18def85a2264c391fa7e1215a}
+
+
+Blocks a task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success, E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D if the referenced task does not exist or E\-R\-R\-\_\-\-E\-R\-R\-O\-R if the task is already in the blocked state.
+\end{DoxyReturn}
+The task is marked as T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D so the scheduler doesn't select it as a candidate for scheduling. The blocking state is acomplished without removing the task from the run queue, reducing the cost of the operation in cases where the task state is switched frequently (such as in semaphore primitives). \hypertarget{task_8c_a10ae0383048d96d7b7e7a8567c39f0d9}{\index{task.\-c@{task.\-c}!hf\-\_\-delay@{hf\-\_\-delay}}
+\index{hf\-\_\-delay@{hf\-\_\-delay}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-delay (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id, }
+\item[{uint32\-\_\-t}]{delay}
+\end{DoxyParamCaption}
+)}}\label{task_8c_a10ae0383048d96d7b7e7a8567c39f0d9}
+
+
+Delays a task for an amount of time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number. \\
+\hline
+{\em delay} & is the amount of time (in quantum / tick units).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success or E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D if the referenced task does not exist.
+\end{DoxyReturn}
+A task is removed from its run queue and its state is marked as T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D. The task is put on the delay queue and remains there until the dispatcher places it back to its run queue. Time is managed by the task dispatcher, which counts down delays, controls the delay queue by cycling the tasks and removing them when the task delay has passed. \hypertarget{task_8c_addf6b201c03bd8385007e27ce153ce95}{\index{task.\-c@{task.\-c}!hf\-\_\-dlm@{hf\-\_\-dlm}}
+\index{hf\-\_\-dlm@{hf\-\_\-dlm}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-dlm}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-dlm (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_addf6b201c03bd8385007e27ce153ce95}
+
+
+Get the number of deadline misses of a task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+deadlines missed by the task if found and E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D otherwise. 
+\end{DoxyReturn}
+\hypertarget{task_8c_a42142901db333dad480df5a5c35dcea4}{\index{task.\-c@{task.\-c}!hf\-\_\-id@{hf\-\_\-id}}
+\index{hf\-\_\-id@{hf\-\_\-id}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-id (
+\begin{DoxyParamCaption}
+\item[{int8\-\_\-t $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{task_8c_a42142901db333dad480df5a5c35dcea4}
+
+
+Get a task id by its name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & is a pointer to an array holding the task name.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+task id if the task is found and E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-N\-A\-M\-E otherwise. 
+\end{DoxyReturn}
+\hypertarget{task_8c_aa3c3c5cd358f2a6d1bedc3fe8eae01fb}{\index{task.\-c@{task.\-c}!hf\-\_\-jobs@{hf\-\_\-jobs}}
+\index{hf\-\_\-jobs@{hf\-\_\-jobs}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-jobs}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-jobs (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_aa3c3c5cd358f2a6d1bedc3fe8eae01fb}
+
+
+Get the number of executed jobs of a task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+jobs executed by the task if found and E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D otherwise. 
+\end{DoxyReturn}
+\hypertarget{task_8c_ae369e4112ea0585309f59dc9039767f6}{\index{task.\-c@{task.\-c}!hf\-\_\-kill@{hf\-\_\-kill}}
+\index{hf\-\_\-kill@{hf\-\_\-kill}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-kill}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-kill (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_ae369e4112ea0585309f59dc9039767f6}
+
+
+Kills a task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success or E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D if the referenced task does not exist.
+\end{DoxyReturn}
+All memory allocated during the task initialization is freed, the T\-C\-B entry is cleared and the task is removed from its run queue. \hypertarget{task_8c_ab77bc8efef3b3f5c6abd8c411715eca8}{\index{task.\-c@{task.\-c}!hf\-\_\-name@{hf\-\_\-name}}
+\index{hf\-\_\-name@{hf\-\_\-name}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t$\ast$ hf\-\_\-name (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_ab77bc8efef3b3f5c6abd8c411715eca8}
+
+
+Get a task name by its id. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+task name if the task is found and N\-U\-L\-L otherwise. 
+\end{DoxyReturn}
+\hypertarget{task_8c_af0d5e893fc4328f60b045e970c743904}{\index{task.\-c@{task.\-c}!hf\-\_\-priorityget@{hf\-\_\-priorityget}}
+\index{hf\-\_\-priorityget@{hf\-\_\-priorityget}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-priorityget}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-priorityget (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_af0d5e893fc4328f60b045e970c743904}
+
+
+Get the priority of a best effort task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+task priority if the task exists and is a best effort one or E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D otherwise. 
+\end{DoxyReturn}
+\hypertarget{task_8c_a6a7b70b7f5f90a419285d2afa21b8b46}{\index{task.\-c@{task.\-c}!hf\-\_\-priorityset@{hf\-\_\-priorityset}}
+\index{hf\-\_\-priorityset@{hf\-\_\-priorityset}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-priorityset}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-priorityset (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id, }
+\item[{uint8\-\_\-t}]{priority}
+\end{DoxyParamCaption}
+)}}\label{task_8c_a6a7b70b7f5f90a419285d2afa21b8b46}
+
+
+Set the priority of a best effort task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number. \\
+\hline
+{\em priority} & is the task priority (\mbox{[}1 .. 29\mbox{]} -\/ critical, \mbox{[}30 .. 99\mbox{]} -\/ system, \mbox{[}100 .. 255\mbox{]} -\/ application)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K if the task exists and is a best effort one or E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D otherwise. 
+\end{DoxyReturn}
+\hypertarget{task_8c_ad1d0aa0315e89bd0a933343c809b3899}{\index{task.\-c@{task.\-c}!hf\-\_\-resume@{hf\-\_\-resume}}
+\index{hf\-\_\-resume@{hf\-\_\-resume}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-resume}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-resume (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_ad1d0aa0315e89bd0a933343c809b3899}
+
+
+Resumes a blocked task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success, E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D if the referenced task does not exist or E\-R\-R\-\_\-\-E\-R\-R\-O\-R if the task is not in the blocked state.
+\end{DoxyReturn}
+The task must be in the T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D state in order to be resumed. The task is marked as T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D so the scheduler doesn't select it as a candidate for scheduling. The blocking state is acomplished without removing the task from the run queue, reducing the cost of the operation in cases where the task state is switched frequently (such as in semaphore primitives). \hypertarget{task_8c_ac70031d8f3665ab81d28924a08ee70e9}{\index{task.\-c@{task.\-c}!hf\-\_\-selfid@{hf\-\_\-selfid}}
+\index{hf\-\_\-selfid@{hf\-\_\-selfid}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-selfid}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t hf\-\_\-selfid (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{task_8c_ac70031d8f3665ab81d28924a08ee70e9}
+
+
+Get the current task id. 
+
+\begin{DoxyReturn}{Returns}
+current task id. 
+\end{DoxyReturn}
+\hypertarget{task_8c_a77f08c956533d6a07f02561055db7628}{\index{task.\-c@{task.\-c}!hf\-\_\-selfname@{hf\-\_\-selfname}}
+\index{hf\-\_\-selfname@{hf\-\_\-selfname}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-selfname}]{\setlength{\rightskip}{0pt plus 5cm}int8\-\_\-t$\ast$ hf\-\_\-selfname (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{task_8c_a77f08c956533d6a07f02561055db7628}
+
+
+Get the current task name. 
+
+\begin{DoxyReturn}{Returns}
+current task name. 
+\end{DoxyReturn}
+\hypertarget{task_8c_aaeee0c090ef6594128e992462378dc79}{\index{task.\-c@{task.\-c}!hf\-\_\-spawn@{hf\-\_\-spawn}}
+\index{hf\-\_\-spawn@{hf\-\_\-spawn}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-spawn}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-spawn (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)()}]{task, }
+\item[{uint16\-\_\-t}]{period, }
+\item[{uint16\-\_\-t}]{capacity, }
+\item[{uint16\-\_\-t}]{deadline, }
+\item[{int8\-\_\-t $\ast$}]{name, }
+\item[{uint32\-\_\-t}]{stack\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{task_8c_aaeee0c090ef6594128e992462378dc79}
+
+
+Spawn a new task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & is a pointer to a task function / body. \\
+\hline
+{\em period} & is the task R\-T period (in quantum / tick units). \\
+\hline
+{\em capacity} & is the amount of work to be executed in a period (in quantum / tick units). \\
+\hline
+{\em deadline} & is the task deadline to complete the work in the period (in quantum / tick units). \\
+\hline
+{\em name} & is a string used to identify a task. \\
+\hline
+{\em stack\-\_\-size} & is the stack memory to be allocated for the task.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+task id if the task is created, E\-R\-R\-\_\-\-E\-X\-C\-E\-E\-D\-\_\-\-M\-A\-X\-\_\-\-N\-U\-M if the maximum number of tasks in the system is exceeded, E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-P\-A\-R\-A\-M\-E\-T\-E\-R if impossible R\-T parameters are specified or E\-R\-R\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-M\-E\-M\-O\-R\-Y if the system fails to allocate memory for the task resources.
+\end{DoxyReturn}
+If a task has defined realtime parameters, it is put on the R\-T queue, if not (period 0, capacity 0 and deadline 0), it is put on the B\-E queue. W\-A\-R\-N\-I\-N\-G\-: Task stack size should be always configured correctly, considering data declared on the auto region (local variables) and around 1024 of spare memory for the O\-S. For example, if you declare a buffer of 5000 bytes, stack size should be at least 6000. \hypertarget{task_8c_a216d821d031358c9916be26d08aeadb1}{\index{task.\-c@{task.\-c}!hf\-\_\-state@{hf\-\_\-state}}
+\index{hf\-\_\-state@{hf\-\_\-state}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-state (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{task_8c_a216d821d031358c9916be26d08aeadb1}
+
+
+Get the current state of a task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is a task id number.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+task state the task if found (T\-A\-S\-K\-\_\-\-I\-D\-L\-E, T\-A\-S\-K\-\_\-\-R\-E\-A\-D\-Y, T\-A\-S\-K\-\_\-\-R\-U\-N\-N\-I\-N\-G, T\-A\-S\-K\-\_\-\-B\-L\-O\-C\-K\-E\-D, T\-A\-S\-K\-\_\-\-D\-E\-L\-A\-Y\-E\-D or T\-A\-S\-K\-\_\-\-W\-A\-I\-T\-I\-N\-G) and E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D otherwise. 
+\end{DoxyReturn}
+\hypertarget{task_8c_a001531473ded340a50bf9c3405402545}{\index{task.\-c@{task.\-c}!hf\-\_\-yield@{hf\-\_\-yield}}
+\index{hf\-\_\-yield@{hf\-\_\-yield}!task.c@{task.\-c}}
+\subsubsection[{hf\-\_\-yield}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-yield (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{task_8c_a001531473ded340a50bf9c3405402545}
+
+
+Yields the current task. 
+
+The current task gives up execution and the best effort scheduler is invoked. 

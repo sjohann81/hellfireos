@@ -1,0 +1,64 @@
+\hypertarget{kprintf_8c}{\section{sys/lib/kprintf.c File Reference}
+\label{kprintf_8c}\index{sys/lib/kprintf.\-c@{sys/lib/kprintf.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{kprintf_8c_a80682af286bf85737036e5c569ab942a}{kprintf} (const int8\-\_\-t $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Kernel short version of printf(). \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{kprintf_8c_ad59de227a667120c5cd292e8882fa598}{dprintf} (const int8\-\_\-t $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em Kernel debug version of printf(). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+February 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Kernel printing / conversion auxiliary functions. 
+
+\subsection{Function Documentation}
+\hypertarget{kprintf_8c_ad59de227a667120c5cd292e8882fa598}{\index{kprintf.\-c@{kprintf.\-c}!dprintf@{dprintf}}
+\index{dprintf@{dprintf}!kprintf.c@{kprintf.\-c}}
+\subsubsection[{dprintf}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t dprintf (
+\begin{DoxyParamCaption}
+\item[{const int8\-\_\-t $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{kprintf_8c_ad59de227a667120c5cd292e8882fa598}
+
+
+Kernel debug version of printf(). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & is a pointer to formatted data to be printed on the debug output.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0. 
+\end{DoxyReturn}
+\hypertarget{kprintf_8c_a80682af286bf85737036e5c569ab942a}{\index{kprintf.\-c@{kprintf.\-c}!kprintf@{kprintf}}
+\index{kprintf@{kprintf}!kprintf.c@{kprintf.\-c}}
+\subsubsection[{kprintf}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t kprintf (
+\begin{DoxyParamCaption}
+\item[{const int8\-\_\-t $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{kprintf_8c_a80682af286bf85737036e5c569ab942a}
+
+
+Kernel short version of printf(). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & is a pointer to formatted data to be printed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0. 
+\end{DoxyReturn}

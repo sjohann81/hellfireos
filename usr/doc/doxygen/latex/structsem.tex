@@ -1,0 +1,45 @@
+\hypertarget{structsem}{\section{sem Struct Reference}
+\label{structsem}\index{sem@{sem}}
+}
+
+
+Semaphore data structure.  
+
+
+
+
+{\ttfamily \#include $<$semaphore.\-h$>$}
+
+
+
+Collaboration diagram for sem\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=155pt]{structsem__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{structsem_a723ac960b2566b855b905fa4aa324f9b}{sem\-\_\-queue}
+\item 
+int32\-\_\-t \hyperlink{structsem_a798dc7e825b1e632b2db49b473b17636}{count}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Semaphore data structure. 
+
+\subsection{Field Documentation}
+\hypertarget{structsem_a798dc7e825b1e632b2db49b473b17636}{\index{sem@{sem}!count@{count}}
+\index{count@{count}!sem@{sem}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t sem\-::count}}\label{structsem_a798dc7e825b1e632b2db49b473b17636}
+semaphore counter \hypertarget{structsem_a723ac960b2566b855b905fa4aa324f9b}{\index{sem@{sem}!sem\-\_\-queue@{sem\-\_\-queue}}
+\index{sem\-\_\-queue@{sem\-\_\-queue}!sem@{sem}}
+\subsubsection[{sem\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ sem\-::sem\-\_\-queue}}\label{structsem_a723ac960b2566b855b905fa4aa324f9b}
+queue for tasks waiting on the semaphore 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+sys/include/\hyperlink{semaphore_8h}{semaphore.\-h}\end{DoxyCompactItemize}

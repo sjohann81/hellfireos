@@ -1,0 +1,107 @@
+\hypertarget{semaphore_8h}{\section{sys/include/semaphore.h File Reference}
+\label{semaphore_8h}\index{sys/include/semaphore.\-h@{sys/include/semaphore.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsem}{sem}
+\begin{DoxyCompactList}\small\item\em Semaphore data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structsem}{sem} \hyperlink{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{sem\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{semaphore_8h_aa4998a7405044ad6ab21a0f5bc2fc3ed}{hf\-\_\-seminit} (\hyperlink{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{sem\-\_\-t} $\ast$s, int32\-\_\-t value)
+\begin{DoxyCompactList}\small\item\em Initializes a semaphore and defines its initial value. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{semaphore_8h_ad57efd8da531446fb91c3ddc81ae51b2}{hf\-\_\-semdestroy} (\hyperlink{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{sem\-\_\-t} $\ast$s)
+\begin{DoxyCompactList}\small\item\em Destroys a semaphore. \end{DoxyCompactList}\item 
+void \hyperlink{semaphore_8h_a506f7fc6a37ffa812de18bcf332b0b58}{hf\-\_\-semwait} (\hyperlink{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{sem\-\_\-t} $\ast$s)
+\begin{DoxyCompactList}\small\item\em Wait on a semaphore. \end{DoxyCompactList}\item 
+void \hyperlink{semaphore_8h_af596c894e7d3580a8d882abb0cd41e08}{hf\-\_\-sempost} (\hyperlink{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{sem\-\_\-t} $\ast$s)
+\begin{DoxyCompactList}\small\item\em Signal a semaphore. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{\index{semaphore.\-h@{semaphore.\-h}!sem\-\_\-t@{sem\-\_\-t}}
+\index{sem\-\_\-t@{sem\-\_\-t}!semaphore.h@{semaphore.\-h}}
+\subsubsection[{sem\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sem} {\bf sem\-\_\-t}}}\label{semaphore_8h_ad7630848c81d49708045a351922eb6b5}
+
+
+\subsection{Function Documentation}
+\hypertarget{semaphore_8h_ad57efd8da531446fb91c3ddc81ae51b2}{\index{semaphore.\-h@{semaphore.\-h}!hf\-\_\-semdestroy@{hf\-\_\-semdestroy}}
+\index{hf\-\_\-semdestroy@{hf\-\_\-semdestroy}!semaphore.h@{semaphore.\-h}}
+\subsubsection[{hf\-\_\-semdestroy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-semdestroy (
+\begin{DoxyParamCaption}
+\item[{{\bf sem\-\_\-t} $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{semaphore_8h_ad57efd8da531446fb91c3ddc81ae51b2}
+
+
+Destroys a semaphore. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a semaphore.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success and E\-R\-R\-\_\-\-E\-R\-R\-O\-R if the semaphore could not be removed from memory. 
+\end{DoxyReturn}
+\hypertarget{semaphore_8h_aa4998a7405044ad6ab21a0f5bc2fc3ed}{\index{semaphore.\-h@{semaphore.\-h}!hf\-\_\-seminit@{hf\-\_\-seminit}}
+\index{hf\-\_\-seminit@{hf\-\_\-seminit}!semaphore.h@{semaphore.\-h}}
+\subsubsection[{hf\-\_\-seminit}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-seminit (
+\begin{DoxyParamCaption}
+\item[{{\bf sem\-\_\-t} $\ast$}]{s, }
+\item[{int32\-\_\-t}]{value}
+\end{DoxyParamCaption}
+)}}\label{semaphore_8h_aa4998a7405044ad6ab21a0f5bc2fc3ed}
+
+
+Initializes a semaphore and defines its initial value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a semaphore. \\
+\hline
+{\em value} & is the semaphore initial value.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success and E\-R\-R\-\_\-\-E\-R\-R\-O\-R if the semaphore could not be allocated in memory or its initial value is less than zero. 
+\end{DoxyReturn}
+\hypertarget{semaphore_8h_af596c894e7d3580a8d882abb0cd41e08}{\index{semaphore.\-h@{semaphore.\-h}!hf\-\_\-sempost@{hf\-\_\-sempost}}
+\index{hf\-\_\-sempost@{hf\-\_\-sempost}!semaphore.h@{semaphore.\-h}}
+\subsubsection[{hf\-\_\-sempost}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-sempost (
+\begin{DoxyParamCaption}
+\item[{{\bf sem\-\_\-t} $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{semaphore_8h_af596c894e7d3580a8d882abb0cd41e08}
+
+
+Signal a semaphore. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a semaphore.\\
+\hline
+\end{DoxyParams}
+Implements the atomic V() operation. The semaphore count is incremented and the task from the head of the semaphore queue is unblocked if the count is less than or equal to zero. \hypertarget{semaphore_8h_a506f7fc6a37ffa812de18bcf332b0b58}{\index{semaphore.\-h@{semaphore.\-h}!hf\-\_\-semwait@{hf\-\_\-semwait}}
+\index{hf\-\_\-semwait@{hf\-\_\-semwait}!semaphore.h@{semaphore.\-h}}
+\subsubsection[{hf\-\_\-semwait}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-semwait (
+\begin{DoxyParamCaption}
+\item[{{\bf sem\-\_\-t} $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{semaphore_8h_a506f7fc6a37ffa812de18bcf332b0b58}
+
+
+Wait on a semaphore. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & is a pointer to a semaphore.\\
+\hline
+\end{DoxyParams}
+Implements the atomic P() operation. The semaphore count is decremented and calling task is blocked and queued on the semaphore if the count reaches a negative value. If not, the task continues its execution. 

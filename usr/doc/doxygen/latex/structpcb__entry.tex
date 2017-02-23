@@ -1,0 +1,48 @@
+\hypertarget{structpcb__entry}{\section{pcb\-\_\-entry Struct Reference}
+\label{structpcb__entry}\index{pcb\-\_\-entry@{pcb\-\_\-entry}}
+}
+
+
+{\ttfamily \#include $<$kernel.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t($\ast$ \hyperlink{structpcb__entry_ad3c7b06bf949312a542d036f92d2619a}{sched\-\_\-rt} )()
+\item 
+int32\-\_\-t($\ast$ \hyperlink{structpcb__entry_aaf3abd937873f1cfa6cea1f4921d5f7a}{sched\-\_\-be} )()
+\item 
+uint32\-\_\-t \hyperlink{structpcb__entry_ac5899befd89fa0e8b2aeceed85e01415}{coop\-\_\-cswitch}
+\item 
+uint32\-\_\-t \hyperlink{structpcb__entry_af49c7195c79f5de2d70825e2252c8d77}{preempt\-\_\-cswitch}
+\item 
+uint32\-\_\-t \hyperlink{structpcb__entry_ae5474e1d477335caf5515d8a940d1f77}{interrupts}
+\item 
+uint32\-\_\-t \hyperlink{structpcb__entry_a998d1bf7b5ac3d6b0b9c4c6c7a0ebec6}{tick\-\_\-time}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structpcb__entry_ac5899befd89fa0e8b2aeceed85e01415}{\index{pcb\-\_\-entry@{pcb\-\_\-entry}!coop\-\_\-cswitch@{coop\-\_\-cswitch}}
+\index{coop\-\_\-cswitch@{coop\-\_\-cswitch}!pcb_entry@{pcb\-\_\-entry}}
+\subsubsection[{coop\-\_\-cswitch}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t pcb\-\_\-entry\-::coop\-\_\-cswitch}}\label{structpcb__entry_ac5899befd89fa0e8b2aeceed85e01415}
+cooperative context switches \hypertarget{structpcb__entry_ae5474e1d477335caf5515d8a940d1f77}{\index{pcb\-\_\-entry@{pcb\-\_\-entry}!interrupts@{interrupts}}
+\index{interrupts@{interrupts}!pcb_entry@{pcb\-\_\-entry}}
+\subsubsection[{interrupts}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t pcb\-\_\-entry\-::interrupts}}\label{structpcb__entry_ae5474e1d477335caf5515d8a940d1f77}
+number of non-\/masked interrupts \hypertarget{structpcb__entry_af49c7195c79f5de2d70825e2252c8d77}{\index{pcb\-\_\-entry@{pcb\-\_\-entry}!preempt\-\_\-cswitch@{preempt\-\_\-cswitch}}
+\index{preempt\-\_\-cswitch@{preempt\-\_\-cswitch}!pcb_entry@{pcb\-\_\-entry}}
+\subsubsection[{preempt\-\_\-cswitch}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t pcb\-\_\-entry\-::preempt\-\_\-cswitch}}\label{structpcb__entry_af49c7195c79f5de2d70825e2252c8d77}
+preeptive context switches \hypertarget{structpcb__entry_aaf3abd937873f1cfa6cea1f4921d5f7a}{\index{pcb\-\_\-entry@{pcb\-\_\-entry}!sched\-\_\-be@{sched\-\_\-be}}
+\index{sched\-\_\-be@{sched\-\_\-be}!pcb_entry@{pcb\-\_\-entry}}
+\subsubsection[{sched\-\_\-be}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ pcb\-\_\-entry\-::sched\-\_\-be)()}}\label{structpcb__entry_aaf3abd937873f1cfa6cea1f4921d5f7a}
+pointer to the best effort scheduler \hypertarget{structpcb__entry_ad3c7b06bf949312a542d036f92d2619a}{\index{pcb\-\_\-entry@{pcb\-\_\-entry}!sched\-\_\-rt@{sched\-\_\-rt}}
+\index{sched\-\_\-rt@{sched\-\_\-rt}!pcb_entry@{pcb\-\_\-entry}}
+\subsubsection[{sched\-\_\-rt}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t($\ast$ pcb\-\_\-entry\-::sched\-\_\-rt)()}}\label{structpcb__entry_ad3c7b06bf949312a542d036f92d2619a}
+pointer to the realtime scheduler \hypertarget{structpcb__entry_a998d1bf7b5ac3d6b0b9c4c6c7a0ebec6}{\index{pcb\-\_\-entry@{pcb\-\_\-entry}!tick\-\_\-time@{tick\-\_\-time}}
+\index{tick\-\_\-time@{tick\-\_\-time}!pcb_entry@{pcb\-\_\-entry}}
+\subsubsection[{tick\-\_\-time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t pcb\-\_\-entry\-::tick\-\_\-time}}\label{structpcb__entry_a998d1bf7b5ac3d6b0b9c4c6c7a0ebec6}
+tick time in microsseconds 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+sys/include/\hyperlink{kernel_8h}{kernel.\-h}\end{DoxyCompactItemize}

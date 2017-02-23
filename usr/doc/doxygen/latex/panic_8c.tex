@@ -1,0 +1,34 @@
+\hypertarget{panic_8c}{\section{sys/kernel/panic.c File Reference}
+\label{panic_8c}\index{sys/kernel/panic.\-c@{sys/kernel/panic.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{panic_8c_afaa3b7dc21eaab894153ef5cf7bf9a0f}{panic} (int32\-\_\-t cause)
+\begin{DoxyCompactList}\small\item\em Causes the kernel to panic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+March 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Kernel panic. 
+
+\subsection{Function Documentation}
+\hypertarget{panic_8c_afaa3b7dc21eaab894153ef5cf7bf9a0f}{\index{panic.\-c@{panic.\-c}!panic@{panic}}
+\index{panic@{panic}!panic.c@{panic.\-c}}
+\subsubsection[{panic}]{\setlength{\rightskip}{0pt plus 5cm}void panic (
+\begin{DoxyParamCaption}
+\item[{int32\-\_\-t}]{cause}
+\end{DoxyParamCaption}
+)}}\label{panic_8c_afaa3b7dc21eaab894153ef5cf7bf9a0f}
+
+
+Causes the kernel to panic. 
+
+Interrupts are disabled, the panic cause is presented to the user and the system is locked forever. 

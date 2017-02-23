@@ -1,0 +1,294 @@
+\hypertarget{noc_8h}{\section{drivers/noc/include/noc.h File Reference}
+\label{noc_8h}\index{drivers/noc/include/noc.\-h@{drivers/noc/include/noc.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{noc_8h_acb44cf0de3a986b823c53d881bff9568}{ni\-\_\-init} (void)
+\begin{DoxyCompactList}\small\item\em No\-C driver\-: initializes the network interface. \end{DoxyCompactList}\item 
+void \hyperlink{noc_8h_a7ca8f6357767be7d8d8f31a1f68902a1}{ni\-\_\-isr} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em No\-C driver\-: network interface interrupt service routine. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{noc_8h_a73af25121fa7d699224d30913bb3cfa9}{hf\-\_\-cpuid} (void)
+\begin{DoxyCompactList}\small\item\em Returns the current cpu id number. \end{DoxyCompactList}\item 
+uint16\-\_\-t \hyperlink{noc_8h_ac100d0cfa54da4cf1c8ffda0947a7509}{hf\-\_\-ncores} (void)
+\begin{DoxyCompactList}\small\item\em Returns the number of processors in the system. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{noc_8h_a7cc950118783aff78ef381c30f411f31}{hf\-\_\-comm\-\_\-create} (uint16\-\_\-t id, uint16\-\_\-t port, uint16\-\_\-t packets)
+\begin{DoxyCompactList}\small\item\em Creates a communication queue for a task, using a port number as an alias. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{noc_8h_a2ca5bce1d7d281b5ca1ee007b170143b}{hf\-\_\-comm\-\_\-destroy} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Destroys a communication queue, returning packets buffered on a task message queue to the shared pool of packets. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{noc_8h_a27bdcde2185022f68eece2e0ed1c20ec}{hf\-\_\-recv} (uint16\-\_\-t $\ast$source\-\_\-cpu, uint16\-\_\-t $\ast$source\-\_\-port, int8\-\_\-t $\ast$buf, uint16\-\_\-t $\ast$size, uint16\-\_\-t channel)
+\begin{DoxyCompactList}\small\item\em Receives a message from a task (blocking receive). \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{noc_8h_ae7c110f06bc1e123f03b2d52d8b6d70f}{hf\-\_\-send} (uint16\-\_\-t target\-\_\-cpu, uint16\-\_\-t target\-\_\-port, int8\-\_\-t $\ast$buf, uint16\-\_\-t size, uint16\-\_\-t channel)
+\begin{DoxyCompactList}\small\item\em Sends a message to a task (blocking send). \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{noc_8h_a264ff860d8ad312fea8d658b6c254f17}{hf\-\_\-recvack} (uint16\-\_\-t $\ast$source\-\_\-cpu, uint16\-\_\-t $\ast$source\-\_\-port, int8\-\_\-t $\ast$buf, uint16\-\_\-t $\ast$size, uint16\-\_\-t channel)
+\begin{DoxyCompactList}\small\item\em Receives a message from a task (blocking receive) with acknowledgement. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{noc_8h_a288522d034824d53cf10c6f71bca41ea}{hf\-\_\-sendack} (uint16\-\_\-t target\-\_\-cpu, uint16\-\_\-t target\-\_\-port, int8\-\_\-t $\ast$buf, uint16\-\_\-t size, uint16\-\_\-t channel, uint32\-\_\-t timeout)
+\begin{DoxyCompactList}\small\item\em Sends a message to a task (blocking send) with acknowledgement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\-\_\-t \hyperlink{noc_8h_a28c51954b0e202d17770b6f597d58e35}{pktdrv\-\_\-ports} \mbox{[}M\-A\-X\-\_\-\-T\-A\-S\-K\-S\mbox{]}
+\begin{DoxyCompactList}\small\item\em Array of associations between tasks and reception ports. \end{DoxyCompactList}\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{noc_8h_a6e2b90dbd05cdac119b8d3296579de0a}{pktdrv\-\_\-tqueue} \mbox{[}M\-A\-X\-\_\-\-T\-A\-S\-K\-S\mbox{]}
+\begin{DoxyCompactList}\small\item\em Array of queues. Each task can have its own custom sized queue. \end{DoxyCompactList}\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{noc_8h_ac96abbb61b929a8293778fe63006aca4}{pktdrv\-\_\-queue}
+\begin{DoxyCompactList}\small\item\em Queue of free (shared) packets. The number of packets is N\-O\-C\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-L\-O\-T\-S. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+April 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Network-\/on-\/\-Chip driver error codes and packet header offsets. 
+
+\subsection{Function Documentation}
+\hypertarget{noc_8h_a7cc950118783aff78ef381c30f411f31}{\index{noc.\-h@{noc.\-h}!hf\-\_\-comm\-\_\-create@{hf\-\_\-comm\-\_\-create}}
+\index{hf\-\_\-comm\-\_\-create@{hf\-\_\-comm\-\_\-create}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-comm\-\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-comm\-\_\-create (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id, }
+\item[{uint16\-\_\-t}]{port, }
+\item[{uint16\-\_\-t}]{packets}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_a7cc950118783aff78ef381c30f411f31}
+
+
+Creates a communication queue for a task, using a port number as an alias. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is the task id which will own the communication queue \\
+\hline
+{\em port} & is the receiving port for the task \\
+\hline
+{\em packets} & is the communication queue size, in packets\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K when successful, E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D if no task matches the specified id, E\-R\-R\-\_\-\-C\-O\-M\-M\-\_\-\-U\-N\-F\-E\-A\-S\-I\-B\-L\-E if there is already a communication queue for the task, E\-R\-R\-\_\-\-C\-O\-M\-M\-\_\-\-E\-R\-R\-O\-R if there is already another task using the specified port and E\-R\-R\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-M\-E\-M\-O\-R\-Y if the systems runs out of memory.
+\end{DoxyReturn}
+The queue created for the task will be used for the reception of data. Both \hyperlink{noc_8c_a7ca8f6357767be7d8d8f31a1f68902a1}{ni\-\_\-isr()} and \hyperlink{noc_8c_a27bdcde2185022f68eece2e0ed1c20ec}{hf\-\_\-recv()} routines will manage the queue, putting and pulling packets from the queue on demand. The communication subsystem is configured by the association of a task id to a receiving port (alias) and the definition of how many packet slots a task has on its queue. \hypertarget{noc_8h_a2ca5bce1d7d281b5ca1ee007b170143b}{\index{noc.\-h@{noc.\-h}!hf\-\_\-comm\-\_\-destroy@{hf\-\_\-comm\-\_\-destroy}}
+\index{hf\-\_\-comm\-\_\-destroy@{hf\-\_\-comm\-\_\-destroy}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-comm\-\_\-destroy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-comm\-\_\-destroy (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_a2ca5bce1d7d281b5ca1ee007b170143b}
+
+
+Destroys a communication queue, returning packets buffered on a task message queue to the shared pool of packets. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is the task id which owns the communication queue\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K when successful, E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D if no task matches the specified id, E\-R\-R\-\_\-\-C\-O\-M\-M\-\_\-\-E\-R\-R\-O\-R if the queue could not be destroyed. 
+\end{DoxyReturn}
+\hypertarget{noc_8h_a73af25121fa7d699224d30913bb3cfa9}{\index{noc.\-h@{noc.\-h}!hf\-\_\-cpuid@{hf\-\_\-cpuid}}
+\index{hf\-\_\-cpuid@{hf\-\_\-cpuid}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-cpuid}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t hf\-\_\-cpuid (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_a73af25121fa7d699224d30913bb3cfa9}
+
+
+Returns the current cpu id number. 
+
+\begin{DoxyReturn}{Returns}
+the current cpu id, defined by the C\-P\-U\-\_\-\-I\-D macro. 
+\end{DoxyReturn}
+\hypertarget{noc_8h_ac100d0cfa54da4cf1c8ffda0947a7509}{\index{noc.\-h@{noc.\-h}!hf\-\_\-ncores@{hf\-\_\-ncores}}
+\index{hf\-\_\-ncores@{hf\-\_\-ncores}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-ncores}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t hf\-\_\-ncores (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_ac100d0cfa54da4cf1c8ffda0947a7509}
+
+
+Returns the number of processors in the system. 
+
+\begin{DoxyReturn}{Returns}
+the number of cores, defined by the dimensions of the No\-C mesh. 
+\end{DoxyReturn}
+\hypertarget{noc_8h_a27bdcde2185022f68eece2e0ed1c20ec}{\index{noc.\-h@{noc.\-h}!hf\-\_\-recv@{hf\-\_\-recv}}
+\index{hf\-\_\-recv@{hf\-\_\-recv}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-recv}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-recv (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t $\ast$}]{source\-\_\-cpu, }
+\item[{uint16\-\_\-t $\ast$}]{source\-\_\-port, }
+\item[{int8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t $\ast$}]{size, }
+\item[{uint16\-\_\-t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_a27bdcde2185022f68eece2e0ed1c20ec}
+
+
+Receives a message from a task (blocking receive). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-\_\-cpu} & is a pointer to a variable which will hold the source cpu \\
+\hline
+{\em source\-\_\-port} & is a pointer to a variable which will hold the source port \\
+\hline
+{\em buf} & is a pointer to a buffer to hold the received message \\
+\hline
+{\em size} & a pointer to a variable which will hold the size (in bytes) of the received message \\
+\hline
+{\em channel} & is the selected message channel of this message (must be the same as in the sender)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K when successful, E\-R\-R\-\_\-\-C\-O\-M\-M\-\_\-\-U\-N\-F\-E\-A\-S\-I\-B\-L\-E when no message queue (comm) was created and E\-R\-R\-\_\-\-S\-E\-Q\-\_\-\-E\-R\-R\-O\-R when received packets arrive out of order, so the message is corrupted.
+\end{DoxyReturn}
+A message is build from packets received on the \hyperlink{noc_8c_a7ca8f6357767be7d8d8f31a1f68902a1}{ni\-\_\-isr()} routine. Packets are decoded and combined in a complete message, returning the message, its size and source identification to the calling task. The buffer where the message will be stored must be large enough or we will have a problem that may not be noticed before its too late. \hypertarget{noc_8h_a264ff860d8ad312fea8d658b6c254f17}{\index{noc.\-h@{noc.\-h}!hf\-\_\-recvack@{hf\-\_\-recvack}}
+\index{hf\-\_\-recvack@{hf\-\_\-recvack}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-recvack}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-recvack (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t $\ast$}]{source\-\_\-cpu, }
+\item[{uint16\-\_\-t $\ast$}]{source\-\_\-port, }
+\item[{int8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t $\ast$}]{size, }
+\item[{uint16\-\_\-t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_a264ff860d8ad312fea8d658b6c254f17}
+
+
+Receives a message from a task (blocking receive) with acknowledgement. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-\_\-cpu} & is a pointer to a variable which will hold the source cpu \\
+\hline
+{\em source\-\_\-port} & is a pointer to a variable which will hold the source port \\
+\hline
+{\em buf} & is a pointer to a buffer to hold the received message \\
+\hline
+{\em size} & a pointer to a variable which will hold the size (in bytes) of the received message \\
+\hline
+{\em channel} & is the selected message channel of this message (must be the same as in the sender)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K when successful, E\-R\-R\-\_\-\-C\-O\-M\-M\-\_\-\-U\-N\-F\-E\-A\-S\-I\-B\-L\-E when no message queue (comm) was created and E\-R\-R\-\_\-\-S\-E\-Q\-\_\-\-E\-R\-R\-O\-R when received packets arrive out of order, so the message is corrupted.
+\end{DoxyReturn}
+A message is build from packets received on the \hyperlink{noc_8c_a7ca8f6357767be7d8d8f31a1f68902a1}{ni\-\_\-isr()} routine. Packets are decoded and combined in a complete message, returning the message, its size and source identification to the calling task. The buffer where the message will be stored must be large enough or we will have a problem that may not be noticed before its too late. After the reception of the whole message is completed, an acknowledgement is sent to the sender task. This works as a flow control mechanism, avoiding buffer/queue overflows common to the raw protocol. Message channel 65535 will be used for the flow control mechanism. \hypertarget{noc_8h_ae7c110f06bc1e123f03b2d52d8b6d70f}{\index{noc.\-h@{noc.\-h}!hf\-\_\-send@{hf\-\_\-send}}
+\index{hf\-\_\-send@{hf\-\_\-send}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{target\-\_\-cpu, }
+\item[{uint16\-\_\-t}]{target\-\_\-port, }
+\item[{int8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{size, }
+\item[{uint16\-\_\-t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_ae7c110f06bc1e123f03b2d52d8b6d70f}
+
+
+Sends a message to a task (blocking send). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em target\-\_\-cpu} & is the target processor \\
+\hline
+{\em target\-\_\-port} & is the target task port \\
+\hline
+{\em buf} & is a pointer to a buffer that holds the message \\
+\hline
+{\em size} & is the size (in bytes) of the message \\
+\hline
+{\em channel} & is the selected message channel of this message (must be the same as in the receiver)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K
+\end{DoxyReturn}
+A message is broken into packets containing a header and part of the message as the payload. The packets are injected, one by one, in the network through the network interface. \hypertarget{noc_8h_a288522d034824d53cf10c6f71bca41ea}{\index{noc.\-h@{noc.\-h}!hf\-\_\-sendack@{hf\-\_\-sendack}}
+\index{hf\-\_\-sendack@{hf\-\_\-sendack}!noc.h@{noc.\-h}}
+\subsubsection[{hf\-\_\-sendack}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-sendack (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{target\-\_\-cpu, }
+\item[{uint16\-\_\-t}]{target\-\_\-port, }
+\item[{int8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{size, }
+\item[{uint16\-\_\-t}]{channel, }
+\item[{uint32\-\_\-t}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_a288522d034824d53cf10c6f71bca41ea}
+
+
+Sends a message to a task (blocking send) with acknowledgement. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em target\-\_\-cpu} & is the target processor \\
+\hline
+{\em target\-\_\-port} & is the target task port \\
+\hline
+{\em buf} & is a pointer to a buffer that holds the message \\
+\hline
+{\em size} & is the size (in bytes) of the message \\
+\hline
+{\em channel} & is the selected message channel of this message (must be the same as in the receiver) \\
+\hline
+{\em timeout} & is the time (in ms) that the sender will wait for a reception acknowledgement\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K
+\end{DoxyReturn}
+A message is broken into packets containing a header and part of the message as the payload. The packets are injected, one by one, in the network through the network interface. After that, the sender will wait for an acknowledgement from the receiver. This works as a flow control mechanism, avoiding buffer/queue overflows common to the raw protocol. Message channel 65535 will be used for the flow control mechanism. \hypertarget{noc_8h_acb44cf0de3a986b823c53d881bff9568}{\index{noc.\-h@{noc.\-h}!ni\-\_\-init@{ni\-\_\-init}}
+\index{ni\-\_\-init@{ni\-\_\-init}!noc.h@{noc.\-h}}
+\subsubsection[{ni\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void ni\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_acb44cf0de3a986b823c53d881bff9568}
+
+
+No\-C driver\-: initializes the network interface. 
+
+A queue for the packet driver is initialized with N\-O\-C\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-L\-O\-T\-S capacity (in packets). The queue is populated with empty packets (pointers to dinamically allocated memory areas) which will be used (shared) among all tasks for the reception of data. The hardware is reset and the No\-C interrupt handler is registered. This routine is called during the system boot-\/up and is dependent on the architecture implementation. \hypertarget{noc_8h_a7ca8f6357767be7d8d8f31a1f68902a1}{\index{noc.\-h@{noc.\-h}!ni\-\_\-isr@{ni\-\_\-isr}}
+\index{ni\-\_\-isr@{ni\-\_\-isr}!noc.h@{noc.\-h}}
+\subsubsection[{ni\-\_\-isr}]{\setlength{\rightskip}{0pt plus 5cm}void ni\-\_\-isr (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)}}\label{noc_8h_a7ca8f6357767be7d8d8f31a1f68902a1}
+
+
+No\-C driver\-: network interface interrupt service routine. 
+
+This routine is called by the second level of interrupt handling. An interrupt from the network interface means a full packet has arrived. The packet header is decoded and the target port is identified. A reference to an empty packet is removed from the pool of buffers (packets), the contents of the empty packet are filled with flits from the hardware queue and the reference is put on the target task (associated to a port) queue of packets. There is one queue per task of configurable size. 
+
+\subsection{Variable Documentation}
+\hypertarget{noc_8h_a28c51954b0e202d17770b6f597d58e35}{\index{noc.\-h@{noc.\-h}!pktdrv\-\_\-ports@{pktdrv\-\_\-ports}}
+\index{pktdrv\-\_\-ports@{pktdrv\-\_\-ports}!noc.h@{noc.\-h}}
+\subsubsection[{pktdrv\-\_\-ports}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t pktdrv\-\_\-ports\mbox{[}M\-A\-X\-\_\-\-T\-A\-S\-K\-S\mbox{]}}}\label{noc_8h_a28c51954b0e202d17770b6f597d58e35}
+
+
+Array of associations between tasks and reception ports. 
+
+\hypertarget{noc_8h_ac96abbb61b929a8293778fe63006aca4}{\index{noc.\-h@{noc.\-h}!pktdrv\-\_\-queue@{pktdrv\-\_\-queue}}
+\index{pktdrv\-\_\-queue@{pktdrv\-\_\-queue}!noc.h@{noc.\-h}}
+\subsubsection[{pktdrv\-\_\-queue}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ pktdrv\-\_\-queue}}\label{noc_8h_ac96abbb61b929a8293778fe63006aca4}
+
+
+Queue of free (shared) packets. The number of packets is N\-O\-C\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-L\-O\-T\-S. 
+
+\hypertarget{noc_8h_a6e2b90dbd05cdac119b8d3296579de0a}{\index{noc.\-h@{noc.\-h}!pktdrv\-\_\-tqueue@{pktdrv\-\_\-tqueue}}
+\index{pktdrv\-\_\-tqueue@{pktdrv\-\_\-tqueue}!noc.h@{noc.\-h}}
+\subsubsection[{pktdrv\-\_\-tqueue}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ pktdrv\-\_\-tqueue\mbox{[}M\-A\-X\-\_\-\-T\-A\-S\-K\-S\mbox{]}}}\label{noc_8h_a6e2b90dbd05cdac119b8d3296579de0a}
+
+
+Array of queues. Each task can have its own custom sized queue. 
+

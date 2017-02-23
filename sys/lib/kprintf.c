@@ -40,6 +40,7 @@ static int8_t *kitoa(int32_t val, int32_t base)
 			
 		if (n) buf[i--] = '-';
 	}
+	
 	return &buf[i+1];
 	
 }
@@ -56,18 +57,18 @@ static int32_t kprint(const int8_t *fmt, va_list args)
 			i = 0;
 			switch (*++fmt){
 				case 'd':
-					s = kitoa(va_arg(args, int32_t), 10);
+					s = kitoa(va_arg(args, size_t), 10);
 					while (s[i]) putchar(s[i++]);
 					break;
 				case 'x':
-					s = kitoa(va_arg(args, int32_t), 16);
+					s = kitoa(va_arg(args, size_t), 16);
 					while (s[i]) putchar(s[i++]);
 					break;
 				case 'c':
-					putchar((int8_t)va_arg(args, int32_t));
+					putchar((int8_t)va_arg(args, size_t));
 					break;
 				case 's':
-					s = (int8_t *)va_arg(args, int32_t);
+					s = (int8_t *)va_arg(args, size_t);
 					if (!s) s = "(null)";
 					while (*s) putchar(*s++);
 					break;
@@ -97,18 +98,18 @@ static int32_t dprint(const int8_t *fmt, va_list args)
 			i = 0;
 			switch (*++fmt){
 				case 'd':
-					s = kitoa(va_arg(args, int32_t), 10);
+					s = kitoa(va_arg(args, size_t), 10);
 					while (s[i]) dputchar(s[i++]);
 					break;
 				case 'x':
-					s = kitoa(va_arg(args, int32_t), 16);
+					s = kitoa(va_arg(args, size_t), 16);
 					while (s[i]) dputchar(s[i++]);
 					break;
 				case 'c':
-					putchar((int8_t)va_arg(args, int32_t));
+					putchar((int8_t)va_arg(args, size_t));
 					break;
 				case 's':
-					s = (int8_t *)va_arg(args, int32_t);
+					s = (int8_t *)va_arg(args, size_t);
 					if (!s) s = "(null)";
 					while (*s) dputchar(*s++);
 					break;
@@ -139,6 +140,7 @@ int32_t kprintf(const int8_t *fmt, ...)
 	va_list args;
 
 	va_start(args, fmt);
+	
 	return kprint(fmt, args);
 }
 
@@ -160,5 +162,6 @@ int32_t dprintf(const int8_t *fmt, ...)
 	va_start(args, fmt);
 	r = dprint(fmt, args);
 	_ei(status);
+	
 	return r;
 }

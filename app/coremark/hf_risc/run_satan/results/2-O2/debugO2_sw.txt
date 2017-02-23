@@ -1,0 +1,16 @@
+2K performance run parameters for coremark.
+CoreMark Size    : 666
+Total ticks      : 629371304
+Total time (secs): 25
+Iterations/Sec   : 24
+Iterations       : 600
+Compiler version : GCC4.9.3
+Compiler flags   : mips-elf-gcc -O2 -c -mips2 -mno-branch-likely -mpatfree -mfix-r4000 -mno-check-zero-division -msoft-float -fshort-double -nostdinc -fno-builtin -fomit-frame-pointer -G 8 -I../../ -I../../hf_risc -I ../../../../hf_risc_test/include -DCPU_SPEED=25000000 -DBIG_ENDIAN -fdata-sections -ffunction-sections -Dee_printf=printf -DPERFORMANCE_RUN=1 -DITERATIONS=600 -mnohwmult -mnohwdiv -ffixed-lo -ffixed-hi 
+Memory location  : STACK
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0xbd59
+Correct operation validated. See readme.txt for run and reporting rules.
+

@@ -1,0 +1,45 @@
+\begin{theindex}
+
+  \item {list.\discretionary {-}{}{}c}
+    \subitem {list\discretionary {-}{}{}\_\discretionary {-}{}{}append}, 
+		\hyperpage{5}
+    \subitem {list\discretionary {-}{}{}\_\discretionary {-}{}{}count}, 
+		\hyperpage{5}
+    \subitem {list\discretionary {-}{}{}\_\discretionary {-}{}{}get}, 
+		\hyperpage{5}
+    \subitem {list\discretionary {-}{}{}\_\discretionary {-}{}{}init}, 
+		\hyperpage{5}
+    \subitem {list\discretionary {-}{}{}\_\discretionary {-}{}{}insert}, 
+		\hyperpage{5}
+    \subitem {list\discretionary {-}{}{}\_\discretionary {-}{}{}remove}, 
+		\hyperpage{6}
+    \subitem {list\discretionary {-}{}{}\_\discretionary {-}{}{}set}, 
+		\hyperpage{6}
+  \item {list\discretionary {-}{}{}\_\discretionary {-}{}{}append}
+    \subitem {list.\discretionary {-}{}{}c}, \hyperpage{5}
+  \item {list\discretionary {-}{}{}\_\discretionary {-}{}{}count}
+    \subitem {list.\discretionary {-}{}{}c}, \hyperpage{5}
+  \item {list\discretionary {-}{}{}\_\discretionary {-}{}{}get}
+    \subitem {list.\discretionary {-}{}{}c}, \hyperpage{5}
+  \item {list\discretionary {-}{}{}\_\discretionary {-}{}{}init}
+    \subitem {list.\discretionary {-}{}{}c}, \hyperpage{5}
+  \item {list\discretionary {-}{}{}\_\discretionary {-}{}{}insert}
+    \subitem {list.\discretionary {-}{}{}c}, \hyperpage{5}
+  \item {list\discretionary {-}{}{}\_\discretionary {-}{}{}remove}
+    \subitem {list.\discretionary {-}{}{}c}, \hyperpage{6}
+  \item {list\discretionary {-}{}{}\_\discretionary {-}{}{}set}
+    \subitem {list.\discretionary {-}{}{}c}, \hyperpage{6}
+
+  \indexspace
+
+  \item {main}
+    \subitem {main.\discretionary {-}{}{}c}, \hyperpage{3}
+  \item {main.\discretionary {-}{}{}c}
+    \subitem {main}, \hyperpage{3}
+
+  \indexspace
+
+  \item {sys/kernel/main.\discretionary {-}{}{}c}, \hyperpage{3}
+  \item {sys/lib/list.\discretionary {-}{}{}c}, \hyperpage{4}
+
+\end{theindex}

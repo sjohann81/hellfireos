@@ -1,0 +1,132 @@
+\hypertarget{scheduler_8c}{\section{sys/kernel/scheduler.c File Reference}
+\label{scheduler_8c}\index{sys/kernel/scheduler.\-c@{sys/kernel/scheduler.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{scheduler_8c_a606ec5940ea75925046ae6ebb7657800}{dispatch\-\_\-isr} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Task dispatcher. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{scheduler_8c_a2feb8dfa22662ba4fc6a41e74f8837db}{sched\-\_\-rr} (void)
+\begin{DoxyCompactList}\small\item\em Best effort (B\-E) scheduler. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{scheduler_8c_aa067fda22888ad77001f5d6162933449}{sched\-\_\-lottery} (void)
+\begin{DoxyCompactList}\small\item\em Best effort (B\-E) scheduler. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{scheduler_8c_a7a2dc50bb1ab2a6ded651fbabfdf70e2}{sched\-\_\-priorityrr} (void)
+\begin{DoxyCompactList}\small\item\em Best effort (B\-E) scheduler. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{scheduler_8c_a40c41b93afbdf4fd8564dbea90f163e5}{sched\-\_\-rma} (void)
+\begin{DoxyCompactList}\small\item\em Real time (R\-T) scheduler. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+February 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Kernel two-\/level scheduler and task queue management. 
+
+\subsection{Function Documentation}
+\hypertarget{scheduler_8c_a606ec5940ea75925046ae6ebb7657800}{\index{scheduler.\-c@{scheduler.\-c}!dispatch\-\_\-isr@{dispatch\-\_\-isr}}
+\index{dispatch\-\_\-isr@{dispatch\-\_\-isr}!scheduler.c@{scheduler.\-c}}
+\subsubsection[{dispatch\-\_\-isr}]{\setlength{\rightskip}{0pt plus 5cm}void dispatch\-\_\-isr (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8c_a606ec5940ea75925046ae6ebb7657800}
+
+
+Task dispatcher. 
+
+The job of the dispatcher is simple\-: save the current task context on the T\-C\-B, update its state to ready and check its stack for overflow. If there are tasks to be scheduled, process the delay queue and invoke the real-\/time scheduler. If no R\-T tasks are ready to be scheduled, invoke the best effort scheduler. Update the scheduled task state to running and restore the context of the task.
+
+Delayed tasks are in the delay queue, and are processed in the following way\-:
+\begin{DoxyItemize}
+\item The number of elements (tasks) in queue is counted;
+\item The a task from the head of the queue is removed and its delay is decremented;
+\begin{DoxyItemize}
+\item If the decremented delay of a task reaches 0, it is put on R\-T or B\-E run queue;
+\item It is put it back on the tail of the delay queue otherwise;
+\end{DoxyItemize}
+\item Repeat until the whole queue is processed; 
+\end{DoxyItemize}\hypertarget{scheduler_8c_aa067fda22888ad77001f5d6162933449}{\index{scheduler.\-c@{scheduler.\-c}!sched\-\_\-lottery@{sched\-\_\-lottery}}
+\index{sched\-\_\-lottery@{sched\-\_\-lottery}!scheduler.c@{scheduler.\-c}}
+\subsubsection[{sched\-\_\-lottery}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t sched\-\_\-lottery (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8c_aa067fda22888ad77001f5d6162933449}
+
+
+Best effort (B\-E) scheduler. 
+
+\begin{DoxyReturn}{Returns}
+Best effort task id.
+\end{DoxyReturn}
+The algorithm is Lottery Scheduling.
+\begin{DoxyItemize}
+\item Take a task from the run queue, copy its entry and put it back at the tail of the run queue.
+\item If the task is in the blocked state (it may be simply blocked or waiting in a semaphore) or its not the ticket, it is put back at the tail of the run queue and the next task is picked up. 
+\end{DoxyItemize}\hypertarget{scheduler_8c_a7a2dc50bb1ab2a6ded651fbabfdf70e2}{\index{scheduler.\-c@{scheduler.\-c}!sched\-\_\-priorityrr@{sched\-\_\-priorityrr}}
+\index{sched\-\_\-priorityrr@{sched\-\_\-priorityrr}!scheduler.c@{scheduler.\-c}}
+\subsubsection[{sched\-\_\-priorityrr}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t sched\-\_\-priorityrr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8c_a7a2dc50bb1ab2a6ded651fbabfdf70e2}
+
+
+Best effort (B\-E) scheduler. 
+
+\begin{DoxyReturn}{Returns}
+Best effort task id.
+\end{DoxyReturn}
+The algorithm is priority based Round Robin.
+\begin{DoxyItemize}
+\item Take the first task and put it at the end of the run queue (to advance the queue and avoid deadlocks)
+\item Perform a run in the queue, searching for the task with the highest priority (non blocked, lowest remaining priority)
+\begin{DoxyItemize}
+\item While we are at it, check if there is a critical task. If so, schedule it, and get out.
+\end{DoxyItemize}
+\item Perform another run in the queue, updating the remaining priorities of all tasks by subtracting the priority of the task with the lowest remaining priority (task with the highest priority) from the remaining priority of all other tasks. 
+\end{DoxyItemize}\hypertarget{scheduler_8c_a40c41b93afbdf4fd8564dbea90f163e5}{\index{scheduler.\-c@{scheduler.\-c}!sched\-\_\-rma@{sched\-\_\-rma}}
+\index{sched\-\_\-rma@{sched\-\_\-rma}!scheduler.c@{scheduler.\-c}}
+\subsubsection[{sched\-\_\-rma}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t sched\-\_\-rma (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8c_a40c41b93afbdf4fd8564dbea90f163e5}
+
+
+Real time (R\-T) scheduler. 
+
+\begin{DoxyReturn}{Returns}
+Real time task id.
+\end{DoxyReturn}
+The scheduling algorithm is Rate Monotonic.
+\begin{DoxyItemize}
+\item Sort the queue of R\-T tasks by period;
+\item Update real time information (remaining deadline and capacity) of the whole task set.
+\item If the task at the head of the queue fits the requirements to be scheduled (not blocked, has jobs to execute and no task with higher priority according to R\-M was selected) then register the task to be scheduled. 
+\end{DoxyItemize}\hypertarget{scheduler_8c_a2feb8dfa22662ba4fc6a41e74f8837db}{\index{scheduler.\-c@{scheduler.\-c}!sched\-\_\-rr@{sched\-\_\-rr}}
+\index{sched\-\_\-rr@{sched\-\_\-rr}!scheduler.c@{scheduler.\-c}}
+\subsubsection[{sched\-\_\-rr}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t sched\-\_\-rr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8c_a2feb8dfa22662ba4fc6a41e74f8837db}
+
+
+Best effort (B\-E) scheduler. 
+
+\begin{DoxyReturn}{Returns}
+Best effort task id.
+\end{DoxyReturn}
+The algorithm is Round Robin.
+\begin{DoxyItemize}
+\item Take a task from the run queue, copy its entry and put it back at the tail of the run queue.
+\item If the task is in the blocked state (it may be simply blocked or waiting in a semaphore), it is put back at the tail of the run queue and the next task is picked up.
+\item So, if all tasks are blocked, at least the idle task can execute (it is never blocked, at least it is what we hope!).
+\item Tasks in the blocked state are never removed from the run queue (they are ignored), although they may be in another queue waiting for a resource. 
+\end{DoxyItemize}

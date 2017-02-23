@@ -1,0 +1,125 @@
+\hypertarget{condvar_8h}{\section{sys/include/condvar.h File Reference}
+\label{condvar_8h}\index{sys/include/condvar.\-h@{sys/include/condvar.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structcondvar}{condvar}
+\begin{DoxyCompactList}\small\item\em Condition variable data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structcondvar}{condvar} \hyperlink{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}{cond\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{condvar_8h_a6f0858342a87feaa65201dcd20b2686d}{hf\-\_\-condinit} (\hyperlink{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}{cond\-\_\-t} $\ast$c)
+\begin{DoxyCompactList}\small\item\em Initializes a condition variable. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{condvar_8h_a0085b7d8162e3195b6c5a021f811ce17}{hf\-\_\-conddestroy} (\hyperlink{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}{cond\-\_\-t} $\ast$c)
+\begin{DoxyCompactList}\small\item\em Destroys a condition variable. \end{DoxyCompactList}\item 
+void \hyperlink{condvar_8h_a2500f2dc6bebbd3b2c106c2062ad9cff}{hf\-\_\-condwait} (\hyperlink{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}{cond\-\_\-t} $\ast$c, \hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} $\ast$m)
+\begin{DoxyCompactList}\small\item\em Wait on a condition variable. \end{DoxyCompactList}\item 
+void \hyperlink{condvar_8h_a1b4c91e74810a728df751b5b9164b628}{hf\-\_\-condsignal} (\hyperlink{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}{cond\-\_\-t} $\ast$c)
+\begin{DoxyCompactList}\small\item\em Signal a condition variable. \end{DoxyCompactList}\item 
+void \hyperlink{condvar_8h_ad9451e9cd837efdee55102545c130f36}{hf\-\_\-condbroadcast} (\hyperlink{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}{cond\-\_\-t} $\ast$c)
+\begin{DoxyCompactList}\small\item\em Signal (broadcast) a condition variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}{\index{condvar.\-h@{condvar.\-h}!cond\-\_\-t@{cond\-\_\-t}}
+\index{cond\-\_\-t@{cond\-\_\-t}!condvar.h@{condvar.\-h}}
+\subsubsection[{cond\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf condvar} {\bf cond\-\_\-t}}}\label{condvar_8h_aa30db9b03ec1456e8e3016d92f7a321b}
+
+
+\subsection{Function Documentation}
+\hypertarget{condvar_8h_ad9451e9cd837efdee55102545c130f36}{\index{condvar.\-h@{condvar.\-h}!hf\-\_\-condbroadcast@{hf\-\_\-condbroadcast}}
+\index{hf\-\_\-condbroadcast@{hf\-\_\-condbroadcast}!condvar.h@{condvar.\-h}}
+\subsubsection[{hf\-\_\-condbroadcast}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-condbroadcast (
+\begin{DoxyParamCaption}
+\item[{{\bf cond\-\_\-t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{condvar_8h_ad9451e9cd837efdee55102545c130f36}
+
+
+Signal (broadcast) a condition variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & is a pointer to a condition variable.\\
+\hline
+\end{DoxyParams}
+Implements the condition signal broadcast operation for all waiting tasks. The call unblocks and removes all tasks from the waiting queue. If no tasks are waiting for the condition, the signal is lost. \hypertarget{condvar_8h_a0085b7d8162e3195b6c5a021f811ce17}{\index{condvar.\-h@{condvar.\-h}!hf\-\_\-conddestroy@{hf\-\_\-conddestroy}}
+\index{hf\-\_\-conddestroy@{hf\-\_\-conddestroy}!condvar.h@{condvar.\-h}}
+\subsubsection[{hf\-\_\-conddestroy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-conddestroy (
+\begin{DoxyParamCaption}
+\item[{{\bf cond\-\_\-t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{condvar_8h_a0085b7d8162e3195b6c5a021f811ce17}
+
+
+Destroys a condition variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & is a pointer to a condition variable.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success and E\-R\-R\-\_\-\-E\-R\-R\-O\-R if the condition variable could not be removed from memory. 
+\end{DoxyReturn}
+\hypertarget{condvar_8h_a6f0858342a87feaa65201dcd20b2686d}{\index{condvar.\-h@{condvar.\-h}!hf\-\_\-condinit@{hf\-\_\-condinit}}
+\index{hf\-\_\-condinit@{hf\-\_\-condinit}!condvar.h@{condvar.\-h}}
+\subsubsection[{hf\-\_\-condinit}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-condinit (
+\begin{DoxyParamCaption}
+\item[{{\bf cond\-\_\-t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{condvar_8h_a6f0858342a87feaa65201dcd20b2686d}
+
+
+Initializes a condition variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & is a pointer to a condition variable.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\-R\-R\-\_\-\-O\-K on success and E\-R\-R\-\_\-\-E\-R\-R\-O\-R if the condition variable could not be allocated in memory. 
+\end{DoxyReturn}
+\hypertarget{condvar_8h_a1b4c91e74810a728df751b5b9164b628}{\index{condvar.\-h@{condvar.\-h}!hf\-\_\-condsignal@{hf\-\_\-condsignal}}
+\index{hf\-\_\-condsignal@{hf\-\_\-condsignal}!condvar.h@{condvar.\-h}}
+\subsubsection[{hf\-\_\-condsignal}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-condsignal (
+\begin{DoxyParamCaption}
+\item[{{\bf cond\-\_\-t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{condvar_8h_a1b4c91e74810a728df751b5b9164b628}
+
+
+Signal a condition variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & is a pointer to a condition variable.\\
+\hline
+\end{DoxyParams}
+Implements the condition signal operation for one waiting task. The call removes a task from the waiting queue and unblocks it. If no tasks are waiting for the condition, the signal is lost. \hypertarget{condvar_8h_a2500f2dc6bebbd3b2c106c2062ad9cff}{\index{condvar.\-h@{condvar.\-h}!hf\-\_\-condwait@{hf\-\_\-condwait}}
+\index{hf\-\_\-condwait@{hf\-\_\-condwait}!condvar.h@{condvar.\-h}}
+\subsubsection[{hf\-\_\-condwait}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-condwait (
+\begin{DoxyParamCaption}
+\item[{{\bf cond\-\_\-t} $\ast$}]{c, }
+\item[{{\bf mutex\-\_\-t} $\ast$}]{m}
+\end{DoxyParamCaption}
+)}}\label{condvar_8h_a2500f2dc6bebbd3b2c106c2062ad9cff}
+
+
+Wait on a condition variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & is a pointer to a condition variable. \\
+\hline
+{\em m} & is a pointer to a mutex.\\
+\hline
+\end{DoxyParams}
+Implements the atomic condition wait operation. The call should always be invoked with the mutex locked. The current task is put in a queue on the condition variable, its state is set to blocked and unlocks the mutex atomically, then yields the processor. When woke up (by a signalling task), the task locks the mutex and returns. 

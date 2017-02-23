@@ -1,0 +1,100 @@
+\hypertarget{processor_8c}{\section{sys/kernel/processor.c File Reference}
+\label{processor_8c}\index{sys/kernel/processor.\-c@{sys/kernel/processor.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{processor_8c_a0d70db9460080ffe19550189cef0143e}{hf\-\_\-schedlock} (int32\-\_\-t lock)
+\begin{DoxyCompactList}\small\item\em Enables or disables the task scheduler. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{processor_8c_ac8b6c0349a61c3882242556a1ff5701e}{hf\-\_\-freecpu} (void)
+\begin{DoxyCompactList}\small\item\em Returns the percentage of free processor time. Only realtime tasks are accounted as processor load. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{processor_8c_a275bd6de54d4f383f3d9d7f8ae0778a7}{hf\-\_\-cpuload} (uint16\-\_\-t id)
+\begin{DoxyCompactList}\small\item\em Returns the percentage of processor time used by a given task. Both realtime and best effort tasks are accounted. Best effort tasks lose processor time when realtime tasks are part of the task set, as they only run in the background (idle time). \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{processor_8c_afdcf6ac25f98f820fff86f4aa6540a59}{hf\-\_\-freemem} (void)
+\begin{DoxyCompactList}\small\item\em Returns the amount of free memory. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{processor_8c_a335c697619057042be7dcea7b29b9f54}{hf\-\_\-ticktime} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+March 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Processor and scheduler management primitives and auxiliary functions. 
+
+\subsection{Function Documentation}
+\hypertarget{processor_8c_a275bd6de54d4f383f3d9d7f8ae0778a7}{\index{processor.\-c@{processor.\-c}!hf\-\_\-cpuload@{hf\-\_\-cpuload}}
+\index{hf\-\_\-cpuload@{hf\-\_\-cpuload}!processor.c@{processor.\-c}}
+\subsubsection[{hf\-\_\-cpuload}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-cpuload (
+\begin{DoxyParamCaption}
+\item[{uint16\-\_\-t}]{id}
+\end{DoxyParamCaption}
+)}}\label{processor_8c_a275bd6de54d4f383f3d9d7f8ae0778a7}
+
+
+Returns the percentage of processor time used by a given task. Both realtime and best effort tasks are accounted. Best effort tasks lose processor time when realtime tasks are part of the task set, as they only run in the background (idle time). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is the task id number\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a number representing the percentage of processor usage or E\-R\-R\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-I\-D if the referenced task does not exist. 
+\end{DoxyReturn}
+\hypertarget{processor_8c_ac8b6c0349a61c3882242556a1ff5701e}{\index{processor.\-c@{processor.\-c}!hf\-\_\-freecpu@{hf\-\_\-freecpu}}
+\index{hf\-\_\-freecpu@{hf\-\_\-freecpu}!processor.c@{processor.\-c}}
+\subsubsection[{hf\-\_\-freecpu}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-freecpu (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{processor_8c_ac8b6c0349a61c3882242556a1ff5701e}
+
+
+Returns the percentage of free processor time. Only realtime tasks are accounted as processor load. 
+
+\begin{DoxyReturn}{Returns}
+a number representing the percentage of free processor. 
+\end{DoxyReturn}
+\hypertarget{processor_8c_afdcf6ac25f98f820fff86f4aa6540a59}{\index{processor.\-c@{processor.\-c}!hf\-\_\-freemem@{hf\-\_\-freemem}}
+\index{hf\-\_\-freemem@{hf\-\_\-freemem}!processor.c@{processor.\-c}}
+\subsubsection[{hf\-\_\-freemem}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t hf\-\_\-freemem (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{processor_8c_afdcf6ac25f98f820fff86f4aa6540a59}
+
+
+Returns the amount of free memory. 
+
+\begin{DoxyReturn}{Returns}
+free heap memory, in bytes. 
+\end{DoxyReturn}
+\hypertarget{processor_8c_a0d70db9460080ffe19550189cef0143e}{\index{processor.\-c@{processor.\-c}!hf\-\_\-schedlock@{hf\-\_\-schedlock}}
+\index{hf\-\_\-schedlock@{hf\-\_\-schedlock}!processor.c@{processor.\-c}}
+\subsubsection[{hf\-\_\-schedlock}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-schedlock (
+\begin{DoxyParamCaption}
+\item[{int32\-\_\-t}]{lock}
+\end{DoxyParamCaption}
+)}}\label{processor_8c_a0d70db9460080ffe19550189cef0143e}
+
+
+Enables or disables the task scheduler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lock} & defines the scheduler activation (a value of 1 disables task scheduling). \\
+\hline
+\end{DoxyParams}
+\hypertarget{processor_8c_a335c697619057042be7dcea7b29b9f54}{\index{processor.\-c@{processor.\-c}!hf\-\_\-ticktime@{hf\-\_\-ticktime}}
+\index{hf\-\_\-ticktime@{hf\-\_\-ticktime}!processor.c@{processor.\-c}}
+\subsubsection[{hf\-\_\-ticktime}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t hf\-\_\-ticktime (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{processor_8c_a335c697619057042be7dcea7b29b9f54}

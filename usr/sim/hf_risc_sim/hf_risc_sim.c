@@ -108,7 +108,8 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 		case COMPARE2:		s->compare2 = value; s->cause &= 0xffdf; return;
 		case EXIT_TRAP:
 			fflush(stdout);
-			fclose(fptr);
+			if (log_enabled)
+				fclose(fptr);
 			printf("\nend of simulation.\n");
 			printf("instructions: %d\n", s->ins);
 			printf("arith: %d (%f)\n", s->arith, (float)s->arith / (float)s->ins);
@@ -127,7 +128,7 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 				fprintf(fptr, "%c", (int8_t)(value & 0xff));
 			return;
 		case UART_WRITE:
-			fprintf(stderr, "%c", (int8_t)(value & 0xff));
+			printf("%c", (int8_t)(value & 0xff));
 			return;
 		case UART_DIVISOR:
 			return;

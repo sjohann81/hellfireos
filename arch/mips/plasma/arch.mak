@@ -11,7 +11,7 @@ LDFLAGS_STRIP = --gc-sections
 
 # this is stuff used everywhere - compiler and flags should be declared (ASFLAGS, CFLAGS, LDFLAGS, LINKER_SCRIPT, CC, AS, LD, DUMP, READ, OBJ and SIZE).
 # remember the kernel, as well as the application, will be compiled using the *same* compiler and flags!
-ASFLAGS = -mips1
+ASFLAGS = -mips1 -msoft-float
 CFLAGS = -Wall -O2 -c -mips1 -mpatfree -mno-check-zero-division -msoft-float -fshort-double -ffreestanding -nostdlib -fomit-frame-pointer -G 0 $(INC_DIRS) -DCPU_SPEED=${F_CLK} -DTIME_SLICE=${TIME_SLICE} -DBIG_ENDIAN $(CFLAGS_STRIP) -DKERN_VER=\"$(KERNEL_VER)\" -DTICK_TIME=18 #-DDEBUG_PORT
 LDFLAGS = -mips1 $(LDFLAGS_STRIP)
 LINKER_SCRIPT = $(ARCH_DIR)/plasma.ld

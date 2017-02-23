@@ -1,0 +1,23 @@
+\hypertarget{panic_8h}{\section{sys/include/panic.h File Reference}
+\label{panic_8h}\index{sys/include/panic.\-h@{sys/include/panic.\-h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{panic_8h_afaa3b7dc21eaab894153ef5cf7bf9a0f}{panic} (int32\-\_\-t cause)
+\begin{DoxyCompactList}\small\item\em Causes the kernel to panic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{panic_8h_afaa3b7dc21eaab894153ef5cf7bf9a0f}{\index{panic.\-h@{panic.\-h}!panic@{panic}}
+\index{panic@{panic}!panic.h@{panic.\-h}}
+\subsubsection[{panic}]{\setlength{\rightskip}{0pt plus 5cm}void panic (
+\begin{DoxyParamCaption}
+\item[{int32\-\_\-t}]{cause}
+\end{DoxyParamCaption}
+)}}\label{panic_8h_afaa3b7dc21eaab894153ef5cf7bf9a0f}
+
+
+Causes the kernel to panic. 
+
+Interrupts are disabled, the panic cause is presented to the user and the system is locked forever. 

@@ -1,0 +1,279 @@
+\hypertarget{ustack_8h}{\section{net/include/ustack.h File Reference}
+\label{ustack_8h}\index{net/include/ustack.\-h@{net/include/ustack.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structarp__entry}{arp\-\_\-entry}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_aceafb634d2a261ee49201842933a0222}{en\-\_\-init} ()
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a0043f888e64a13a3706a244b29f5b44e}{en\-\_\-watchdog} (void)
+\item 
+void \hyperlink{ustack_8h_a250c941a7392d7540d60078f59849466}{en\-\_\-ll\-\_\-output} (uint8\-\_\-t $\ast$frame, uint16\-\_\-t size)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_acaa405f378c0295bca7b5b2bfbaa044b}{en\-\_\-ll\-\_\-input} (uint8\-\_\-t $\ast$frame)
+\item 
+void \hyperlink{ustack_8h_aa9415903e4cb184001106144be8d406c}{ustack\-\_\-init} (void)
+\item 
+uint16\-\_\-t \hyperlink{ustack_8h_afdf732d4a84f42f4a152bb79e35a4076}{netif\-\_\-send} (uint8\-\_\-t $\ast$packet, uint16\-\_\-t len)
+\item 
+uint16\-\_\-t \hyperlink{ustack_8h_a90bcd2a3d71369a59b70de161ecf5921}{netif\-\_\-recv} (uint8\-\_\-t $\ast$packet)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_adfae3806ba6771e93b9fd5c815679030}{arp\-\_\-reply} (uint8\-\_\-t $\ast$frame)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_ad7daadbf3a1c316c72df6dc8dddd93c0}{arp\-\_\-request} (uint8\-\_\-t $\ast$frame)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_ac26a2d07ba6afaf63b62913794e46d10}{arp\-\_\-update} (uint8\-\_\-t $\ast$ip, uint8\-\_\-t $\ast$mac)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a3f096fd9f626d5f8fae3c86b220158c8}{arp\-\_\-check} (uint8\-\_\-t $\ast$ip, uint8\-\_\-t $\ast$mac)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a788f6558f7f99b0eb201edc6b5d3bf58}{ip\-\_\-addr\-\_\-maskcmp} (uint8\-\_\-t addr1\mbox{[}4\mbox{]}, uint8\-\_\-t addr2\mbox{[}4\mbox{]}, uint8\-\_\-t mask\mbox{[}4\mbox{]})
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_ad72295fc723a7382a2b0d46c4c0f2f47}{ip\-\_\-addr\-\_\-cmp} (uint8\-\_\-t addr1\mbox{[}4\mbox{]}, uint8\-\_\-t addr2\mbox{[}4\mbox{]})
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a0a7095872259c1d7d2606da1dd549a0b}{ip\-\_\-addr\-\_\-isany} (uint8\-\_\-t addr\mbox{[}4\mbox{]})
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a1f4c6bae78a74400b6d348449e7baf3c}{ip\-\_\-addr\-\_\-isbroadcast} (uint8\-\_\-t addr\mbox{[}4\mbox{]}, uint8\-\_\-t mask\mbox{[}4\mbox{]})
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a71c677cc0732e6494b52786025c19870}{ip\-\_\-addr\-\_\-ismulticast} (uint8\-\_\-t addr\mbox{[}4\mbox{]})
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_ad830514325da2404dcfed5db32bdd243}{ip\-\_\-out} (uint8\-\_\-t dst\-\_\-addr\mbox{[}4\mbox{]}, uint8\-\_\-t $\ast$packet, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_af4608f87323075113dbf7c0f694e80ee}{ip\-\_\-in} (uint8\-\_\-t dst\-\_\-addr\mbox{[}4\mbox{]}, uint8\-\_\-t $\ast$packet, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_ad38a27a8246fc511fa668c6e0152368b}{icmp\-\_\-echo\-\_\-reply} (uint8\-\_\-t $\ast$packet, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a7d8f692e01775da995b9685d14858699}{udp\-\_\-out} (uint8\-\_\-t dst\-\_\-addr\mbox{[}4\mbox{]}, uint16\-\_\-t src\-\_\-port, uint16\-\_\-t dst\-\_\-port, uint8\-\_\-t $\ast$packet, uint16\-\_\-t len)
+\item 
+int32\-\_\-t \hyperlink{ustack_8h_a8f2538515cc62a689f54804c87a146a2}{udp\-\_\-in} (uint8\-\_\-t $\ast$packet)
+\item 
+void \hyperlink{ustack_8h_a8afbe928fc6e8f7860a24818c385c4bc}{udp\-\_\-set\-\_\-callback} (void($\ast$callback)(uint8\-\_\-t $\ast$packet))
+\item 
+void $\ast$ \hyperlink{ustack_8h_a591a25836d6a5346d8ff61740495cced}{udp\-\_\-get\-\_\-callback} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\-\_\-t \hyperlink{ustack_8h_a60983d0ff040975723414a8f21375c77}{myip} \mbox{[}4\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{ustack_8h_a364ef7a5e24993830f5063e122f2ef5d}{mynm} \mbox{[}4\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{ustack_8h_a4bb77cda060f64887c478d5eae533231}{mygw} \mbox{[}4\mbox{]}
+\item 
+uint8\-\_\-t \hyperlink{ustack_8h_a55068c85ef7e8c7a1ef3f02a6abe539f}{mymac} \mbox{[}6\mbox{]}
+\item 
+struct \hyperlink{structarp__entry}{arp\-\_\-entry} \hyperlink{ustack_8h_a31894055cb6c34515cc1790a9ced481c}{arp\-\_\-cache} \mbox{[}A\-R\-P\-\_\-\-C\-A\-C\-H\-E\-\_\-\-S\-I\-Z\-E\mbox{]}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{ustack_8h_a77b41d43d95b1508eaf6c70f335bdec9}{frame\-\_\-in}
+\item 
+uint8\-\_\-t $\ast$ \hyperlink{ustack_8h_a2b11d5ba722bb05d7b03c4aac4de351f}{frame\-\_\-out}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{ustack_8h_a3f096fd9f626d5f8fae3c86b220158c8}{\index{ustack.\-h@{ustack.\-h}!arp\-\_\-check@{arp\-\_\-check}}
+\index{arp\-\_\-check@{arp\-\_\-check}!ustack.h@{ustack.\-h}}
+\subsubsection[{arp\-\_\-check}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t arp\-\_\-check (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{ip, }
+\item[{uint8\-\_\-t $\ast$}]{mac}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a3f096fd9f626d5f8fae3c86b220158c8}
+\hypertarget{ustack_8h_adfae3806ba6771e93b9fd5c815679030}{\index{ustack.\-h@{ustack.\-h}!arp\-\_\-reply@{arp\-\_\-reply}}
+\index{arp\-\_\-reply@{arp\-\_\-reply}!ustack.h@{ustack.\-h}}
+\subsubsection[{arp\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t arp\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{frame}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_adfae3806ba6771e93b9fd5c815679030}
+\hypertarget{ustack_8h_ad7daadbf3a1c316c72df6dc8dddd93c0}{\index{ustack.\-h@{ustack.\-h}!arp\-\_\-request@{arp\-\_\-request}}
+\index{arp\-\_\-request@{arp\-\_\-request}!ustack.h@{ustack.\-h}}
+\subsubsection[{arp\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t arp\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{frame}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_ad7daadbf3a1c316c72df6dc8dddd93c0}
+\hypertarget{ustack_8h_ac26a2d07ba6afaf63b62913794e46d10}{\index{ustack.\-h@{ustack.\-h}!arp\-\_\-update@{arp\-\_\-update}}
+\index{arp\-\_\-update@{arp\-\_\-update}!ustack.h@{ustack.\-h}}
+\subsubsection[{arp\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t arp\-\_\-update (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{ip, }
+\item[{uint8\-\_\-t $\ast$}]{mac}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_ac26a2d07ba6afaf63b62913794e46d10}
+\hypertarget{ustack_8h_aceafb634d2a261ee49201842933a0222}{\index{ustack.\-h@{ustack.\-h}!en\-\_\-init@{en\-\_\-init}}
+\index{en\-\_\-init@{en\-\_\-init}!ustack.h@{ustack.\-h}}
+\subsubsection[{en\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t en\-\_\-init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_aceafb634d2a261ee49201842933a0222}
+\hypertarget{ustack_8h_acaa405f378c0295bca7b5b2bfbaa044b}{\index{ustack.\-h@{ustack.\-h}!en\-\_\-ll\-\_\-input@{en\-\_\-ll\-\_\-input}}
+\index{en\-\_\-ll\-\_\-input@{en\-\_\-ll\-\_\-input}!ustack.h@{ustack.\-h}}
+\subsubsection[{en\-\_\-ll\-\_\-input}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t en\-\_\-ll\-\_\-input (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{frame}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_acaa405f378c0295bca7b5b2bfbaa044b}
+\hypertarget{ustack_8h_a250c941a7392d7540d60078f59849466}{\index{ustack.\-h@{ustack.\-h}!en\-\_\-ll\-\_\-output@{en\-\_\-ll\-\_\-output}}
+\index{en\-\_\-ll\-\_\-output@{en\-\_\-ll\-\_\-output}!ustack.h@{ustack.\-h}}
+\subsubsection[{en\-\_\-ll\-\_\-output}]{\setlength{\rightskip}{0pt plus 5cm}void en\-\_\-ll\-\_\-output (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{frame, }
+\item[{uint16\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a250c941a7392d7540d60078f59849466}
+\hypertarget{ustack_8h_a0043f888e64a13a3706a244b29f5b44e}{\index{ustack.\-h@{ustack.\-h}!en\-\_\-watchdog@{en\-\_\-watchdog}}
+\index{en\-\_\-watchdog@{en\-\_\-watchdog}!ustack.h@{ustack.\-h}}
+\subsubsection[{en\-\_\-watchdog}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t en\-\_\-watchdog (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a0043f888e64a13a3706a244b29f5b44e}
+\hypertarget{ustack_8h_ad38a27a8246fc511fa668c6e0152368b}{\index{ustack.\-h@{ustack.\-h}!icmp\-\_\-echo\-\_\-reply@{icmp\-\_\-echo\-\_\-reply}}
+\index{icmp\-\_\-echo\-\_\-reply@{icmp\-\_\-echo\-\_\-reply}!ustack.h@{ustack.\-h}}
+\subsubsection[{icmp\-\_\-echo\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t icmp\-\_\-echo\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{packet, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_ad38a27a8246fc511fa668c6e0152368b}
+\hypertarget{ustack_8h_ad72295fc723a7382a2b0d46c4c0f2f47}{\index{ustack.\-h@{ustack.\-h}!ip\-\_\-addr\-\_\-cmp@{ip\-\_\-addr\-\_\-cmp}}
+\index{ip\-\_\-addr\-\_\-cmp@{ip\-\_\-addr\-\_\-cmp}!ustack.h@{ustack.\-h}}
+\subsubsection[{ip\-\_\-addr\-\_\-cmp}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t ip\-\_\-addr\-\_\-cmp (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{addr1\mbox{[}4\mbox{]}, }
+\item[{uint8\-\_\-t}]{addr2\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_ad72295fc723a7382a2b0d46c4c0f2f47}
+\hypertarget{ustack_8h_a0a7095872259c1d7d2606da1dd549a0b}{\index{ustack.\-h@{ustack.\-h}!ip\-\_\-addr\-\_\-isany@{ip\-\_\-addr\-\_\-isany}}
+\index{ip\-\_\-addr\-\_\-isany@{ip\-\_\-addr\-\_\-isany}!ustack.h@{ustack.\-h}}
+\subsubsection[{ip\-\_\-addr\-\_\-isany}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t ip\-\_\-addr\-\_\-isany (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{addr\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a0a7095872259c1d7d2606da1dd549a0b}
+\hypertarget{ustack_8h_a1f4c6bae78a74400b6d348449e7baf3c}{\index{ustack.\-h@{ustack.\-h}!ip\-\_\-addr\-\_\-isbroadcast@{ip\-\_\-addr\-\_\-isbroadcast}}
+\index{ip\-\_\-addr\-\_\-isbroadcast@{ip\-\_\-addr\-\_\-isbroadcast}!ustack.h@{ustack.\-h}}
+\subsubsection[{ip\-\_\-addr\-\_\-isbroadcast}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t ip\-\_\-addr\-\_\-isbroadcast (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{addr\mbox{[}4\mbox{]}, }
+\item[{uint8\-\_\-t}]{mask\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a1f4c6bae78a74400b6d348449e7baf3c}
+\hypertarget{ustack_8h_a71c677cc0732e6494b52786025c19870}{\index{ustack.\-h@{ustack.\-h}!ip\-\_\-addr\-\_\-ismulticast@{ip\-\_\-addr\-\_\-ismulticast}}
+\index{ip\-\_\-addr\-\_\-ismulticast@{ip\-\_\-addr\-\_\-ismulticast}!ustack.h@{ustack.\-h}}
+\subsubsection[{ip\-\_\-addr\-\_\-ismulticast}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t ip\-\_\-addr\-\_\-ismulticast (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{addr\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a71c677cc0732e6494b52786025c19870}
+\hypertarget{ustack_8h_a788f6558f7f99b0eb201edc6b5d3bf58}{\index{ustack.\-h@{ustack.\-h}!ip\-\_\-addr\-\_\-maskcmp@{ip\-\_\-addr\-\_\-maskcmp}}
+\index{ip\-\_\-addr\-\_\-maskcmp@{ip\-\_\-addr\-\_\-maskcmp}!ustack.h@{ustack.\-h}}
+\subsubsection[{ip\-\_\-addr\-\_\-maskcmp}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t ip\-\_\-addr\-\_\-maskcmp (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{addr1\mbox{[}4\mbox{]}, }
+\item[{uint8\-\_\-t}]{addr2\mbox{[}4\mbox{]}, }
+\item[{uint8\-\_\-t}]{mask\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a788f6558f7f99b0eb201edc6b5d3bf58}
+\hypertarget{ustack_8h_af4608f87323075113dbf7c0f694e80ee}{\index{ustack.\-h@{ustack.\-h}!ip\-\_\-in@{ip\-\_\-in}}
+\index{ip\-\_\-in@{ip\-\_\-in}!ustack.h@{ustack.\-h}}
+\subsubsection[{ip\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t ip\-\_\-in (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{dst\-\_\-addr\mbox{[}4\mbox{]}, }
+\item[{uint8\-\_\-t $\ast$}]{packet, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_af4608f87323075113dbf7c0f694e80ee}
+\hypertarget{ustack_8h_ad830514325da2404dcfed5db32bdd243}{\index{ustack.\-h@{ustack.\-h}!ip\-\_\-out@{ip\-\_\-out}}
+\index{ip\-\_\-out@{ip\-\_\-out}!ustack.h@{ustack.\-h}}
+\subsubsection[{ip\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t ip\-\_\-out (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{dst\-\_\-addr\mbox{[}4\mbox{]}, }
+\item[{uint8\-\_\-t $\ast$}]{packet, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_ad830514325da2404dcfed5db32bdd243}
+\hypertarget{ustack_8h_a90bcd2a3d71369a59b70de161ecf5921}{\index{ustack.\-h@{ustack.\-h}!netif\-\_\-recv@{netif\-\_\-recv}}
+\index{netif\-\_\-recv@{netif\-\_\-recv}!ustack.h@{ustack.\-h}}
+\subsubsection[{netif\-\_\-recv}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t netif\-\_\-recv (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a90bcd2a3d71369a59b70de161ecf5921}
+\hypertarget{ustack_8h_afdf732d4a84f42f4a152bb79e35a4076}{\index{ustack.\-h@{ustack.\-h}!netif\-\_\-send@{netif\-\_\-send}}
+\index{netif\-\_\-send@{netif\-\_\-send}!ustack.h@{ustack.\-h}}
+\subsubsection[{netif\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t netif\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{packet, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_afdf732d4a84f42f4a152bb79e35a4076}
+\hypertarget{ustack_8h_a591a25836d6a5346d8ff61740495cced}{\index{ustack.\-h@{ustack.\-h}!udp\-\_\-get\-\_\-callback@{udp\-\_\-get\-\_\-callback}}
+\index{udp\-\_\-get\-\_\-callback@{udp\-\_\-get\-\_\-callback}!ustack.h@{ustack.\-h}}
+\subsubsection[{udp\-\_\-get\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ udp\-\_\-get\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a591a25836d6a5346d8ff61740495cced}
+\hypertarget{ustack_8h_a8f2538515cc62a689f54804c87a146a2}{\index{ustack.\-h@{ustack.\-h}!udp\-\_\-in@{udp\-\_\-in}}
+\index{udp\-\_\-in@{udp\-\_\-in}!ustack.h@{ustack.\-h}}
+\subsubsection[{udp\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t udp\-\_\-in (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t $\ast$}]{packet}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a8f2538515cc62a689f54804c87a146a2}
+\hypertarget{ustack_8h_a7d8f692e01775da995b9685d14858699}{\index{ustack.\-h@{ustack.\-h}!udp\-\_\-out@{udp\-\_\-out}}
+\index{udp\-\_\-out@{udp\-\_\-out}!ustack.h@{ustack.\-h}}
+\subsubsection[{udp\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t udp\-\_\-out (
+\begin{DoxyParamCaption}
+\item[{uint8\-\_\-t}]{dst\-\_\-addr\mbox{[}4\mbox{]}, }
+\item[{uint16\-\_\-t}]{src\-\_\-port, }
+\item[{uint16\-\_\-t}]{dst\-\_\-port, }
+\item[{uint8\-\_\-t $\ast$}]{packet, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a7d8f692e01775da995b9685d14858699}
+\hypertarget{ustack_8h_a8afbe928fc6e8f7860a24818c385c4bc}{\index{ustack.\-h@{ustack.\-h}!udp\-\_\-set\-\_\-callback@{udp\-\_\-set\-\_\-callback}}
+\index{udp\-\_\-set\-\_\-callback@{udp\-\_\-set\-\_\-callback}!ustack.h@{ustack.\-h}}
+\subsubsection[{udp\-\_\-set\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}void udp\-\_\-set\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)(uint8\-\_\-t $\ast$packet)}]{callback}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_a8afbe928fc6e8f7860a24818c385c4bc}
+\hypertarget{ustack_8h_aa9415903e4cb184001106144be8d406c}{\index{ustack.\-h@{ustack.\-h}!ustack\-\_\-init@{ustack\-\_\-init}}
+\index{ustack\-\_\-init@{ustack\-\_\-init}!ustack.h@{ustack.\-h}}
+\subsubsection[{ustack\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void ustack\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{ustack_8h_aa9415903e4cb184001106144be8d406c}
+
+
+\subsection{Variable Documentation}
+\hypertarget{ustack_8h_a31894055cb6c34515cc1790a9ced481c}{\index{ustack.\-h@{ustack.\-h}!arp\-\_\-cache@{arp\-\_\-cache}}
+\index{arp\-\_\-cache@{arp\-\_\-cache}!ustack.h@{ustack.\-h}}
+\subsubsection[{arp\-\_\-cache}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf arp\-\_\-entry} arp\-\_\-cache\mbox{[}A\-R\-P\-\_\-\-C\-A\-C\-H\-E\-\_\-\-S\-I\-Z\-E\mbox{]}}}\label{ustack_8h_a31894055cb6c34515cc1790a9ced481c}
+\hypertarget{ustack_8h_a77b41d43d95b1508eaf6c70f335bdec9}{\index{ustack.\-h@{ustack.\-h}!frame\-\_\-in@{frame\-\_\-in}}
+\index{frame\-\_\-in@{frame\-\_\-in}!ustack.h@{ustack.\-h}}
+\subsubsection[{frame\-\_\-in}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t$\ast$ frame\-\_\-in}}\label{ustack_8h_a77b41d43d95b1508eaf6c70f335bdec9}
+\hypertarget{ustack_8h_a2b11d5ba722bb05d7b03c4aac4de351f}{\index{ustack.\-h@{ustack.\-h}!frame\-\_\-out@{frame\-\_\-out}}
+\index{frame\-\_\-out@{frame\-\_\-out}!ustack.h@{ustack.\-h}}
+\subsubsection[{frame\-\_\-out}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t $\ast$ frame\-\_\-out}}\label{ustack_8h_a2b11d5ba722bb05d7b03c4aac4de351f}
+\hypertarget{ustack_8h_a4bb77cda060f64887c478d5eae533231}{\index{ustack.\-h@{ustack.\-h}!mygw@{mygw}}
+\index{mygw@{mygw}!ustack.h@{ustack.\-h}}
+\subsubsection[{mygw}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t mygw\mbox{[}4\mbox{]}}}\label{ustack_8h_a4bb77cda060f64887c478d5eae533231}
+\hypertarget{ustack_8h_a60983d0ff040975723414a8f21375c77}{\index{ustack.\-h@{ustack.\-h}!myip@{myip}}
+\index{myip@{myip}!ustack.h@{ustack.\-h}}
+\subsubsection[{myip}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t myip\mbox{[}4\mbox{]}}}\label{ustack_8h_a60983d0ff040975723414a8f21375c77}
+\hypertarget{ustack_8h_a55068c85ef7e8c7a1ef3f02a6abe539f}{\index{ustack.\-h@{ustack.\-h}!mymac@{mymac}}
+\index{mymac@{mymac}!ustack.h@{ustack.\-h}}
+\subsubsection[{mymac}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t mymac}}\label{ustack_8h_a55068c85ef7e8c7a1ef3f02a6abe539f}
+\hypertarget{ustack_8h_a364ef7a5e24993830f5063e122f2ef5d}{\index{ustack.\-h@{ustack.\-h}!mynm@{mynm}}
+\index{mynm@{mynm}!ustack.h@{ustack.\-h}}
+\subsubsection[{mynm}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t mynm\mbox{[}4\mbox{]}}}\label{ustack_8h_a364ef7a5e24993830f5063e122f2ef5d}

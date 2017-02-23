@@ -1,4 +1,7 @@
 #include <hellfire.h>
+#ifdef USTACK
+#include <ustack.h>
+#endif
 
 /* hardware dependent C library stuff */
 #ifndef DEBUG_PORT
@@ -83,6 +86,24 @@ void delay_us(uint32_t usec)
 	}
 }
 
+static void ioports_init(void)
+{
+}
+
+void led_set(uint16_t led, uint8_t val)
+{
+}
+
+uint8_t button_get(uint16_t btn)
+{
+	return 0;
+}
+
+uint8_t switch_get(uint16_t sw)
+{
+	return 0;
+}
+
 /* hardware dependent basic kernel stuff */
 void _hardware_init(void)
 {
@@ -91,6 +112,7 @@ void _hardware_init(void)
 		MemoryWrite(TICK_TIME_REG, 1<<TICK_TIME);					// set tick time register
 	}
 	MemoryWrite(IRQ_MASK, 0);
+	ioports_init();
 }
 
 void _vm_init(void)
@@ -102,11 +124,6 @@ void _vm_init(void)
 void _sched_init(void)
 {
 	kprintf("\nHAL: _sched_init()");
-}
-
-void _irq_init(void)
-{
-	kprintf("\nHAL: _irq_init()");
 }
 
 void _timer_init(void)
@@ -121,32 +138,43 @@ void _timer_init(void)
 	MemoryWrite(IRQ_MASK, m);
 }
 
+void _irq_init(void)
+{
+	kprintf("\nHAL: _irq_init()");
+}
+
 void _device_init(void)
 {
 	kprintf("\nHAL: _device_init()");
 #ifdef NOC_INTERCONNECT
 	ni_init();
 #endif
+#ifdef USTACK
+	en_init();
+#endif
 }
 
 void _task_init(void)
 {
 	kprintf("\nHAL: _task_init()");
+#ifdef USTACK
+	ustack_init();
+#endif
 }
 
-void _set_task_sp(uint16_t task, uint32_t stack)
+void _set_task_sp(uint16_t task, size_t stack)
 {
 	krnl_tcb[task].task_context[10] = stack;
 }
 
-uint32_t _get_task_sp(uint16_t task)
+size_t _get_task_sp(uint16_t task)
 {
 	return krnl_tcb[task].task_context[10];
 }
 
 void _set_task_tp(uint16_t task, void (*entry)())
 {
-	krnl_tcb[task].task_context[11] = (uint32_t)entry;
+	krnl_tcb[task].task_context[11] = (size_t)entry;
 }
 
 void *_get_task_tp(uint16_t task)
@@ -156,12 +184,15 @@ void *_get_task_tp(uint16_t task)
 
 void _timer_reset(void)
 {
+	static uint32_t timecount, lastcount = 0;
 	uint32_t m;
 
 	m = MemoryRead(IRQ_MASK);						// read interrupt mask
 	m ^= (IRQ_COUNTER18 | IRQ_COUNTER18_NOT);				// toggle timer interrupt mask
 	MemoryWrite(IRQ_MASK, m);
-	_read_us();
+	timecount = _read_us();
+	krnl_pcb.tick_time = timecount - lastcount;
+	lastcount = timecount;
 }
 
 void _cpu_idle(void)
@@ -184,4 +215,10 @@ uint64_t _read_us(void)
 	timeref = ((uint64_t)tval2 << 32) + (uint64_t)_readcounter();
 	
 	return (timeref / (CPU_SPEED / 1000000));
+}
+
+void _panic(void)
+{
+	volatile uint32_t *trap_addr = (uint32_t *)0xe0000000;
+	*trap_addr = 0;
 }

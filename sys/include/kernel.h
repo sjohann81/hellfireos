@@ -19,6 +19,7 @@
 #define TASK_READY			1		/*!< task ready to run (on run queue) */
 #define TASK_RUNNING			2		/*!< task running (only one task/core can be in this state, on run queue) */
 #define TASK_BLOCKED			3		/*!< task blocked, can be resumed later (on run queue) */
+
 #define TASK_DELAYED			4		/*!< task being delayed (on delay queue) */
 #define TASK_WAITING			5		/*!< task waiting for an event (on event queue) */
 
@@ -29,9 +30,12 @@ struct tcb_entry {
 	uint16_t id;					/*!< task id */
 	int8_t name[20];				/*!< task description (or name) */
 	uint8_t state;					/*!< 0 - idle,  1 - ready,  2 - running, 3 - blocked, 4 - delayed, 5 - waiting */
+	uint8_t priority;				/*!< [1 .. 29] - critical, [30 .. 99] - system, [100 .. 255] - application */
+	uint8_t priority_rem;				/*!< remaining priority */
+	uint8_t critical;				/*!< critical event, interrupt request */
 	uint32_t delay;					/*!< delay to enter in the run/RT queue */
 	uint32_t rtjobs;				/*!< total RT task jobs executed */
-	uint32_t bgjobs;				/*!< total BE jobs executed. BE tasks share processor idle time and execute in the background. */
+	uint32_t bgjobs;				/*!< total BE task jobs executed */
 	uint32_t deadline_misses;			/*!< task realtime deadline misses */
 	uint16_t period;				/*!< task period */
 	uint16_t capacity;				/*!< task capacity */
@@ -40,16 +44,19 @@ struct tcb_entry {
 	uint16_t deadline_rem;				/*!< remaining time slices on period */
 	context task_context;				/*!< task context */
 	void (*ptask)(void);				/*!< task entry point, pointer to function */
-	int32_t *pstack;				/*!< task stack area (bottom) */
+	size_t *pstack;					/*!< task stack area (bottom) */
 	uint32_t stack_size;				/*!< task stack size */
 	void *other_data;				/*!< pointer to other data related to this task */
 };
 
 struct pcb_entry {
+	int32_t (*sched_rt)();				/*!< pointer to the realtime scheduler */
+	int32_t (*sched_be)();				/*!< pointer to the best effort scheduler */
 	uint32_t coop_cswitch;				/*!< cooperative context switches */
 	uint32_t preempt_cswitch;			/*!< preeptive context switches */
 	uint32_t interrupts;				/*!< number of non-masked interrupts */
-	/* many more stuff should be here! */
+	uint32_t tick_time;				/*!< tick time in microsseconds */
+	/* much more stuff should be here! */
 };
 
 /**

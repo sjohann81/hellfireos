@@ -1,5 +1,5 @@
-APP = app/queues2
-ARCH = mips/hf-risc
+APP = app/cond_test1
+ARCH = riscv/hf-riscv
 
 SERIAL_BAUD=57600
 SERIAL_DEVICE=/dev/ttyUSB0
@@ -9,8 +9,8 @@ MAX_TASKS = 30
 MUTEX_TYPE = 0
 MEM_ALLOC = 3
 HEAP_SIZE = 500000
-FLOATING_POINT = 0
-KERNEL_LOG = 2
+FLOATING_POINT = 1
+KERNEL_LOG = 0
 
 SRC_DIR = $(CURDIR)/../..
 

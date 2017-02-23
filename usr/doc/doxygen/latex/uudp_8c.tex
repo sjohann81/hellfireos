@@ -1,0 +1,65 @@
+\hypertarget{uudp_8c}{\section{net/uudp/uudp.c File Reference}
+\label{uudp_8c}\index{net/uudp/uudp.\-c@{net/uudp/uudp.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\-\_\-t \hyperlink{uudp_8c_af0d36d3a9efda6f06dbadd453916b5c0}{hf\-\_\-uudp\-\_\-create} (struct \hyperlink{structuudp}{uudp} $\ast$comm, uint16\-\_\-t listen\-\_\-port, uint32\-\_\-t qsize)
+\item 
+int32\-\_\-t \hyperlink{uudp_8c_a4325c4e0d59fdc60513bc55efb0156e9}{hf\-\_\-uudp\-\_\-destroy} (struct \hyperlink{structuudp}{uudp} $\ast$comm)
+\item 
+int32\-\_\-t \hyperlink{uudp_8c_a5b028d180a4552a1c76e1646c514b3ed}{hf\-\_\-uudp\-\_\-recv} (struct \hyperlink{structuudp}{uudp} $\ast$comm, uint8\-\_\-t src\-\_\-ip\mbox{[}4\mbox{]}, uint16\-\_\-t $\ast$src\-\_\-port, uint8\-\_\-t $\ast$buf)
+\item 
+int32\-\_\-t \hyperlink{uudp_8c_a3fe4ca6163ccdd63cdc4bb9d31d95eb6}{hf\-\_\-uudp\-\_\-send} (struct \hyperlink{structuudp}{uudp} $\ast$comm, uint8\-\_\-t dst\-\_\-ip\mbox{[}4\mbox{]}, uint16\-\_\-t dst\-\_\-port, uint8\-\_\-t $\ast$buf, uint16\-\_\-t len)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mutex_8h_a5d47ad3a25c2df1eecad005e0649a431}{mutex\-\_\-t} \hyperlink{uudp_8c_a39bcc1da3e8222807b13f4969f8b3bdc}{uudplock}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{uudp_8c_af0d36d3a9efda6f06dbadd453916b5c0}{\index{uudp.\-c@{uudp.\-c}!hf\-\_\-uudp\-\_\-create@{hf\-\_\-uudp\-\_\-create}}
+\index{hf\-\_\-uudp\-\_\-create@{hf\-\_\-uudp\-\_\-create}!uudp.c@{uudp.\-c}}
+\subsubsection[{hf\-\_\-uudp\-\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-uudp\-\_\-create (
+\begin{DoxyParamCaption}
+\item[{struct {\bf uudp} $\ast$}]{comm, }
+\item[{uint16\-\_\-t}]{listen\-\_\-port, }
+\item[{uint32\-\_\-t}]{qsize}
+\end{DoxyParamCaption}
+)}}\label{uudp_8c_af0d36d3a9efda6f06dbadd453916b5c0}
+\hypertarget{uudp_8c_a4325c4e0d59fdc60513bc55efb0156e9}{\index{uudp.\-c@{uudp.\-c}!hf\-\_\-uudp\-\_\-destroy@{hf\-\_\-uudp\-\_\-destroy}}
+\index{hf\-\_\-uudp\-\_\-destroy@{hf\-\_\-uudp\-\_\-destroy}!uudp.c@{uudp.\-c}}
+\subsubsection[{hf\-\_\-uudp\-\_\-destroy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-uudp\-\_\-destroy (
+\begin{DoxyParamCaption}
+\item[{struct {\bf uudp} $\ast$}]{comm}
+\end{DoxyParamCaption}
+)}}\label{uudp_8c_a4325c4e0d59fdc60513bc55efb0156e9}
+\hypertarget{uudp_8c_a5b028d180a4552a1c76e1646c514b3ed}{\index{uudp.\-c@{uudp.\-c}!hf\-\_\-uudp\-\_\-recv@{hf\-\_\-uudp\-\_\-recv}}
+\index{hf\-\_\-uudp\-\_\-recv@{hf\-\_\-uudp\-\_\-recv}!uudp.c@{uudp.\-c}}
+\subsubsection[{hf\-\_\-uudp\-\_\-recv}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-uudp\-\_\-recv (
+\begin{DoxyParamCaption}
+\item[{struct {\bf uudp} $\ast$}]{comm, }
+\item[{uint8\-\_\-t}]{src\-\_\-ip\mbox{[}4\mbox{]}, }
+\item[{uint16\-\_\-t $\ast$}]{src\-\_\-port, }
+\item[{uint8\-\_\-t $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}}\label{uudp_8c_a5b028d180a4552a1c76e1646c514b3ed}
+\hypertarget{uudp_8c_a3fe4ca6163ccdd63cdc4bb9d31d95eb6}{\index{uudp.\-c@{uudp.\-c}!hf\-\_\-uudp\-\_\-send@{hf\-\_\-uudp\-\_\-send}}
+\index{hf\-\_\-uudp\-\_\-send@{hf\-\_\-uudp\-\_\-send}!uudp.c@{uudp.\-c}}
+\subsubsection[{hf\-\_\-uudp\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-uudp\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{struct {\bf uudp} $\ast$}]{comm, }
+\item[{uint8\-\_\-t}]{dst\-\_\-ip\mbox{[}4\mbox{]}, }
+\item[{uint16\-\_\-t}]{dst\-\_\-port, }
+\item[{uint8\-\_\-t $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{uudp_8c_a3fe4ca6163ccdd63cdc4bb9d31d95eb6}
+
+
+\subsection{Variable Documentation}
+\hypertarget{uudp_8c_a39bcc1da3e8222807b13f4969f8b3bdc}{\index{uudp.\-c@{uudp.\-c}!uudplock@{uudplock}}
+\index{uudplock@{uudplock}!uudp.c@{uudp.\-c}}
+\subsubsection[{uudplock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mutex\-\_\-t} uudplock}}\label{uudp_8c_a39bcc1da3e8222807b13f4969f8b3bdc}

@@ -1,0 +1,43 @@
+\hypertarget{main_8c}{\section{sys/kernel/main.c File Reference}
+\label{main_8c}\index{sys/kernel/main.\-c@{sys/kernel/main.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\begin{DoxyCompactList}\small\item\em Hellfire\-O\-S kernel entry point and system initialization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+January 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+The Hellfire\-O\-S realtime operating system kernel. 
+
+\subsection{Function Documentation}
+\hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{\index{main.\-c@{main.\-c}!main@{main}}
+\index{main@{main}!main.c@{main.\-c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{main_8c_a840291bc02cba5474a4cb46a9b9566fe}
+
+
+Hellfire\-O\-S kernel entry point and system initialization. 
+
+\begin{DoxyReturn}{Returns}
+should not return.
+\end{DoxyReturn}
+We assume that the following machine state has been already set before this routine.
+\begin{DoxyItemize}
+\item Kernel B\-S\-S section is filled with 0.
+\item Kernel stack is configured.
+\item All interrupts are disabled.
+\item Minimum page table is set. (M\-M\-U systems only) 
+\end{DoxyItemize}

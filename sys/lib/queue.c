@@ -42,6 +42,7 @@ struct queue *hf_queue_create(int32_t size)
 	}
 	q->head = q->tail = 0;
 	q->elem = 0;
+	
 	return q;
 }
 
@@ -59,6 +60,7 @@ int32_t hf_queue_destroy(struct queue *q)
 		hf_free(q);
 		return 0;
 	}
+	
 	return -1;
 }
 
@@ -92,6 +94,7 @@ int32_t hf_queue_addtail(struct queue *q, void *ptr)
 	q->data[q->tail] = ptr;
 	q->tail = next;
 	q->elem++;
+	
 	return 0;
 }
 
@@ -111,6 +114,7 @@ void *hf_queue_remhead(struct queue *q)
 	ret = q->data[q->head];
 	q->head = (q->head + 1) % q->size;
 	q->elem--;
+	
 	return ret;
 }
 
@@ -130,6 +134,7 @@ void *hf_queue_remtail(struct queue *q)
 	ret = q->data[q->tail];
 	q->tail = (q->tail - 1) % q->size;
 	q->elem--;
+	
 	return ret;
 }
 
@@ -147,6 +152,7 @@ void *hf_queue_get(struct queue *q, int32_t elem)
 
 	if (q->size == 0 || q->elem <= elem || q->head == q->tail) return 0;
 	ret = q->data[(q->head + elem) % q->size];
+	
 	return ret;
 }
 
@@ -163,6 +169,7 @@ int32_t hf_queue_set(struct queue *q, int32_t elem, void *ptr)
 {
 	if (q->size == 0 || q->elem <= elem || q->head == q->tail) return -1;
 	q->data[(q->head + elem) % q->size] = ptr;
+	
 	return 0;
 }
 
@@ -183,5 +190,6 @@ int32_t hf_queue_swap(struct queue *q, int32_t elem1, int32_t elem2)
 	t = q->data[(q->head + elem1) % q->size];
 	q->data[(q->head + elem1) % q->size] = q->data[(q->head + elem2) % q->size];
 	q->data[(q->head + elem2) % q->size] = t;
+	
 	return 0;
 }

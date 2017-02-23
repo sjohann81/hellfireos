@@ -1,0 +1,221 @@
+\hypertarget{queue_8h}{\section{sys/include/queue.h File Reference}
+\label{queue_8h}\index{sys/include/queue.\-h@{sys/include/queue.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structqueue}{queue}
+\begin{DoxyCompactList}\small\item\em Queue data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structqueue}{queue} $\ast$ \hyperlink{queue_8h_a9d255c6ef431d4983adc915679c382bd}{hf\-\_\-queue\-\_\-create} (int32\-\_\-t size)
+\begin{DoxyCompactList}\small\item\em Creates a queue of specified size. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{queue_8h_a8ada0f97b7e613a3241ce2064eef2998}{hf\-\_\-queue\-\_\-destroy} (struct \hyperlink{structqueue}{queue} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Destroys a queue. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{queue_8h_a4db7e356be08ec7e712d79ff199af13d}{hf\-\_\-queue\-\_\-count} (struct \hyperlink{structqueue}{queue} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Counts the number of nodes in a queue. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{queue_8h_adc5c3236192e826aacc3ee0a81e4db82}{hf\-\_\-queue\-\_\-addtail} (struct \hyperlink{structqueue}{queue} $\ast$q, void $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Adds a node to the tail of the queue. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{queue_8h_a9b3331750ad55924e7bd46f9081bc603}{hf\-\_\-queue\-\_\-remhead} (struct \hyperlink{structqueue}{queue} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Removes a node from the head of the queue. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{queue_8h_ab1df37872e859ba70878521117faf2ad}{hf\-\_\-queue\-\_\-remtail} (struct \hyperlink{structqueue}{queue} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Removes a node from the tail of the queue. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{queue_8h_a5c1a6ddc4456b31395777ea69b4dbd0e}{hf\-\_\-queue\-\_\-get} (struct \hyperlink{structqueue}{queue} $\ast$q, int32\-\_\-t elem)
+\begin{DoxyCompactList}\small\item\em Returns a node from the queue. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{queue_8h_ae9313c98413322e35768b50ddd343ade}{hf\-\_\-queue\-\_\-set} (struct \hyperlink{structqueue}{queue} $\ast$q, int32\-\_\-t elem, void $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Updates a node on the queue. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{queue_8h_a38d7fe97cc68eaa9f1766e3240c0bd30}{hf\-\_\-queue\-\_\-swap} (struct \hyperlink{structqueue}{queue} $\ast$q, int32\-\_\-t elem1, int32\-\_\-t elem2)
+\begin{DoxyCompactList}\small\item\em Swap the position of two nodes in the queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{queue_8h_adc5c3236192e826aacc3ee0a81e4db82}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-addtail@{hf\-\_\-queue\-\_\-addtail}}
+\index{hf\-\_\-queue\-\_\-addtail@{hf\-\_\-queue\-\_\-addtail}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-addtail}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-queue\-\_\-addtail (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q, }
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_adc5c3236192e826aacc3ee0a81e4db82}
+
+
+Adds a node to the tail of the queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure. \\
+\hline
+{\em ptr} & a pointer to data belonging to the queue node.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 when successful and -\/1 otherwise. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_a4db7e356be08ec7e712d79ff199af13d}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-count@{hf\-\_\-queue\-\_\-count}}
+\index{hf\-\_\-queue\-\_\-count@{hf\-\_\-queue\-\_\-count}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-queue\-\_\-count (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_a4db7e356be08ec7e712d79ff199af13d}
+
+
+Counts the number of nodes in a queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the number of nodes. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_a9d255c6ef431d4983adc915679c382bd}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-create@{hf\-\_\-queue\-\_\-create}}
+\index{hf\-\_\-queue\-\_\-create@{hf\-\_\-queue\-\_\-create}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf queue}$\ast$ hf\-\_\-queue\-\_\-create (
+\begin{DoxyParamCaption}
+\item[{int32\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [read]}}}\label{queue_8h_a9d255c6ef431d4983adc915679c382bd}
+
+
+Creates a queue of specified size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & is the maximum number of elements.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the queue on success and N\-U\-L\-L otherwise. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_a8ada0f97b7e613a3241ce2064eef2998}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-destroy@{hf\-\_\-queue\-\_\-destroy}}
+\index{hf\-\_\-queue\-\_\-destroy@{hf\-\_\-queue\-\_\-destroy}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-destroy}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-queue\-\_\-destroy (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_a8ada0f97b7e613a3241ce2064eef2998}
+
+
+Destroys a queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 when successful and -\/1 otherwise. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_a5c1a6ddc4456b31395777ea69b4dbd0e}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-get@{hf\-\_\-queue\-\_\-get}}
+\index{hf\-\_\-queue\-\_\-get@{hf\-\_\-queue\-\_\-get}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-get}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-queue\-\_\-get (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q, }
+\item[{int32\-\_\-t}]{elem}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_a5c1a6ddc4456b31395777ea69b4dbd0e}
+
+
+Returns a node from the queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure. \\
+\hline
+{\em elem} & is the n-\/th element from the queue.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to node data success and 0 otherwise. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_a9b3331750ad55924e7bd46f9081bc603}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-remhead@{hf\-\_\-queue\-\_\-remhead}}
+\index{hf\-\_\-queue\-\_\-remhead@{hf\-\_\-queue\-\_\-remhead}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-remhead}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-queue\-\_\-remhead (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_a9b3331750ad55924e7bd46f9081bc603}
+
+
+Removes a node from the head of the queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to node data on success and 0 otherwise. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_ab1df37872e859ba70878521117faf2ad}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-remtail@{hf\-\_\-queue\-\_\-remtail}}
+\index{hf\-\_\-queue\-\_\-remtail@{hf\-\_\-queue\-\_\-remtail}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-remtail}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-queue\-\_\-remtail (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_ab1df37872e859ba70878521117faf2ad}
+
+
+Removes a node from the tail of the queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to node data on success and 0 otherwise. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_ae9313c98413322e35768b50ddd343ade}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-set@{hf\-\_\-queue\-\_\-set}}
+\index{hf\-\_\-queue\-\_\-set@{hf\-\_\-queue\-\_\-set}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-set}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-queue\-\_\-set (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q, }
+\item[{int32\-\_\-t}]{elem, }
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_ae9313c98413322e35768b50ddd343ade}
+
+
+Updates a node on the queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure. \\
+\hline
+{\em elem} & is the n-\/th element from the queue. \\
+\hline
+{\em ptr} & a pointer to data belonging to the queue node.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 success and -\/1 otherwise. 
+\end{DoxyReturn}
+\hypertarget{queue_8h_a38d7fe97cc68eaa9f1766e3240c0bd30}{\index{queue.\-h@{queue.\-h}!hf\-\_\-queue\-\_\-swap@{hf\-\_\-queue\-\_\-swap}}
+\index{hf\-\_\-queue\-\_\-swap@{hf\-\_\-queue\-\_\-swap}!queue.h@{queue.\-h}}
+\subsubsection[{hf\-\_\-queue\-\_\-swap}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-queue\-\_\-swap (
+\begin{DoxyParamCaption}
+\item[{struct {\bf queue} $\ast$}]{q, }
+\item[{int32\-\_\-t}]{elem1, }
+\item[{int32\-\_\-t}]{elem2}
+\end{DoxyParamCaption}
+)}}\label{queue_8h_a38d7fe97cc68eaa9f1766e3240c0bd30}
+
+
+Swap the position of two nodes in the queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & is a pointer to a queue structure. \\
+\hline
+{\em elem1} & is the first n-\/th element from the queue. \\
+\hline
+{\em elem2} & is the second n-\/th element from the queue.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 when successful and -\/1 otherwise. 
+\end{DoxyReturn}

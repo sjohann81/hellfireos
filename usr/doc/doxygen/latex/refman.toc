@@ -1,0 +1,359 @@
+\contentsline {chapter}{\numberline {1}Data Structure Index}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Data Structures}{1}{section.1.1}
+\contentsline {chapter}{\numberline {2}File Index}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}File List}{3}{section.2.1}
+\contentsline {chapter}{\numberline {3}Data Structure Documentation}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}condvar Struct Reference}{5}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Detailed Description}{5}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Field Documentation}{5}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.2.1}cond\discretionary {-}{}{}\_\discretionary {-}{}{}queue}{5}{subsubsection.3.1.2.1}
+\contentsline {subsubsection}{\numberline {3.1.2.2}mutex}{6}{subsubsection.3.1.2.2}
+\contentsline {section}{\numberline {3.2}list Struct Reference}{6}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Detailed Description}{6}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Field Documentation}{6}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.1}elem}{6}{subsubsection.3.2.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2.2}next}{6}{subsubsection.3.2.2.2}
+\contentsline {section}{\numberline {3.3}mailbox Struct Reference}{6}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Detailed Description}{7}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Field Documentation}{7}{subsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.2.1}count}{7}{subsubsection.3.3.2.1}
+\contentsline {subsubsection}{\numberline {3.3.2.2}mrecv}{7}{subsubsection.3.3.2.2}
+\contentsline {subsubsection}{\numberline {3.3.2.3}msend}{7}{subsubsection.3.3.2.3}
+\contentsline {subsubsection}{\numberline {3.3.2.4}msg}{8}{subsubsection.3.3.2.4}
+\contentsline {subsubsection}{\numberline {3.3.2.5}n\discretionary {-}{}{}\_\discretionary {-}{}{}waiting\discretionary {-}{}{}\_\discretionary {-}{}{}tasks}{8}{subsubsection.3.3.2.5}
+\contentsline {section}{\numberline {3.4}mem\discretionary {-}{}{}\_\discretionary {-}{}{}block Struct Reference}{8}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Field Documentation}{8}{subsection.3.4.1}
+\contentsline {subsubsection}{\numberline {3.4.1.1}next}{8}{subsubsection.3.4.1.1}
+\contentsline {subsubsection}{\numberline {3.4.1.2}size}{8}{subsubsection.3.4.1.2}
+\contentsline {section}{\numberline {3.5}mem\discretionary {-}{}{}\_\discretionary {-}{}{}chunk Struct Reference}{8}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Field Documentation}{9}{subsection.3.5.1}
+\contentsline {subsubsection}{\numberline {3.5.1.1}size}{9}{subsubsection.3.5.1.1}
+\contentsline {section}{\numberline {3.6}mem\discretionary {-}{}{}\_\discretionary {-}{}{}chunk\discretionary {-}{}{}\_\discretionary {-}{}{}ptr Struct Reference}{9}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Field Documentation}{9}{subsection.3.6.1}
+\contentsline {subsubsection}{\numberline {3.6.1.1}free}{9}{subsubsection.3.6.1.1}
+\contentsline {subsubsection}{\numberline {3.6.1.2}heap}{9}{subsubsection.3.6.1.2}
+\contentsline {section}{\numberline {3.7}mem\discretionary {-}{}{}\_\discretionary {-}{}{}header\discretionary {-}{}{}\_\discretionary {-}{}{}union Union Reference}{9}{section.3.7}
+\contentsline {subsection}{\numberline {3.7.1}Field Documentation}{10}{subsection.3.7.1}
+\contentsline {subsubsection}{\numberline {3.7.1.1}align\discretionary {-}{}{}\_\discretionary {-}{}{}dummy}{10}{subsubsection.3.7.1.1}
+\contentsline {subsubsection}{\numberline {3.7.1.2}next}{10}{subsubsection.3.7.1.2}
+\contentsline {subsubsection}{\numberline {3.7.1.3}s}{10}{subsubsection.3.7.1.3}
+\contentsline {subsubsection}{\numberline {3.7.1.4}size}{10}{subsubsection.3.7.1.4}
+\contentsline {section}{\numberline {3.8}mtx Struct Reference}{10}{section.3.8}
+\contentsline {subsection}{\numberline {3.8.1}Detailed Description}{10}{subsection.3.8.1}
+\contentsline {subsection}{\numberline {3.8.2}Field Documentation}{11}{subsection.3.8.2}
+\contentsline {subsubsection}{\numberline {3.8.2.1}level}{11}{subsubsection.3.8.2.1}
+\contentsline {subsubsection}{\numberline {3.8.2.2}lock}{11}{subsubsection.3.8.2.2}
+\contentsline {subsubsection}{\numberline {3.8.2.3}waiting}{11}{subsubsection.3.8.2.3}
+\contentsline {section}{\numberline {3.9}pcb\discretionary {-}{}{}\_\discretionary {-}{}{}entry Struct Reference}{11}{section.3.9}
+\contentsline {subsection}{\numberline {3.9.1}Field Documentation}{11}{subsection.3.9.1}
+\contentsline {subsubsection}{\numberline {3.9.1.1}coop\discretionary {-}{}{}\_\discretionary {-}{}{}cswitch}{11}{subsubsection.3.9.1.1}
+\contentsline {subsubsection}{\numberline {3.9.1.2}interrupts}{11}{subsubsection.3.9.1.2}
+\contentsline {subsubsection}{\numberline {3.9.1.3}preempt\discretionary {-}{}{}\_\discretionary {-}{}{}cswitch}{11}{subsubsection.3.9.1.3}
+\contentsline {section}{\numberline {3.10}queue Struct Reference}{11}{section.3.10}
+\contentsline {subsection}{\numberline {3.10.1}Detailed Description}{12}{subsection.3.10.1}
+\contentsline {subsection}{\numberline {3.10.2}Field Documentation}{12}{subsection.3.10.2}
+\contentsline {subsubsection}{\numberline {3.10.2.1}data}{12}{subsubsection.3.10.2.1}
+\contentsline {subsubsection}{\numberline {3.10.2.2}elem}{12}{subsubsection.3.10.2.2}
+\contentsline {subsubsection}{\numberline {3.10.2.3}head}{12}{subsubsection.3.10.2.3}
+\contentsline {subsubsection}{\numberline {3.10.2.4}size}{12}{subsubsection.3.10.2.4}
+\contentsline {subsubsection}{\numberline {3.10.2.5}tail}{12}{subsubsection.3.10.2.5}
+\contentsline {section}{\numberline {3.11}sem Struct Reference}{12}{section.3.11}
+\contentsline {subsection}{\numberline {3.11.1}Detailed Description}{13}{subsection.3.11.1}
+\contentsline {subsection}{\numberline {3.11.2}Field Documentation}{13}{subsection.3.11.2}
+\contentsline {subsubsection}{\numberline {3.11.2.1}count}{13}{subsubsection.3.11.2.1}
+\contentsline {subsubsection}{\numberline {3.11.2.2}sem\discretionary {-}{}{}\_\discretionary {-}{}{}queue}{13}{subsubsection.3.11.2.2}
+\contentsline {section}{\numberline {3.12}tcb\discretionary {-}{}{}\_\discretionary {-}{}{}entry Struct Reference}{13}{section.3.12}
+\contentsline {subsection}{\numberline {3.12.1}Detailed Description}{14}{subsection.3.12.1}
+\contentsline {subsection}{\numberline {3.12.2}Field Documentation}{14}{subsection.3.12.2}
+\contentsline {subsubsection}{\numberline {3.12.2.1}bgjobs}{14}{subsubsection.3.12.2.1}
+\contentsline {subsubsection}{\numberline {3.12.2.2}capacity}{14}{subsubsection.3.12.2.2}
+\contentsline {subsubsection}{\numberline {3.12.2.3}capacity\discretionary {-}{}{}\_\discretionary {-}{}{}rem}{14}{subsubsection.3.12.2.3}
+\contentsline {subsubsection}{\numberline {3.12.2.4}deadline}{14}{subsubsection.3.12.2.4}
+\contentsline {subsubsection}{\numberline {3.12.2.5}deadline\discretionary {-}{}{}\_\discretionary {-}{}{}misses}{14}{subsubsection.3.12.2.5}
+\contentsline {subsubsection}{\numberline {3.12.2.6}deadline\discretionary {-}{}{}\_\discretionary {-}{}{}rem}{14}{subsubsection.3.12.2.6}
+\contentsline {subsubsection}{\numberline {3.12.2.7}delay}{14}{subsubsection.3.12.2.7}
+\contentsline {subsubsection}{\numberline {3.12.2.8}id}{15}{subsubsection.3.12.2.8}
+\contentsline {subsubsection}{\numberline {3.12.2.9}name}{15}{subsubsection.3.12.2.9}
+\contentsline {subsubsection}{\numberline {3.12.2.10}other\discretionary {-}{}{}\_\discretionary {-}{}{}data}{15}{subsubsection.3.12.2.10}
+\contentsline {subsubsection}{\numberline {3.12.2.11}period}{15}{subsubsection.3.12.2.11}
+\contentsline {subsubsection}{\numberline {3.12.2.12}pstack}{15}{subsubsection.3.12.2.12}
+\contentsline {subsubsection}{\numberline {3.12.2.13}ptask}{15}{subsubsection.3.12.2.13}
+\contentsline {subsubsection}{\numberline {3.12.2.14}rtjobs}{15}{subsubsection.3.12.2.14}
+\contentsline {subsubsection}{\numberline {3.12.2.15}stack\discretionary {-}{}{}\_\discretionary {-}{}{}size}{15}{subsubsection.3.12.2.15}
+\contentsline {subsubsection}{\numberline {3.12.2.16}state}{15}{subsubsection.3.12.2.16}
+\contentsline {subsubsection}{\numberline {3.12.2.17}task\discretionary {-}{}{}\_\discretionary {-}{}{}context}{15}{subsubsection.3.12.2.17}
+\contentsline {chapter}{\numberline {4}File Documentation}{17}{chapter.4}
+\contentsline {section}{\numberline {4.1}drivers/noc/include/noc.h File Reference}{17}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Detailed Description}{18}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{18}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{18}{subsection.4.1.3}
+\contentsline {subsection}{\numberline {4.1.4}Function Documentation}{18}{subsection.4.1.4}
+\contentsline {subsubsection}{\numberline {4.1.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}comm\discretionary {-}{}{}\_\discretionary {-}{}{}create}{18}{subsubsection.4.1.4.1}
+\contentsline {subsubsection}{\numberline {4.1.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}comm\discretionary {-}{}{}\_\discretionary {-}{}{}destroy}{18}{subsubsection.4.1.4.2}
+\contentsline {subsubsection}{\numberline {4.1.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}cpuid}{19}{subsubsection.4.1.4.3}
+\contentsline {subsubsection}{\numberline {4.1.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}ncores}{19}{subsubsection.4.1.4.4}
+\contentsline {subsubsection}{\numberline {4.1.4.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}recv}{19}{subsubsection.4.1.4.5}
+\contentsline {subsubsection}{\numberline {4.1.4.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}recvack}{19}{subsubsection.4.1.4.6}
+\contentsline {subsubsection}{\numberline {4.1.4.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}send}{20}{subsubsection.4.1.4.7}
+\contentsline {subsubsection}{\numberline {4.1.4.8}hf\discretionary {-}{}{}\_\discretionary {-}{}{}sendack}{20}{subsubsection.4.1.4.8}
+\contentsline {subsubsection}{\numberline {4.1.4.9}ni\discretionary {-}{}{}\_\discretionary {-}{}{}init}{20}{subsubsection.4.1.4.9}
+\contentsline {subsubsection}{\numberline {4.1.4.10}ni\discretionary {-}{}{}\_\discretionary {-}{}{}isr}{21}{subsubsection.4.1.4.10}
+\contentsline {subsection}{\numberline {4.1.5}Variable Documentation}{21}{subsection.4.1.5}
+\contentsline {subsubsection}{\numberline {4.1.5.1}pktdrv\discretionary {-}{}{}\_\discretionary {-}{}{}ports}{21}{subsubsection.4.1.5.1}
+\contentsline {subsubsection}{\numberline {4.1.5.2}pktdrv\discretionary {-}{}{}\_\discretionary {-}{}{}queue}{21}{subsubsection.4.1.5.2}
+\contentsline {subsubsection}{\numberline {4.1.5.3}pktdrv\discretionary {-}{}{}\_\discretionary {-}{}{}tqueue}{21}{subsubsection.4.1.5.3}
+\contentsline {section}{\numberline {4.2}drivers/noc/noc.c File Reference}{21}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Detailed Description}{22}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{22}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{22}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Function Documentation}{22}{subsection.4.2.4}
+\contentsline {subsubsection}{\numberline {4.2.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}comm\discretionary {-}{}{}\_\discretionary {-}{}{}create}{22}{subsubsection.4.2.4.1}
+\contentsline {subsubsection}{\numberline {4.2.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}comm\discretionary {-}{}{}\_\discretionary {-}{}{}destroy}{23}{subsubsection.4.2.4.2}
+\contentsline {subsubsection}{\numberline {4.2.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}cpuid}{23}{subsubsection.4.2.4.3}
+\contentsline {subsubsection}{\numberline {4.2.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}ncores}{23}{subsubsection.4.2.4.4}
+\contentsline {subsubsection}{\numberline {4.2.4.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}recv}{23}{subsubsection.4.2.4.5}
+\contentsline {subsubsection}{\numberline {4.2.4.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}recvack}{23}{subsubsection.4.2.4.6}
+\contentsline {subsubsection}{\numberline {4.2.4.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}send}{24}{subsubsection.4.2.4.7}
+\contentsline {subsubsection}{\numberline {4.2.4.8}hf\discretionary {-}{}{}\_\discretionary {-}{}{}sendack}{24}{subsubsection.4.2.4.8}
+\contentsline {subsubsection}{\numberline {4.2.4.9}ni\discretionary {-}{}{}\_\discretionary {-}{}{}init}{25}{subsubsection.4.2.4.9}
+\contentsline {subsubsection}{\numberline {4.2.4.10}ni\discretionary {-}{}{}\_\discretionary {-}{}{}isr}{25}{subsubsection.4.2.4.10}
+\contentsline {section}{\numberline {4.3}sys/include/condvar.h File Reference}{25}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Typedef Documentation}{26}{subsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.1.1}cond\discretionary {-}{}{}\_\discretionary {-}{}{}t}{26}{subsubsection.4.3.1.1}
+\contentsline {subsection}{\numberline {4.3.2}Function Documentation}{26}{subsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.2.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condbroadcast}{26}{subsubsection.4.3.2.1}
+\contentsline {subsubsection}{\numberline {4.3.2.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}conddestroy}{26}{subsubsection.4.3.2.2}
+\contentsline {subsubsection}{\numberline {4.3.2.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condinit}{26}{subsubsection.4.3.2.3}
+\contentsline {subsubsection}{\numberline {4.3.2.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condsignal}{26}{subsubsection.4.3.2.4}
+\contentsline {subsubsection}{\numberline {4.3.2.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condwait}{27}{subsubsection.4.3.2.5}
+\contentsline {section}{\numberline {4.4}sys/include/ecodes.h File Reference}{27}{section.4.4}
+\contentsline {section}{\numberline {4.5}sys/include/hellfire.h File Reference}{27}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Detailed Description}{27}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{27}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{27}{subsection.4.5.3}
+\contentsline {section}{\numberline {4.6}sys/include/kernel.h File Reference}{27}{section.4.6}
+\contentsline {subsection}{\numberline {4.6.1}Detailed Description}{28}{subsection.4.6.1}
+\contentsline {subsection}{\numberline {4.6.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{28}{subsection.4.6.2}
+\contentsline {subsection}{\numberline {4.6.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{28}{subsection.4.6.3}
+\contentsline {subsection}{\numberline {4.6.4}Variable Documentation}{28}{subsection.4.6.4}
+\contentsline {subsubsection}{\numberline {4.6.4.1}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}current\discretionary {-}{}{}\_\discretionary {-}{}{}task}{28}{subsubsection.4.6.4.1}
+\contentsline {subsubsection}{\numberline {4.6.4.2}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}delay\discretionary {-}{}{}\_\discretionary {-}{}{}queue}{28}{subsubsection.4.6.4.2}
+\contentsline {subsubsection}{\numberline {4.6.4.3}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}event\discretionary {-}{}{}\_\discretionary {-}{}{}queue}{28}{subsubsection.4.6.4.3}
+\contentsline {subsubsection}{\numberline {4.6.4.4}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}free}{28}{subsubsection.4.6.4.4}
+\contentsline {subsubsection}{\numberline {4.6.4.5}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}heap}{28}{subsubsection.4.6.4.5}
+\contentsline {subsubsection}{\numberline {4.6.4.6}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}pcb}{29}{subsubsection.4.6.4.6}
+\contentsline {subsubsection}{\numberline {4.6.4.7}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}rt\discretionary {-}{}{}\_\discretionary {-}{}{}queue}{29}{subsubsection.4.6.4.7}
+\contentsline {subsubsection}{\numberline {4.6.4.8}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}run\discretionary {-}{}{}\_\discretionary {-}{}{}queue}{29}{subsubsection.4.6.4.8}
+\contentsline {subsubsection}{\numberline {4.6.4.9}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}schedule}{29}{subsubsection.4.6.4.9}
+\contentsline {subsubsection}{\numberline {4.6.4.10}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}task}{29}{subsubsection.4.6.4.10}
+\contentsline {subsubsection}{\numberline {4.6.4.11}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}tasks}{29}{subsubsection.4.6.4.11}
+\contentsline {subsubsection}{\numberline {4.6.4.12}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}tcb}{29}{subsubsection.4.6.4.12}
+\contentsline {section}{\numberline {4.7}sys/include/kprintf.h File Reference}{29}{section.4.7}
+\contentsline {subsection}{\numberline {4.7.1}Function Documentation}{29}{subsection.4.7.1}
+\contentsline {subsubsection}{\numberline {4.7.1.1}dprintf}{29}{subsubsection.4.7.1.1}
+\contentsline {subsubsection}{\numberline {4.7.1.2}kprintf}{30}{subsubsection.4.7.1.2}
+\contentsline {section}{\numberline {4.8}sys/include/list.h File Reference}{30}{section.4.8}
+\contentsline {subsection}{\numberline {4.8.1}Function Documentation}{30}{subsection.4.8.1}
+\contentsline {subsubsection}{\numberline {4.8.1.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}append}{30}{subsubsection.4.8.1.1}
+\contentsline {subsubsection}{\numberline {4.8.1.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}count}{31}{subsubsection.4.8.1.2}
+\contentsline {subsubsection}{\numberline {4.8.1.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}get}{31}{subsubsection.4.8.1.3}
+\contentsline {subsubsection}{\numberline {4.8.1.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}init}{31}{subsubsection.4.8.1.4}
+\contentsline {subsubsection}{\numberline {4.8.1.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}insert}{31}{subsubsection.4.8.1.5}
+\contentsline {subsubsection}{\numberline {4.8.1.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}remove}{31}{subsubsection.4.8.1.6}
+\contentsline {subsubsection}{\numberline {4.8.1.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}set}{32}{subsubsection.4.8.1.7}
+\contentsline {section}{\numberline {4.9}sys/include/mailbox.h File Reference}{32}{section.4.9}
+\contentsline {subsection}{\numberline {4.9.1}Typedef Documentation}{32}{subsection.4.9.1}
+\contentsline {subsubsection}{\numberline {4.9.1.1}mail\discretionary {-}{}{}\_\discretionary {-}{}{}t}{32}{subsubsection.4.9.1.1}
+\contentsline {subsection}{\numberline {4.9.2}Function Documentation}{32}{subsection.4.9.2}
+\contentsline {subsubsection}{\numberline {4.9.2.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mboxaccept}{32}{subsubsection.4.9.2.1}
+\contentsline {subsubsection}{\numberline {4.9.2.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mboxinit}{32}{subsubsection.4.9.2.2}
+\contentsline {subsubsection}{\numberline {4.9.2.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mboxrecv}{32}{subsubsection.4.9.2.3}
+\contentsline {subsubsection}{\numberline {4.9.2.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mboxsend}{32}{subsubsection.4.9.2.4}
+\contentsline {section}{\numberline {4.10}sys/include/main.h File Reference}{33}{section.4.10}
+\contentsline {subsection}{\numberline {4.10.1}Function Documentation}{33}{subsection.4.10.1}
+\contentsline {subsubsection}{\numberline {4.10.1.1}app\discretionary {-}{}{}\_\discretionary {-}{}{}main}{33}{subsubsection.4.10.1.1}
+\contentsline {section}{\numberline {4.11}sys/include/malloc.h File Reference}{33}{section.4.11}
+\contentsline {subsection}{\numberline {4.11.1}Detailed Description}{33}{subsection.4.11.1}
+\contentsline {subsection}{\numberline {4.11.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{33}{subsection.4.11.2}
+\contentsline {subsection}{\numberline {4.11.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{34}{subsection.4.11.3}
+\contentsline {subsection}{\numberline {4.11.4}Typedef Documentation}{34}{subsection.4.11.4}
+\contentsline {subsubsection}{\numberline {4.11.4.1}align}{34}{subsubsection.4.11.4.1}
+\contentsline {subsubsection}{\numberline {4.11.4.2}mem\discretionary {-}{}{}\_\discretionary {-}{}{}header\discretionary {-}{}{}\_\discretionary {-}{}{}t}{34}{subsubsection.4.11.4.2}
+\contentsline {subsection}{\numberline {4.11.5}Function Documentation}{34}{subsection.4.11.5}
+\contentsline {subsubsection}{\numberline {4.11.5.1}heapinit}{34}{subsubsection.4.11.5.1}
+\contentsline {subsubsection}{\numberline {4.11.5.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}calloc}{34}{subsubsection.4.11.5.2}
+\contentsline {subsubsection}{\numberline {4.11.5.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}free}{34}{subsubsection.4.11.5.3}
+\contentsline {subsubsection}{\numberline {4.11.5.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}malloc}{34}{subsubsection.4.11.5.4}
+\contentsline {subsubsection}{\numberline {4.11.5.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}realloc}{34}{subsubsection.4.11.5.5}
+\contentsline {subsection}{\numberline {4.11.6}Variable Documentation}{34}{subsection.4.11.6}
+\contentsline {subsubsection}{\numberline {4.11.6.1}ff}{34}{subsubsection.4.11.6.1}
+\contentsline {subsubsection}{\numberline {4.11.6.2}krnl\discretionary {-}{}{}\_\discretionary {-}{}{}heap\discretionary {-}{}{}\_\discretionary {-}{}{}ptr}{34}{subsubsection.4.11.6.2}
+\contentsline {section}{\numberline {4.12}sys/include/mutex.h File Reference}{34}{section.4.12}
+\contentsline {subsection}{\numberline {4.12.1}Typedef Documentation}{35}{subsection.4.12.1}
+\contentsline {subsubsection}{\numberline {4.12.1.1}mutex\discretionary {-}{}{}\_\discretionary {-}{}{}t}{35}{subsubsection.4.12.1.1}
+\contentsline {subsection}{\numberline {4.12.2}Function Documentation}{35}{subsection.4.12.2}
+\contentsline {subsubsection}{\numberline {4.12.2.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mtxinit}{35}{subsubsection.4.12.2.1}
+\contentsline {subsubsection}{\numberline {4.12.2.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mtxlock}{35}{subsubsection.4.12.2.2}
+\contentsline {subsubsection}{\numberline {4.12.2.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mtxunlock}{35}{subsubsection.4.12.2.3}
+\contentsline {section}{\numberline {4.13}sys/include/panic.h File Reference}{35}{section.4.13}
+\contentsline {subsection}{\numberline {4.13.1}Function Documentation}{35}{subsection.4.13.1}
+\contentsline {subsubsection}{\numberline {4.13.1.1}panic}{35}{subsubsection.4.13.1.1}
+\contentsline {section}{\numberline {4.14}sys/include/processor.h File Reference}{35}{section.4.14}
+\contentsline {subsection}{\numberline {4.14.1}Function Documentation}{36}{subsection.4.14.1}
+\contentsline {subsubsection}{\numberline {4.14.1.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}cpuload}{36}{subsubsection.4.14.1.1}
+\contentsline {subsubsection}{\numberline {4.14.1.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}freecpu}{36}{subsubsection.4.14.1.2}
+\contentsline {subsubsection}{\numberline {4.14.1.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}freemem}{36}{subsubsection.4.14.1.3}
+\contentsline {subsubsection}{\numberline {4.14.1.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}schedlock}{36}{subsubsection.4.14.1.4}
+\contentsline {section}{\numberline {4.15}sys/include/queue.h File Reference}{37}{section.4.15}
+\contentsline {subsection}{\numberline {4.15.1}Function Documentation}{37}{subsection.4.15.1}
+\contentsline {subsubsection}{\numberline {4.15.1.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}addtail}{37}{subsubsection.4.15.1.1}
+\contentsline {subsubsection}{\numberline {4.15.1.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}count}{37}{subsubsection.4.15.1.2}
+\contentsline {subsubsection}{\numberline {4.15.1.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}create}{38}{subsubsection.4.15.1.3}
+\contentsline {subsubsection}{\numberline {4.15.1.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}destroy}{38}{subsubsection.4.15.1.4}
+\contentsline {subsubsection}{\numberline {4.15.1.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}get}{38}{subsubsection.4.15.1.5}
+\contentsline {subsubsection}{\numberline {4.15.1.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}remhead}{38}{subsubsection.4.15.1.6}
+\contentsline {subsubsection}{\numberline {4.15.1.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}remtail}{39}{subsubsection.4.15.1.7}
+\contentsline {subsubsection}{\numberline {4.15.1.8}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}set}{39}{subsubsection.4.15.1.8}
+\contentsline {subsubsection}{\numberline {4.15.1.9}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}swap}{39}{subsubsection.4.15.1.9}
+\contentsline {section}{\numberline {4.16}sys/include/scheduler.h File Reference}{39}{section.4.16}
+\contentsline {subsection}{\numberline {4.16.1}Function Documentation}{40}{subsection.4.16.1}
+\contentsline {subsubsection}{\numberline {4.16.1.1}dispatch\discretionary {-}{}{}\_\discretionary {-}{}{}isr}{40}{subsubsection.4.16.1.1}
+\contentsline {subsubsection}{\numberline {4.16.1.2}sched\discretionary {-}{}{}\_\discretionary {-}{}{}be}{40}{subsubsection.4.16.1.2}
+\contentsline {subsubsection}{\numberline {4.16.1.3}sched\discretionary {-}{}{}\_\discretionary {-}{}{}rt}{40}{subsubsection.4.16.1.3}
+\contentsline {section}{\numberline {4.17}sys/include/semaphore.h File Reference}{41}{section.4.17}
+\contentsline {subsection}{\numberline {4.17.1}Typedef Documentation}{41}{subsection.4.17.1}
+\contentsline {subsubsection}{\numberline {4.17.1.1}sem\discretionary {-}{}{}\_\discretionary {-}{}{}t}{41}{subsubsection.4.17.1.1}
+\contentsline {subsection}{\numberline {4.17.2}Function Documentation}{41}{subsection.4.17.2}
+\contentsline {subsubsection}{\numberline {4.17.2.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}semdestroy}{41}{subsubsection.4.17.2.1}
+\contentsline {subsubsection}{\numberline {4.17.2.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}seminit}{41}{subsubsection.4.17.2.2}
+\contentsline {subsubsection}{\numberline {4.17.2.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}sempost}{42}{subsubsection.4.17.2.3}
+\contentsline {subsubsection}{\numberline {4.17.2.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}semwait}{42}{subsubsection.4.17.2.4}
+\contentsline {section}{\numberline {4.18}sys/include/task.h File Reference}{42}{section.4.18}
+\contentsline {subsection}{\numberline {4.18.1}Function Documentation}{43}{subsection.4.18.1}
+\contentsline {subsubsection}{\numberline {4.18.1.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}block}{43}{subsubsection.4.18.1.1}
+\contentsline {subsubsection}{\numberline {4.18.1.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}delay}{43}{subsubsection.4.18.1.2}
+\contentsline {subsubsection}{\numberline {4.18.1.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}dlm}{43}{subsubsection.4.18.1.3}
+\contentsline {subsubsection}{\numberline {4.18.1.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}id}{44}{subsubsection.4.18.1.4}
+\contentsline {subsubsection}{\numberline {4.18.1.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}jobs}{44}{subsubsection.4.18.1.5}
+\contentsline {subsubsection}{\numberline {4.18.1.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}kill}{44}{subsubsection.4.18.1.6}
+\contentsline {subsubsection}{\numberline {4.18.1.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}name}{44}{subsubsection.4.18.1.7}
+\contentsline {subsubsection}{\numberline {4.18.1.8}hf\discretionary {-}{}{}\_\discretionary {-}{}{}resume}{44}{subsubsection.4.18.1.8}
+\contentsline {subsubsection}{\numberline {4.18.1.9}hf\discretionary {-}{}{}\_\discretionary {-}{}{}selfid}{45}{subsubsection.4.18.1.9}
+\contentsline {subsubsection}{\numberline {4.18.1.10}hf\discretionary {-}{}{}\_\discretionary {-}{}{}selfname}{45}{subsubsection.4.18.1.10}
+\contentsline {subsubsection}{\numberline {4.18.1.11}hf\discretionary {-}{}{}\_\discretionary {-}{}{}spawn}{45}{subsubsection.4.18.1.11}
+\contentsline {subsubsection}{\numberline {4.18.1.12}hf\discretionary {-}{}{}\_\discretionary {-}{}{}state}{46}{subsubsection.4.18.1.12}
+\contentsline {subsubsection}{\numberline {4.18.1.13}hf\discretionary {-}{}{}\_\discretionary {-}{}{}yield}{46}{subsubsection.4.18.1.13}
+\contentsline {section}{\numberline {4.19}sys/kernel/main.c File Reference}{46}{section.4.19}
+\contentsline {subsection}{\numberline {4.19.1}Detailed Description}{46}{subsection.4.19.1}
+\contentsline {subsection}{\numberline {4.19.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{46}{subsection.4.19.2}
+\contentsline {subsection}{\numberline {4.19.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{46}{subsection.4.19.3}
+\contentsline {subsection}{\numberline {4.19.4}Function Documentation}{46}{subsection.4.19.4}
+\contentsline {subsubsection}{\numberline {4.19.4.1}main}{46}{subsubsection.4.19.4.1}
+\contentsline {section}{\numberline {4.20}sys/kernel/panic.c File Reference}{47}{section.4.20}
+\contentsline {subsection}{\numberline {4.20.1}Detailed Description}{47}{subsection.4.20.1}
+\contentsline {subsection}{\numberline {4.20.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{47}{subsection.4.20.2}
+\contentsline {subsection}{\numberline {4.20.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{47}{subsection.4.20.3}
+\contentsline {subsection}{\numberline {4.20.4}Function Documentation}{47}{subsection.4.20.4}
+\contentsline {subsubsection}{\numberline {4.20.4.1}panic}{47}{subsubsection.4.20.4.1}
+\contentsline {section}{\numberline {4.21}sys/kernel/processor.c File Reference}{47}{section.4.21}
+\contentsline {subsection}{\numberline {4.21.1}Detailed Description}{48}{subsection.4.21.1}
+\contentsline {subsection}{\numberline {4.21.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{48}{subsection.4.21.2}
+\contentsline {subsection}{\numberline {4.21.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{48}{subsection.4.21.3}
+\contentsline {subsection}{\numberline {4.21.4}Function Documentation}{48}{subsection.4.21.4}
+\contentsline {subsubsection}{\numberline {4.21.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}cpuload}{48}{subsubsection.4.21.4.1}
+\contentsline {subsubsection}{\numberline {4.21.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}freecpu}{48}{subsubsection.4.21.4.2}
+\contentsline {subsubsection}{\numberline {4.21.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}freemem}{49}{subsubsection.4.21.4.3}
+\contentsline {subsubsection}{\numberline {4.21.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}schedlock}{49}{subsubsection.4.21.4.4}
+\contentsline {section}{\numberline {4.22}sys/kernel/scheduler.c File Reference}{49}{section.4.22}
+\contentsline {subsection}{\numberline {4.22.1}Detailed Description}{49}{subsection.4.22.1}
+\contentsline {subsection}{\numberline {4.22.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{49}{subsection.4.22.2}
+\contentsline {subsection}{\numberline {4.22.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{49}{subsection.4.22.3}
+\contentsline {subsection}{\numberline {4.22.4}Function Documentation}{49}{subsection.4.22.4}
+\contentsline {subsubsection}{\numberline {4.22.4.1}dispatch\discretionary {-}{}{}\_\discretionary {-}{}{}isr}{49}{subsubsection.4.22.4.1}
+\contentsline {subsubsection}{\numberline {4.22.4.2}sched\discretionary {-}{}{}\_\discretionary {-}{}{}be}{50}{subsubsection.4.22.4.2}
+\contentsline {subsubsection}{\numberline {4.22.4.3}sched\discretionary {-}{}{}\_\discretionary {-}{}{}rt}{50}{subsubsection.4.22.4.3}
+\contentsline {section}{\numberline {4.23}sys/kernel/task.c File Reference}{51}{section.4.23}
+\contentsline {subsection}{\numberline {4.23.1}Detailed Description}{51}{subsection.4.23.1}
+\contentsline {subsection}{\numberline {4.23.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{51}{subsection.4.23.2}
+\contentsline {subsection}{\numberline {4.23.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{51}{subsection.4.23.3}
+\contentsline {subsection}{\numberline {4.23.4}Function Documentation}{52}{subsection.4.23.4}
+\contentsline {subsubsection}{\numberline {4.23.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}block}{52}{subsubsection.4.23.4.1}
+\contentsline {subsubsection}{\numberline {4.23.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}delay}{52}{subsubsection.4.23.4.2}
+\contentsline {subsubsection}{\numberline {4.23.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}dlm}{52}{subsubsection.4.23.4.3}
+\contentsline {subsubsection}{\numberline {4.23.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}id}{52}{subsubsection.4.23.4.4}
+\contentsline {subsubsection}{\numberline {4.23.4.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}jobs}{53}{subsubsection.4.23.4.5}
+\contentsline {subsubsection}{\numberline {4.23.4.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}kill}{53}{subsubsection.4.23.4.6}
+\contentsline {subsubsection}{\numberline {4.23.4.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}name}{53}{subsubsection.4.23.4.7}
+\contentsline {subsubsection}{\numberline {4.23.4.8}hf\discretionary {-}{}{}\_\discretionary {-}{}{}resume}{53}{subsubsection.4.23.4.8}
+\contentsline {subsubsection}{\numberline {4.23.4.9}hf\discretionary {-}{}{}\_\discretionary {-}{}{}selfid}{54}{subsubsection.4.23.4.9}
+\contentsline {subsubsection}{\numberline {4.23.4.10}hf\discretionary {-}{}{}\_\discretionary {-}{}{}selfname}{54}{subsubsection.4.23.4.10}
+\contentsline {subsubsection}{\numberline {4.23.4.11}hf\discretionary {-}{}{}\_\discretionary {-}{}{}spawn}{54}{subsubsection.4.23.4.11}
+\contentsline {subsubsection}{\numberline {4.23.4.12}hf\discretionary {-}{}{}\_\discretionary {-}{}{}state}{54}{subsubsection.4.23.4.12}
+\contentsline {subsubsection}{\numberline {4.23.4.13}hf\discretionary {-}{}{}\_\discretionary {-}{}{}yield}{55}{subsubsection.4.23.4.13}
+\contentsline {section}{\numberline {4.24}sys/lib/kprintf.c File Reference}{55}{section.4.24}
+\contentsline {subsection}{\numberline {4.24.1}Detailed Description}{55}{subsection.4.24.1}
+\contentsline {subsection}{\numberline {4.24.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{55}{subsection.4.24.2}
+\contentsline {subsection}{\numberline {4.24.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{55}{subsection.4.24.3}
+\contentsline {subsection}{\numberline {4.24.4}Function Documentation}{55}{subsection.4.24.4}
+\contentsline {subsubsection}{\numberline {4.24.4.1}dprintf}{55}{subsubsection.4.24.4.1}
+\contentsline {subsubsection}{\numberline {4.24.4.2}kprintf}{56}{subsubsection.4.24.4.2}
+\contentsline {section}{\numberline {4.25}sys/lib/list.c File Reference}{56}{section.4.25}
+\contentsline {subsection}{\numberline {4.25.1}Detailed Description}{56}{subsection.4.25.1}
+\contentsline {subsection}{\numberline {4.25.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{56}{subsection.4.25.2}
+\contentsline {subsection}{\numberline {4.25.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{57}{subsection.4.25.3}
+\contentsline {subsection}{\numberline {4.25.4}Function Documentation}{57}{subsection.4.25.4}
+\contentsline {subsubsection}{\numberline {4.25.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}append}{57}{subsubsection.4.25.4.1}
+\contentsline {subsubsection}{\numberline {4.25.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}count}{57}{subsubsection.4.25.4.2}
+\contentsline {subsubsection}{\numberline {4.25.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}get}{57}{subsubsection.4.25.4.3}
+\contentsline {subsubsection}{\numberline {4.25.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}init}{57}{subsubsection.4.25.4.4}
+\contentsline {subsubsection}{\numberline {4.25.4.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}insert}{58}{subsubsection.4.25.4.5}
+\contentsline {subsubsection}{\numberline {4.25.4.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}remove}{58}{subsubsection.4.25.4.6}
+\contentsline {subsubsection}{\numberline {4.25.4.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}list\discretionary {-}{}{}\_\discretionary {-}{}{}set}{58}{subsubsection.4.25.4.7}
+\contentsline {section}{\numberline {4.26}sys/lib/malloc.c File Reference}{58}{section.4.26}
+\contentsline {subsection}{\numberline {4.26.1}Function Documentation}{58}{subsection.4.26.1}
+\contentsline {subsubsection}{\numberline {4.26.1.1}heapinit}{59}{subsubsection.4.26.1.1}
+\contentsline {subsubsection}{\numberline {4.26.1.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}calloc}{59}{subsubsection.4.26.1.2}
+\contentsline {subsubsection}{\numberline {4.26.1.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}free}{59}{subsubsection.4.26.1.3}
+\contentsline {subsubsection}{\numberline {4.26.1.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}malloc}{59}{subsubsection.4.26.1.4}
+\contentsline {subsubsection}{\numberline {4.26.1.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}realloc}{59}{subsubsection.4.26.1.5}
+\contentsline {section}{\numberline {4.27}sys/lib/queue.c File Reference}{59}{section.4.27}
+\contentsline {subsection}{\numberline {4.27.1}Detailed Description}{59}{subsection.4.27.1}
+\contentsline {subsection}{\numberline {4.27.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{59}{subsection.4.27.2}
+\contentsline {subsection}{\numberline {4.27.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{59}{subsection.4.27.3}
+\contentsline {subsection}{\numberline {4.27.4}Function Documentation}{60}{subsection.4.27.4}
+\contentsline {subsubsection}{\numberline {4.27.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}addtail}{60}{subsubsection.4.27.4.1}
+\contentsline {subsubsection}{\numberline {4.27.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}count}{60}{subsubsection.4.27.4.2}
+\contentsline {subsubsection}{\numberline {4.27.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}create}{60}{subsubsection.4.27.4.3}
+\contentsline {subsubsection}{\numberline {4.27.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}destroy}{60}{subsubsection.4.27.4.4}
+\contentsline {subsubsection}{\numberline {4.27.4.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}get}{61}{subsubsection.4.27.4.5}
+\contentsline {subsubsection}{\numberline {4.27.4.6}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}remhead}{61}{subsubsection.4.27.4.6}
+\contentsline {subsubsection}{\numberline {4.27.4.7}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}remtail}{61}{subsubsection.4.27.4.7}
+\contentsline {subsubsection}{\numberline {4.27.4.8}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}set}{61}{subsubsection.4.27.4.8}
+\contentsline {subsubsection}{\numberline {4.27.4.9}hf\discretionary {-}{}{}\_\discretionary {-}{}{}queue\discretionary {-}{}{}\_\discretionary {-}{}{}swap}{62}{subsubsection.4.27.4.9}
+\contentsline {section}{\numberline {4.28}sys/sync/condvar.c File Reference}{62}{section.4.28}
+\contentsline {subsection}{\numberline {4.28.1}Detailed Description}{62}{subsection.4.28.1}
+\contentsline {subsection}{\numberline {4.28.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{62}{subsection.4.28.2}
+\contentsline {subsection}{\numberline {4.28.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{62}{subsection.4.28.3}
+\contentsline {subsection}{\numberline {4.28.4}Function Documentation}{63}{subsection.4.28.4}
+\contentsline {subsubsection}{\numberline {4.28.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condbroadcast}{63}{subsubsection.4.28.4.1}
+\contentsline {subsubsection}{\numberline {4.28.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}conddestroy}{63}{subsubsection.4.28.4.2}
+\contentsline {subsubsection}{\numberline {4.28.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condinit}{63}{subsubsection.4.28.4.3}
+\contentsline {subsubsection}{\numberline {4.28.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condsignal}{63}{subsubsection.4.28.4.4}
+\contentsline {subsubsection}{\numberline {4.28.4.5}hf\discretionary {-}{}{}\_\discretionary {-}{}{}condwait}{63}{subsubsection.4.28.4.5}
+\contentsline {section}{\numberline {4.29}sys/sync/mutex.c File Reference}{64}{section.4.29}
+\contentsline {subsection}{\numberline {4.29.1}Detailed Description}{64}{subsection.4.29.1}
+\contentsline {subsection}{\numberline {4.29.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{64}{subsection.4.29.2}
+\contentsline {subsection}{\numberline {4.29.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{64}{subsection.4.29.3}
+\contentsline {subsection}{\numberline {4.29.4}Function Documentation}{64}{subsection.4.29.4}
+\contentsline {subsubsection}{\numberline {4.29.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mtxinit}{64}{subsubsection.4.29.4.1}
+\contentsline {subsubsection}{\numberline {4.29.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mtxlock}{64}{subsubsection.4.29.4.2}
+\contentsline {subsubsection}{\numberline {4.29.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}mtxunlock}{65}{subsubsection.4.29.4.3}
+\contentsline {section}{\numberline {4.30}sys/sync/semaphore.c File Reference}{65}{section.4.30}
+\contentsline {subsection}{\numberline {4.30.1}Detailed Description}{65}{subsection.4.30.1}
+\contentsline {subsection}{\numberline {4.30.2}L\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}S\discretionary {-}{}{}E}{65}{subsection.4.30.2}
+\contentsline {subsection}{\numberline {4.30.3}D\discretionary {-}{}{}E\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}R\discretionary {-}{}{}I\discretionary {-}{}{}P\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}O\discretionary {-}{}{}N}{65}{subsection.4.30.3}
+\contentsline {subsection}{\numberline {4.30.4}Function Documentation}{65}{subsection.4.30.4}
+\contentsline {subsubsection}{\numberline {4.30.4.1}hf\discretionary {-}{}{}\_\discretionary {-}{}{}semdestroy}{65}{subsubsection.4.30.4.1}
+\contentsline {subsubsection}{\numberline {4.30.4.2}hf\discretionary {-}{}{}\_\discretionary {-}{}{}seminit}{66}{subsubsection.4.30.4.2}
+\contentsline {subsubsection}{\numberline {4.30.4.3}hf\discretionary {-}{}{}\_\discretionary {-}{}{}sempost}{66}{subsubsection.4.30.4.3}
+\contentsline {subsubsection}{\numberline {4.30.4.4}hf\discretionary {-}{}{}\_\discretionary {-}{}{}semwait}{66}{subsubsection.4.30.4.4}

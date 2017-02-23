@@ -1,0 +1,123 @@
+\hypertarget{malloc_8h}{\section{sys/include/malloc.h File Reference}
+\label{malloc_8h}\index{sys/include/malloc.\-h@{sys/include/malloc.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmem__chunk}{mem\-\_\-chunk}
+\item 
+struct \hyperlink{structmem__chunk__ptr}{mem\-\_\-chunk\-\_\-ptr}
+\item 
+union \hyperlink{unionmem__header__union}{mem\-\_\-header\-\_\-union}
+\item 
+struct \hyperlink{structmem__block}{mem\-\_\-block}
+\item 
+struct \hyperlink{structmem__block}{mem\-\_\-block}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef uint32\-\_\-t \hyperlink{malloc_8h_a1e0a98b5055eebe08414396335357f7f}{align}
+\item 
+typedef union \hyperlink{unionmem__header__union}{mem\-\_\-header\-\_\-union} \hyperlink{malloc_8h_ad8bdff511104114b0e7c484a8c3a12da}{mem\-\_\-header\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{malloc_8h_a334388848d841c4edf747ba9b0bcde1c}{hf\-\_\-free} (void $\ast$ptr)
+\item 
+void $\ast$ \hyperlink{malloc_8h_a76e17b5b58bda253bdcc219e94c4cb85}{hf\-\_\-malloc} (uint32\-\_\-t size)
+\item 
+void \hyperlink{malloc_8h_a34b4d885d812bb4a7d4250916b515c4f}{heapinit} (void $\ast$heap, uint32\-\_\-t len)
+\item 
+void $\ast$ \hyperlink{malloc_8h_a3fd97f63ebdc40cdfa17a5197876a818}{hf\-\_\-calloc} (uint32\-\_\-t qty, uint32\-\_\-t type\-\_\-size)
+\item 
+void $\ast$ \hyperlink{malloc_8h_a697a0f25f18a0134b2aa1535e96fffdd}{hf\-\_\-realloc} (void $\ast$ptr, uint32\-\_\-t size)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structmem__chunk__ptr}{mem\-\_\-chunk\-\_\-ptr} \hyperlink{malloc_8h_a3aa03a56699687f10ab0616b944da63c}{krnl\-\_\-heap\-\_\-ptr}
+\item 
+struct \hyperlink{structmem__block}{mem\-\_\-block} $\ast$ \hyperlink{malloc_8h_aa64804be91ff6cd2e915eef95dc128a9}{ff}
+\item 
+struct \hyperlink{structmem__block}{mem\-\_\-block} $\ast$ \hyperlink{malloc_8h_ae6fde9baebf46e4214fcb52aa5585c14}{first\-\_\-free}
+\item 
+struct \hyperlink{structmem__block}{mem\-\_\-block} $\ast$ \hyperlink{malloc_8h_a3829077e902eb522f218740e29204159}{last\-\_\-free}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+February 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Data structures of several memory allocators. 
+
+\subsection{Typedef Documentation}
+\hypertarget{malloc_8h_a1e0a98b5055eebe08414396335357f7f}{\index{malloc.\-h@{malloc.\-h}!align@{align}}
+\index{align@{align}!malloc.h@{malloc.\-h}}
+\subsubsection[{align}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint32\-\_\-t {\bf align}}}\label{malloc_8h_a1e0a98b5055eebe08414396335357f7f}
+\hypertarget{malloc_8h_ad8bdff511104114b0e7c484a8c3a12da}{\index{malloc.\-h@{malloc.\-h}!mem\-\_\-header\-\_\-t@{mem\-\_\-header\-\_\-t}}
+\index{mem\-\_\-header\-\_\-t@{mem\-\_\-header\-\_\-t}!malloc.h@{malloc.\-h}}
+\subsubsection[{mem\-\_\-header\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef union {\bf mem\-\_\-header\-\_\-union} {\bf mem\-\_\-header\-\_\-t}}}\label{malloc_8h_ad8bdff511104114b0e7c484a8c3a12da}
+
+
+\subsection{Function Documentation}
+\hypertarget{malloc_8h_a34b4d885d812bb4a7d4250916b515c4f}{\index{malloc.\-h@{malloc.\-h}!heapinit@{heapinit}}
+\index{heapinit@{heapinit}!malloc.h@{malloc.\-h}}
+\subsubsection[{heapinit}]{\setlength{\rightskip}{0pt plus 5cm}void heapinit (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{heap, }
+\item[{uint32\-\_\-t}]{len}
+\end{DoxyParamCaption}
+)}}\label{malloc_8h_a34b4d885d812bb4a7d4250916b515c4f}
+\hypertarget{malloc_8h_a3fd97f63ebdc40cdfa17a5197876a818}{\index{malloc.\-h@{malloc.\-h}!hf\-\_\-calloc@{hf\-\_\-calloc}}
+\index{hf\-\_\-calloc@{hf\-\_\-calloc}!malloc.h@{malloc.\-h}}
+\subsubsection[{hf\-\_\-calloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-calloc (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{qty, }
+\item[{uint32\-\_\-t}]{type\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{malloc_8h_a3fd97f63ebdc40cdfa17a5197876a818}
+\hypertarget{malloc_8h_a334388848d841c4edf747ba9b0bcde1c}{\index{malloc.\-h@{malloc.\-h}!hf\-\_\-free@{hf\-\_\-free}}
+\index{hf\-\_\-free@{hf\-\_\-free}!malloc.h@{malloc.\-h}}
+\subsubsection[{hf\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-free (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{malloc_8h_a334388848d841c4edf747ba9b0bcde1c}
+\hypertarget{malloc_8h_a76e17b5b58bda253bdcc219e94c4cb85}{\index{malloc.\-h@{malloc.\-h}!hf\-\_\-malloc@{hf\-\_\-malloc}}
+\index{hf\-\_\-malloc@{hf\-\_\-malloc}!malloc.h@{malloc.\-h}}
+\subsubsection[{hf\-\_\-malloc}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ hf\-\_\-malloc (
+\begin{DoxyParamCaption}
+\item[{uint32\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{malloc_8h_a76e17b5b58bda253bdcc219e94c4cb85}
+\hypertarget{malloc_8h_a697a0f25f18a0134b2aa1535e96fffdd}{\index{malloc.\-h@{malloc.\-h}!hf\-\_\-realloc@{hf\-\_\-realloc}}
+\index{hf\-\_\-realloc@{hf\-\_\-realloc}!malloc.h@{malloc.\-h}}
+\subsubsection[{hf\-\_\-realloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-realloc (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ptr, }
+\item[{uint32\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{malloc_8h_a697a0f25f18a0134b2aa1535e96fffdd}
+
+
+\subsection{Variable Documentation}
+\hypertarget{malloc_8h_aa64804be91ff6cd2e915eef95dc128a9}{\index{malloc.\-h@{malloc.\-h}!ff@{ff}}
+\index{ff@{ff}!malloc.h@{malloc.\-h}}
+\subsubsection[{ff}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf mem\-\_\-block}$\ast$ ff}}\label{malloc_8h_aa64804be91ff6cd2e915eef95dc128a9}
+\hypertarget{malloc_8h_ae6fde9baebf46e4214fcb52aa5585c14}{\index{malloc.\-h@{malloc.\-h}!first\-\_\-free@{first\-\_\-free}}
+\index{first\-\_\-free@{first\-\_\-free}!malloc.h@{malloc.\-h}}
+\subsubsection[{first\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf mem\-\_\-block}$\ast$ first\-\_\-free}}\label{malloc_8h_ae6fde9baebf46e4214fcb52aa5585c14}
+\hypertarget{malloc_8h_a3aa03a56699687f10ab0616b944da63c}{\index{malloc.\-h@{malloc.\-h}!krnl\-\_\-heap\-\_\-ptr@{krnl\-\_\-heap\-\_\-ptr}}
+\index{krnl\-\_\-heap\-\_\-ptr@{krnl\-\_\-heap\-\_\-ptr}!malloc.h@{malloc.\-h}}
+\subsubsection[{krnl\-\_\-heap\-\_\-ptr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mem\-\_\-chunk\-\_\-ptr} krnl\-\_\-heap\-\_\-ptr}}\label{malloc_8h_a3aa03a56699687f10ab0616b944da63c}
+\hypertarget{malloc_8h_a3829077e902eb522f218740e29204159}{\index{malloc.\-h@{malloc.\-h}!last\-\_\-free@{last\-\_\-free}}
+\index{last\-\_\-free@{last\-\_\-free}!malloc.h@{malloc.\-h}}
+\subsubsection[{last\-\_\-free}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf mem\-\_\-block}$\ast$ last\-\_\-free}}\label{malloc_8h_a3829077e902eb522f218740e29204159}

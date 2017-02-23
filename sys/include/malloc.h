@@ -62,6 +62,9 @@ struct mem_block {
 	struct mem_block *next;		/* pointer to the next block */
 	size_t size;			/* aligned block size. the LSB is used to define if the block is used */
 };
+
+struct mem_block *first_free;
+struct mem_block *last_free;
 #endif
 
 void hf_free(void *ptr);

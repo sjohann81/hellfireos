@@ -39,6 +39,7 @@ void panic(int32_t cause)
 	case PANIC_ABORTED:		kprintf("execution aborted"); break;
 	case PANIC_GPF:			kprintf("general protection fault"); break;
 	case PANIC_STACK_OVERFLOW:	kprintf("stack overflow"); break;
+	case PANIC_STACK_CORRUPT:	kprintf("stack is corrupted"); break;
 	case PANIC_NO_TASKS_LEFT:	kprintf("no more tasks left to dispatch"); break;
 	case PANIC_OOM:			kprintf("out of memory"); break;
 	case PANIC_NO_TASKS_RUN:	kprintf("no tasks on run queue"); break;
@@ -53,5 +54,6 @@ void panic(int32_t cause)
 	default:			kprintf("unknown error"); break;
 	}
 	printf(" -> system halted.\n");
+	_panic();
 	for(;;);
 }

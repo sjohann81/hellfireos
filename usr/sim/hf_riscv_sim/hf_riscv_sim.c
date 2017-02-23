@@ -135,7 +135,8 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 		case COMPARE2:		s->compare2 = value; s->cause &= 0xffdf; return;
 		case EXIT_TRAP:
 			fflush(stdout);
-			fclose(fptr);
+			if (log_enabled)
+				fclose(fptr);
 			printf("\nend of simulation - %d cycles.\n", s->counter);
 			exit(0);
 		case DEBUG_ADDR:

@@ -18,6 +18,7 @@ void sender(void)
 				if (val) printf("sender, hf_sendack(): error %d\n", val);
 			}
 		}
+		delay_ms(10);
 	}
 }
 
@@ -55,6 +56,7 @@ void sender2(void)
 				if (val) printf("sender2, hf_sendack(): error %d\n", val);
 			}
 		}
+		delay_ms(10);
 	}
 }
 

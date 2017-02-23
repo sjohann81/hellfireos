@@ -150,6 +150,59 @@ int32_t hf_dlm(uint16_t id){
 }
 
 /**
+ * @brief Set the priority of a best effort task.
+ * 
+ * @param id is a task id number.
+ * @param priority is the task priority ([1 .. 29] - critical, [30 .. 99] - system, [100 .. 255] - application)
+ * 
+ * @return ERR_OK if the task exists and is a best effort one or ERR_INVALID_ID otherwise.
+ */
+int32_t hf_priorityset(uint16_t id, uint8_t priority)
+{
+	struct tcb_entry *krnl_task2;
+	
+#if KERNEL_LOG == 2
+	dprintf("hf_priorityset() %d ", (uint32_t)_read_us());
+#endif
+	if (id < MAX_TASKS){
+		krnl_task2 = &krnl_tcb[id];
+		if (krnl_task2->ptask){
+			if (krnl_task2->period == 0){
+				krnl_task2->priority = priority;
+				krnl_task2->priority_rem = priority;
+				
+				return ERR_OK;
+			}
+		}
+	}
+	return ERR_INVALID_ID;
+}
+
+/**
+ * @brief Get the priority of a best effort task.
+ * 
+ * @param id is a task id number.
+ * 
+ * @return task priority if the task exists and is a best effort one or ERR_INVALID_ID otherwise.
+ */
+int32_t hf_priorityget(uint16_t id)
+{
+	struct tcb_entry *krnl_task2;
+	
+#if KERNEL_LOG == 2
+	dprintf("hf_priorityget() %d ", (uint32_t)_read_us());
+#endif
+	if (id < MAX_TASKS){
+		krnl_task2 = &krnl_tcb[id];
+		if (krnl_task2->ptask){
+			if (krnl_task2->period == 0)
+				return krnl_task2->priority;
+		}
+	}
+	return ERR_INVALID_ID;
+}
+
+/**
  * @brief Spawn a new task.
  * 
  * @param task is a pointer to a task function / body.
@@ -192,6 +245,8 @@ int32_t hf_spawn(void (*task)(), uint16_t period, uint16_t capacity, uint16_t de
 	krnl_task->id = i;
 	strncpy(krnl_task->name, name, sizeof(krnl_task->name));
 	krnl_task->state = TASK_IDLE;
+	krnl_task->priority = 100;
+	krnl_task->priority_rem = 100;
 	krnl_task->delay = 0;
 	krnl_task->period = period;
 	krnl_task->capacity = capacity;
@@ -206,8 +261,8 @@ int32_t hf_spawn(void (*task)(), uint16_t period, uint16_t capacity, uint16_t de
 	stack_size >>= 2;
 	stack_size <<= 2;
 	krnl_task->stack_size = stack_size;
-	krnl_task->pstack = (int32_t *)hf_malloc(stack_size);
-	_set_task_sp(krnl_task->id, (uint32_t)krnl_task->pstack + (stack_size - 4));
+	krnl_task->pstack = (size_t *)hf_malloc(stack_size);
+	_set_task_sp(krnl_task->id, (size_t)krnl_task->pstack + (stack_size - 4));
 	_set_task_tp(krnl_task->id, krnl_task->ptask);
 	if (krnl_task->pstack){
 		krnl_task->pstack[0] = STACK_MAGIC;
@@ -254,7 +309,7 @@ void hf_yield(void)
 	if (krnl_task->pstack[0] != STACK_MAGIC)
 		panic(PANIC_STACK_OVERFLOW);
 	if (krnl_tasks > 0){
-		krnl_current_task = sched_be();
+		krnl_current_task = krnl_pcb.sched_be();
 		krnl_task->state = TASK_RUNNING;
 		krnl_pcb.coop_cswitch++;
 #if KERNEL_LOG >= 1

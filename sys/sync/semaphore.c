@@ -82,7 +82,7 @@ void hf_semwait(sem_t *s)
 {
 	volatile uint32_t status;
 	struct tcb_entry *krnl_task2;
-
+	
 	status = _di();
 	s->count--;
 	if (s->count < 0){

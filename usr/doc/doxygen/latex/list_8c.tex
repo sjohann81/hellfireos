@@ -1,0 +1,183 @@
+\hypertarget{list_8c}{\section{sys/lib/list.c File Reference}
+\label{list_8c}\index{sys/lib/list.\-c@{sys/lib/list.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlist}{list} $\ast$ \hyperlink{list_8c_adc61b100e45d7a71b552e20790760058}{hf\-\_\-list\-\_\-init} (void)
+\begin{DoxyCompactList}\small\item\em Initializes a list. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{list_8c_adb6a717b7e22cc08e53c8f0a674361e2}{hf\-\_\-list\-\_\-append} (struct \hyperlink{structlist}{list} $\ast$lst, void $\ast$item)
+\begin{DoxyCompactList}\small\item\em Appends a new node to the end of the list. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{list_8c_a73048d95f99cc829eccf3082f4b0af4a}{hf\-\_\-list\-\_\-insert} (struct \hyperlink{structlist}{list} $\ast$lst, void $\ast$item, int32\-\_\-t pos)
+\begin{DoxyCompactList}\small\item\em Inserts a new node to an arbitrary position in a list. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{list_8c_a22fff8976e15b1e7c4dcb667889b974f}{hf\-\_\-list\-\_\-remove} (struct \hyperlink{structlist}{list} $\ast$lst, int32\-\_\-t pos)
+\begin{DoxyCompactList}\small\item\em Removes an arbitrary node from a list. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{list_8c_a93597c65dc9a897485e23c1b7a875398}{hf\-\_\-list\-\_\-get} (struct \hyperlink{structlist}{list} $\ast$lst, int32\-\_\-t pos)
+\begin{DoxyCompactList}\small\item\em Returns the address of the data belonging to a list node. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{list_8c_a73c50430abd373e654745a59473626db}{hf\-\_\-list\-\_\-set} (struct \hyperlink{structlist}{list} $\ast$lst, void $\ast$item, int32\-\_\-t pos)
+\begin{DoxyCompactList}\small\item\em Changes the address of the data belonging to a list node. \end{DoxyCompactList}\item 
+int32\-\_\-t \hyperlink{list_8c_a62678db8fc9dc1f964fef6858572333a}{hf\-\_\-list\-\_\-count} (struct \hyperlink{structlist}{list} $\ast$lst)
+\begin{DoxyCompactList}\small\item\em Returns the number of nodes in a list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+January 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+List manipulation primitives and auxiliary functions. List structures are allocated dynamically at runtime, which makes them very flexible. Memory is allocated / deallocated on demand, so additional memory management penalties are incurred. 
+
+\subsection{Function Documentation}
+\hypertarget{list_8c_adb6a717b7e22cc08e53c8f0a674361e2}{\index{list.\-c@{list.\-c}!hf\-\_\-list\-\_\-append@{hf\-\_\-list\-\_\-append}}
+\index{hf\-\_\-list\-\_\-append@{hf\-\_\-list\-\_\-append}!list.c@{list.\-c}}
+\subsubsection[{hf\-\_\-list\-\_\-append}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-list\-\_\-append (
+\begin{DoxyParamCaption}
+\item[{struct {\bf list} $\ast$}]{lst, }
+\item[{void $\ast$}]{item}
+\end{DoxyParamCaption}
+)}}\label{list_8c_adb6a717b7e22cc08e53c8f0a674361e2}
+
+
+Appends a new node to the end of the list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lst} & is a pointer to a list structure. \\
+\hline
+{\em item} & is a pointer to data belonging to the list node.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 when successful and -\/1 otherwise. 
+\end{DoxyReturn}
+\hypertarget{list_8c_a62678db8fc9dc1f964fef6858572333a}{\index{list.\-c@{list.\-c}!hf\-\_\-list\-\_\-count@{hf\-\_\-list\-\_\-count}}
+\index{hf\-\_\-list\-\_\-count@{hf\-\_\-list\-\_\-count}!list.c@{list.\-c}}
+\subsubsection[{hf\-\_\-list\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-list\-\_\-count (
+\begin{DoxyParamCaption}
+\item[{struct {\bf list} $\ast$}]{lst}
+\end{DoxyParamCaption}
+)}}\label{list_8c_a62678db8fc9dc1f964fef6858572333a}
+
+
+Returns the number of nodes in a list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lst} & is a pointer to a list structure.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of elements in the list. 
+\end{DoxyReturn}
+\hypertarget{list_8c_a93597c65dc9a897485e23c1b7a875398}{\index{list.\-c@{list.\-c}!hf\-\_\-list\-\_\-get@{hf\-\_\-list\-\_\-get}}
+\index{hf\-\_\-list\-\_\-get@{hf\-\_\-list\-\_\-get}!list.c@{list.\-c}}
+\subsubsection[{hf\-\_\-list\-\_\-get}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-list\-\_\-get (
+\begin{DoxyParamCaption}
+\item[{struct {\bf list} $\ast$}]{lst, }
+\item[{int32\-\_\-t}]{pos}
+\end{DoxyParamCaption}
+)}}\label{list_8c_a93597c65dc9a897485e23c1b7a875398}
+
+
+Returns the address of the data belonging to a list node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lst} & is a pointer to a list structure. \\
+\hline
+{\em pos} & is the n-\/th element position in the list.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 when the element is not found and the address to data otherwise. 
+\end{DoxyReturn}
+\hypertarget{list_8c_adc61b100e45d7a71b552e20790760058}{\index{list.\-c@{list.\-c}!hf\-\_\-list\-\_\-init@{hf\-\_\-list\-\_\-init}}
+\index{hf\-\_\-list\-\_\-init@{hf\-\_\-list\-\_\-init}!list.c@{list.\-c}}
+\subsubsection[{hf\-\_\-list\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf list}$\ast$ hf\-\_\-list\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [read]}}}\label{list_8c_adc61b100e45d7a71b552e20790760058}
+
+
+Initializes a list. 
+
+\begin{DoxyReturn}{Returns}
+a pointer to a list structure. 
+\end{DoxyReturn}
+\hypertarget{list_8c_a73048d95f99cc829eccf3082f4b0af4a}{\index{list.\-c@{list.\-c}!hf\-\_\-list\-\_\-insert@{hf\-\_\-list\-\_\-insert}}
+\index{hf\-\_\-list\-\_\-insert@{hf\-\_\-list\-\_\-insert}!list.c@{list.\-c}}
+\subsubsection[{hf\-\_\-list\-\_\-insert}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-list\-\_\-insert (
+\begin{DoxyParamCaption}
+\item[{struct {\bf list} $\ast$}]{lst, }
+\item[{void $\ast$}]{item, }
+\item[{int32\-\_\-t}]{pos}
+\end{DoxyParamCaption}
+)}}\label{list_8c_a73048d95f99cc829eccf3082f4b0af4a}
+
+
+Inserts a new node to an arbitrary position in a list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lst} & is a pointer to a list structure. \\
+\hline
+{\em item} & is a pointer to data belonging to the list node. \\
+\hline
+{\em pos} & is the n-\/th element position in the list.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 when successful and -\/1 otherwise. 
+\end{DoxyReturn}
+\hypertarget{list_8c_a22fff8976e15b1e7c4dcb667889b974f}{\index{list.\-c@{list.\-c}!hf\-\_\-list\-\_\-remove@{hf\-\_\-list\-\_\-remove}}
+\index{hf\-\_\-list\-\_\-remove@{hf\-\_\-list\-\_\-remove}!list.c@{list.\-c}}
+\subsubsection[{hf\-\_\-list\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-list\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{struct {\bf list} $\ast$}]{lst, }
+\item[{int32\-\_\-t}]{pos}
+\end{DoxyParamCaption}
+)}}\label{list_8c_a22fff8976e15b1e7c4dcb667889b974f}
+
+
+Removes an arbitrary node from a list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lst} & is a pointer to a list structure. \\
+\hline
+{\em pos} & is the n-\/th element position in the list.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 when successful and -\/1 otherwise. 
+\end{DoxyReturn}
+\hypertarget{list_8c_a73c50430abd373e654745a59473626db}{\index{list.\-c@{list.\-c}!hf\-\_\-list\-\_\-set@{hf\-\_\-list\-\_\-set}}
+\index{hf\-\_\-list\-\_\-set@{hf\-\_\-list\-\_\-set}!list.c@{list.\-c}}
+\subsubsection[{hf\-\_\-list\-\_\-set}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t hf\-\_\-list\-\_\-set (
+\begin{DoxyParamCaption}
+\item[{struct {\bf list} $\ast$}]{lst, }
+\item[{void $\ast$}]{item, }
+\item[{int32\-\_\-t}]{pos}
+\end{DoxyParamCaption}
+)}}\label{list_8c_a73c50430abd373e654745a59473626db}
+
+
+Changes the address of the data belonging to a list node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lst} & is a pointer to a list structure. \\
+\hline
+{\em item} & is an address to data belonging to the list node. \\
+\hline
+{\em pos} & is the n-\/th element position in the list.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/1 when the element is not found and 0 if the element was updated. 
+\end{DoxyReturn}

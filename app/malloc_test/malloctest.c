@@ -663,7 +663,7 @@ void thread2(void)
 			}
 			menu = 0;
 		}
-		printf("malloctest: ");
+		printf("malloctest thread %d: ", hf_selfid());
 		tn = 6;
 		if (tn < 0) {
 			break;
@@ -688,6 +688,8 @@ void app_main(void){
 	if (i == 1){	
 		hf_spawn(thread, 0, 0, 0, "memtest", 2048);
 	}else{
+		hf_spawn(thread2, 0, 0, 0, "memtest", 2048);
+		hf_spawn(thread2, 0, 0, 0, "memtest", 2048);
 		hf_spawn(thread2, 0, 0, 0, "memtest", 2048);
 		hf_spawn(thread2, 0, 0, 0, "memtest", 2048);
 		hf_spawn(thread2, 0, 0, 0, "memtest", 2048);

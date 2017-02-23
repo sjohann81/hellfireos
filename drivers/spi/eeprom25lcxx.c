@@ -12,9 +12,11 @@
  */
 
 #include <hellfire.h>
+#include <spi.h>
 #include <eeprom25lcxx.h>
 
-uint8_t spi_eeprom_readbyte(uint16_t addr){
+uint8_t eeprom25lcxx_readbyte(uint16_t addr)
+{
 	uint8_t data;
 	
 	spi_start();
@@ -27,8 +29,8 @@ uint8_t spi_eeprom_readbyte(uint16_t addr){
 	return data;
 }
 
-void spi_eeprom_read(uint16_t addr, uint8_t *buf, uint16_t size){
-	uint8_t data;
+void eeprom25lcxx_read(uint16_t addr, uint8_t *buf, uint16_t size)
+{
 	uint16_t i;
 	
 	spi_start();
@@ -40,7 +42,8 @@ void spi_eeprom_read(uint16_t addr, uint8_t *buf, uint16_t size){
 	spi_stop();
 }
 
-void spi_eeprom_writepage(uint16_t page, uint8_t *data){
+void eeprom25lcxx_writepage(uint16_t page, uint8_t *data)
+{
 	uint16_t i;
 	
 	spi_start();

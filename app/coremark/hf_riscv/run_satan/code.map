@@ -1,0 +1,379 @@
+
+Discarded input sections
+
+ .data          0x0000000000000000        0x0 crt0v.o
+ .bss           0x0000000000000000        0x0 crt0v.o
+ .text          0x0000000000000000        0x0 core_list_join.o
+ .data          0x0000000000000000        0x0 core_list_join.o
+ .bss           0x0000000000000000        0x0 core_list_join.o
+ .text.copy_info
+                0x0000000000000000       0x14 core_list_join.o
+ .text.core_list_insert_new
+                0x0000000000000000       0x64 core_list_join.o
+ .text.core_list_remove
+                0x0000000000000000       0x2c core_list_join.o
+ .text.core_list_undo_remove
+                0x0000000000000000       0x20 core_list_join.o
+ .text.core_list_reverse
+                0x0000000000000000       0x24 core_list_join.o
+ .text          0x0000000000000000        0x0 core_main.o
+ .data          0x0000000000000000        0x0 core_main.o
+ .bss           0x0000000000000000        0x0 core_main.o
+ .data.mem_name
+                0x0000000000000000        0xc core_main.o
+ .text          0x0000000000000000        0x0 core_matrix.o
+ .data          0x0000000000000000        0x0 core_matrix.o
+ .bss           0x0000000000000000        0x0 core_matrix.o
+ .text.matrix_sum
+                0x0000000000000000       0x84 core_matrix.o
+ .text.matrix_mul_const
+                0x0000000000000000       0xb0 core_matrix.o
+ .text.matrix_add_const
+                0x0000000000000000       0x38 core_matrix.o
+ .text          0x0000000000000000        0x0 core_state.o
+ .data          0x0000000000000000        0x0 core_state.o
+ .bss           0x0000000000000000        0x0 core_state.o
+ .text          0x0000000000000000        0x0 core_util.o
+ .data          0x0000000000000000        0x0 core_util.o
+ .bss           0x0000000000000000        0x0 core_util.o
+ .text.crcu8    0x0000000000000000       0x68 core_util.o
+ .text          0x0000000000000000        0x0 libc.o
+ .data          0x0000000000000000        0x0 libc.o
+ .bss           0x0000000000000000        0x0 libc.o
+ .text.__udivmoddi4.part.1
+                0x0000000000000000       0xe0 libc.o
+ .text.uart_init
+                0x0000000000000000       0x3c libc.o
+ .text.delay_ms
+                0x0000000000000000      0x11c libc.o
+ .text.delay_us
+                0x0000000000000000      0x10c libc.o
+ .text.interrupt_register
+                0x0000000000000000       0x34 libc.o
+ .text.putchar  0x0000000000000000       0x1c libc.o
+ .text.kbhit    0x0000000000000000       0x10 libc.o
+ .text.getchar  0x0000000000000000       0x1c libc.o
+ .text.strcpy   0x0000000000000000       0x1c libc.o
+ .text.strncpy  0x0000000000000000       0x68 libc.o
+ .text.strcat   0x0000000000000000       0x38 libc.o
+ .text.strncat  0x0000000000000000       0x58 libc.o
+ .text.strcmp   0x0000000000000000       0x2c libc.o
+ .text.strncmp  0x0000000000000000       0x34 libc.o
+ .text.strstr   0x0000000000000000       0x68 libc.o
+ .text.strlen   0x0000000000000000       0x2c libc.o
+ .text.strchr   0x0000000000000000       0x24 libc.o
+ .text.strpbrk  0x0000000000000000       0x2c libc.o
+ .text.strsep   0x0000000000000000       0x68 libc.o
+ .text.strtok   0x0000000000000000       0x98 libc.o
+ .text.memcpy   0x0000000000000000       0x24 libc.o
+ .text.memmove  0x0000000000000000       0x50 libc.o
+ .text.memcmp   0x0000000000000000       0x50 libc.o
+ .text.memset   0x0000000000000000       0x20 libc.o
+ .text.strtol   0x0000000000000000      0x118 libc.o
+ .text.atoi     0x0000000000000000       0xb8 libc.o
+ .text.itoa     0x0000000000000000       0xfc libc.o
+ .text.puts     0x0000000000000000       0x50 libc.o
+ .text.gets     0x0000000000000000       0x48 libc.o
+ .text.abs      0x0000000000000000       0x10 libc.o
+ .text.random   0x0000000000000000       0x50 libc.o
+ .text.srand    0x0000000000000000        0xc libc.o
+ .text.sprintf  0x0000000000000000       0x48 libc.o
+ .text.__muldsi3
+                0x0000000000000000       0xe4 libc.o
+ .text.__muldi3
+                0x0000000000000000       0xac libc.o
+ .text.__udivmodsi4
+                0x0000000000000000       0x70 libc.o
+ .text.__divsi3
+                0x0000000000000000       0x80 libc.o
+ .text.__modsi3
+                0x0000000000000000       0x70 libc.o
+ .text.__ashldi3
+                0x0000000000000000       0x38 libc.o
+ .text.__ashrdi3
+                0x0000000000000000       0x2c libc.o
+ .text.__lshrdi3
+                0x0000000000000000       0x38 libc.o
+ .text.__udivmoddi4
+                0x0000000000000000       0x38 libc.o
+ .text.__umoddi3
+                0x0000000000000000       0x30 libc.o
+ .text.__udivdi3
+                0x0000000000000000       0x3c libc.o
+ .text.__moddi3
+                0x0000000000000000       0x9c libc.o
+ .text.__divdi3
+                0x0000000000000000       0x90 libc.o
+ .sdata.rand1   0x0000000000000000        0x4 libc.o
+ .sbss.last.1253
+                0x0000000000000000        0x4 libc.o
+ .text          0x0000000000000000        0x0 core_portme.o
+ .data          0x0000000000000000        0x0 core_portme.o
+ .bss           0x0000000000000000        0x0 core_portme.o
+ .text.barebones_clock
+                0x0000000000000000        0xc core_portme.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x0000000000000000 0x0000000010000000
+ram              0x0000000040000000 0x0000000010000000
+ram_top          0x000000004ffffc00 0x0000000000000400
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x000000004ffffffc                _stack = 0x4ffffffc
+                0x0000000000000000                . = 0x0
+
+.text           0x0000000040000000     0x2ac8
+ *(.text.init)
+                0x0000000040000000                _text = .
+ *(.text)
+ .text          0x0000000040000000      0x24c crt0v.o
+                0x0000000040000000                _entry
+                0x0000000040000100                _isr
+ *(.text.*)
+ .text.cmp_idx  0x000000004000024c       0x5c core_list_join.o
+                0x000000004000024c                cmp_idx
+ .text.calc_func
+                0x00000000400002a8      0x10c core_list_join.o
+                0x00000000400002a8                calc_func
+ .text.cmp_complex
+                0x00000000400003b4       0x50 core_list_join.o
+                0x00000000400003b4                cmp_complex
+ .text.core_list_find
+                0x0000000040000404       0x70 core_list_join.o
+                0x0000000040000404                core_list_find
+ .text.core_list_mergesort
+                0x0000000040000474      0x148 core_list_join.o
+                0x0000000040000474                core_list_mergesort
+ .text.core_bench_list
+                0x00000000400005bc      0x268 core_list_join.o
+                0x00000000400005bc                core_bench_list
+ .text.core_list_init
+                0x0000000040000824      0x190 core_list_join.o
+                0x0000000040000824                core_list_init
+ .text.iterate  0x00000000400009b4       0x94 core_main.o
+                0x00000000400009b4                iterate
+ .text.startup.main
+                0x0000000040000a48      0x81c core_main.o
+                0x0000000040000a48                main
+ .text.core_init_matrix
+                0x0000000040001264      0x1c0 core_matrix.o
+                0x0000000040001264                core_init_matrix
+ .text.matrix_mul_vect
+                0x0000000040001424       0xb4 core_matrix.o
+                0x0000000040001424                matrix_mul_vect
+ .text.matrix_mul_matrix
+                0x00000000400014d8       0xf4 core_matrix.o
+                0x00000000400014d8                matrix_mul_matrix
+ .text.matrix_mul_matrix_bitextract
+                0x00000000400015cc      0x108 core_matrix.o
+                0x00000000400015cc                matrix_mul_matrix_bitextract
+ .text.matrix_test
+                0x00000000400016d4      0x410 core_matrix.o
+                0x00000000400016d4                matrix_test
+ .text.core_bench_matrix
+                0x0000000040001ae4       0x3c core_matrix.o
+                0x0000000040001ae4                core_bench_matrix
+ .text.core_init_state
+                0x0000000040001b20      0x158 core_state.o
+                0x0000000040001b20                core_init_state
+ .text.core_state_transition
+                0x0000000040001c78      0x35c core_state.o
+                0x0000000040001c78                core_state_transition
+ .text.core_bench_state
+                0x0000000040001fd4      0x1dc core_state.o
+                0x0000000040001fd4                core_bench_state
+ .text.get_seed_32
+                0x00000000400021b0       0x64 core_util.o
+                0x00000000400021b0                get_seed_32
+ .text.crcu16   0x0000000040002214       0xd0 core_util.o
+                0x0000000040002214                crcu16
+ .text.crcu32   0x00000000400022e4       0x34 core_util.o
+                0x00000000400022e4                crcu32
+ .text.crc16    0x0000000040002318        0xc core_util.o
+                0x0000000040002318                crc16
+ .text.check_data_types
+                0x0000000040002324        0x8 core_util.o
+                0x0000000040002324                check_data_types
+ .text.printchar.part.0
+                0x000000004000232c       0x1c libc.o
+ .text.prints   0x0000000040002348      0x17c libc.o
+ .text.printi   0x00000000400024c4      0x190 libc.o
+ .text.print    0x0000000040002654      0x268 libc.o
+ .text.interrupt_handler
+                0x00000000400028bc       0x60 libc.o
+                0x00000000400028bc                interrupt_handler
+ .text.exception_handler
+                0x000000004000291c        0x4 libc.o
+                0x000000004000291c                exception_handler
+ .text.printf   0x0000000040002920       0x48 libc.o
+                0x0000000040002920                printf
+ .text.__mulsi3
+                0x0000000040002968       0x30 libc.o
+                0x0000000040002968                __mulsi3
+ .text.__udivsi3
+                0x0000000040002998       0x68 libc.o
+                0x0000000040002998                __udivsi3
+ .text.__umodsi3
+                0x0000000040002a00       0x54 libc.o
+                0x0000000040002a00                __umodsi3
+ .text.start_time
+                0x0000000040002a54       0x14 core_portme.o
+                0x0000000040002a54                start_time
+ .text.stop_time
+                0x0000000040002a68       0x14 core_portme.o
+                0x0000000040002a68                stop_time
+ .text.get_time
+                0x0000000040002a7c       0x18 core_portme.o
+                0x0000000040002a7c                get_time
+ .text.time_in_secs
+                0x0000000040002a94       0x20 core_portme.o
+                0x0000000040002a94                time_in_secs
+ .text.portable_init
+                0x0000000040002ab4        0xc core_portme.o
+                0x0000000040002ab4                portable_init
+ .text.portable_fini
+                0x0000000040002ac0        0x8 core_portme.o
+                0x0000000040002ac0                portable_fini
+                0x0000000040002ac8                _etext = .
+
+.rodata         0x0000000040002ac8      0x6cc
+                0x0000000040002ac8                _rodata = .
+ *(.rdata)
+ *(.rodata)
+ *(.rodata.*)
+ .rodata.list_known_crc
+                0x0000000040002ac8        0xa core_main.o
+ *fill*         0x0000000040002ad2        0x2 
+ .rodata.matrix_known_crc
+                0x0000000040002ad4        0xa core_main.o
+ *fill*         0x0000000040002ade        0x2 
+ .rodata.str1.4
+                0x0000000040002ae0      0x53a core_main.o
+ *fill*         0x000000004000301a        0x2 
+ .rodata.state_known_crc
+                0x000000004000301c        0xa core_main.o
+ *fill*         0x0000000040003026        0x2 
+ .rodata.core_init_state
+                0x0000000040003028       0x14 core_state.o
+ .rodata.intpat
+                0x000000004000303c       0x10 core_state.o
+ .rodata.floatpat
+                0x000000004000304c       0x10 core_state.o
+ .rodata.str1.4
+                0x000000004000305c       0xad core_state.o
+ *fill*         0x0000000040003109        0x3 
+ .rodata.scipat
+                0x000000004000310c       0x10 core_state.o
+ .rodata.errpat
+                0x000000004000311c       0x10 core_state.o
+ .rodata.get_seed_32
+                0x000000004000312c       0x18 core_util.o
+ .rodata.str1.4
+                0x0000000040003144       0x50 libc.o
+                0x0000000040003194                _erodata = .
+
+.rela.dyn       0x0000000040003194        0x0
+ .rela.text     0x0000000040003194        0x0 crt0v.o
+ .rela.text.calc_func
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.core_bench_list
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.core_list_init
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.iterate
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.startup.main
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.core_init_matrix
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.matrix_mul_const
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.matrix_mul_vect
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.matrix_mul_matrix
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.matrix_mul_matrix_bitextract
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.matrix_test
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.core_bench_matrix
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.core_bench_state
+                0x0000000040003194        0x0 crt0v.o
+ .rela.text.get_seed_32
+                0x0000000040003194        0x0 crt0v.o
+
+.data           0x0000000040003194        0xc
+                0x0000000040003194                _data = .
+ *(.data)
+ *(.data.*)
+ *(.srodata*)
+                0x00000000400031a0                . = ALIGN (0x10)
+ *fill*         0x0000000040003194        0xc 
+                0x000000004000b190                _gp = (. + 0x7ff0)
+                0x00000000400031a0                _edata = .
+
+.sdata.seed3_volatile
+                0x00000000400031a0        0x4
+ .sdata.seed3_volatile
+                0x00000000400031a0        0x4 core_portme.o
+                0x00000000400031a0                seed3_volatile
+
+.sdata.default_num_contexts
+                0x00000000400031a4        0x4
+ .sdata.default_num_contexts
+                0x00000000400031a4        0x4 core_portme.o
+                0x00000000400031a4                default_num_contexts
+
+.sdata.seed4_volatile
+                0x00000000400031a8        0x4
+ .sdata.seed4_volatile
+                0x00000000400031a8        0x4 core_portme.o
+                0x00000000400031a8                seed4_volatile
+
+.bss            0x00000000400031ac       0x94
+                0x00000000400031ac                _bss_start = .
+ *(.sbss)
+ *(.sbss.*)
+ .sbss.seed1_volatile
+                0x00000000400031ac        0x4 core_portme.o
+                0x00000000400031ac                seed1_volatile
+ .sbss.seed5_volatile
+                0x00000000400031b0        0x4 core_portme.o
+                0x00000000400031b0                seed5_volatile
+ .sbss.stop_time_val
+                0x00000000400031b4        0x4 core_portme.o
+ .sbss.seed2_volatile
+                0x00000000400031b8        0x4 core_portme.o
+                0x00000000400031b8                seed2_volatile
+ .sbss.start_time_val
+                0x00000000400031bc        0x4 core_portme.o
+ *(.bss)
+ *(.bss.*)
+ .bss.isr       0x00000000400031c0       0x80 libc.o
+                0x0000000040003240                . = ALIGN (0x4)
+                0x0000000040003240                _bss_end = .
+                0x0000000040003240                _end = .
+LOAD crt0v.o
+LOAD core_list_join.o
+LOAD core_main.o
+LOAD core_matrix.o
+LOAD core_state.o
+LOAD core_util.o
+LOAD libc.o
+LOAD core_portme.o
+OUTPUT(test.axf elf32-littleriscv)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 core_list_join.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 core_main.o
+ .comment       0x0000000000000011       0x12 core_matrix.o
+ .comment       0x0000000000000011       0x12 core_state.o
+ .comment       0x0000000000000011       0x12 core_util.o
+ .comment       0x0000000000000011       0x12 libc.o
+ .comment       0x0000000000000011       0x12 core_portme.o

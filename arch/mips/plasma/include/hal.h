@@ -14,6 +14,11 @@ typedef void				(*funcptr)();
 #define _di()				_interrupt_set(0)
 #define _ei(S)				_interrupt_set(S)
 
+/* configure, read and write board pins */
+#define _port_setup(a, opts)		*(volatile uint32_t *)(a) = (opts)
+#define _port_read(a)			(*(volatile uint32_t *)(a))
+#define _port_write(a, v)		*(volatile uint32_t *)(a) = (v)
+
 #define MemoryRead(A)			(*(volatile unsigned int*)(A))
 #define MemoryWrite(A,V)		*(volatile unsigned int*)(A)=(V)
 
@@ -63,6 +68,9 @@ void dputchar(int32_t value);
 /* hardware dependent stuff */
 void delay_ms(uint32_t msec);
 void delay_us(uint32_t usec);
+void led_set(uint16_t led, uint8_t val);
+uint8_t button_get(uint16_t btn);
+uint8_t switch_get(uint16_t sw);
 
 /* hardware dependent basic kernel stuff */
 void _hardware_init(void);
@@ -72,16 +80,12 @@ void _sched_init(void);
 void _timer_init(void);
 void _irq_init(void);
 void _device_init(void);
-void _set_task_sp(uint16_t task, uint32_t stack);
-uint32_t _get_task_sp(uint16_t task);
+void _set_task_sp(uint16_t task, size_t stack);
+size_t _get_task_sp(uint16_t task);
 void _set_task_tp(uint16_t task, void (*entry)());
 void *_get_task_tp(uint16_t task);
 void _timer_reset(void);
 void _cpu_idle(void);
 uint32_t _readcounter(void);
 uint64_t _read_us(void);
-
-void _restoreexec(context env, int32_t val, int32_t ctask);
-void _irq_handler(uint32_t cause, uint32_t *stack);
-void _except_handler(uint32_t epc, uint32_t opcode);
-void _irq_register(uint32_t mask, funcptr ptr);
+void _panic(void);

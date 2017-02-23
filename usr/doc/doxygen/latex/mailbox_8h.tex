@@ -1,0 +1,63 @@
+\hypertarget{mailbox_8h}{\section{sys/include/mailbox.h File Reference}
+\label{mailbox_8h}\index{sys/include/mailbox.\-h@{sys/include/mailbox.\-h}}
+}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmailbox}{mailbox}
+\begin{DoxyCompactList}\small\item\em Mailbox data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structmailbox}{mailbox} \hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{mailbox_8h_a1c4f9a442c0ae595230138059ffcb67c}{hf\-\_\-mboxinit} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox, uint16\-\_\-t n\-\_\-waiting\-\_\-tasks)
+\item 
+void \hyperlink{mailbox_8h_a452e61854cdbbbbd62d42195c0eb6b40}{hf\-\_\-mboxsend} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox, void $\ast$msg)
+\item 
+void $\ast$ \hyperlink{mailbox_8h_a11db5966202c25f628538dcbbbc44314}{hf\-\_\-mboxrecv} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox)
+\item 
+void $\ast$ \hyperlink{mailbox_8h_a3979e9de53c982b4bd24f177f109e107}{hf\-\_\-mboxaccept} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{\index{mailbox.\-h@{mailbox.\-h}!mail\-\_\-t@{mail\-\_\-t}}
+\index{mail\-\_\-t@{mail\-\_\-t}!mailbox.h@{mailbox.\-h}}
+\subsubsection[{mail\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf mailbox} {\bf mail\-\_\-t}}}\label{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}
+mailbox type definition 
+
+\subsection{Function Documentation}
+\hypertarget{mailbox_8h_a3979e9de53c982b4bd24f177f109e107}{\index{mailbox.\-h@{mailbox.\-h}!hf\-\_\-mboxaccept@{hf\-\_\-mboxaccept}}
+\index{hf\-\_\-mboxaccept@{hf\-\_\-mboxaccept}!mailbox.h@{mailbox.\-h}}
+\subsubsection[{hf\-\_\-mboxaccept}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-mboxaccept (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8h_a3979e9de53c982b4bd24f177f109e107}
+\hypertarget{mailbox_8h_a1c4f9a442c0ae595230138059ffcb67c}{\index{mailbox.\-h@{mailbox.\-h}!hf\-\_\-mboxinit@{hf\-\_\-mboxinit}}
+\index{hf\-\_\-mboxinit@{hf\-\_\-mboxinit}!mailbox.h@{mailbox.\-h}}
+\subsubsection[{hf\-\_\-mboxinit}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mboxinit (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox, }
+\item[{uint16\-\_\-t}]{n\-\_\-waiting\-\_\-tasks}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8h_a1c4f9a442c0ae595230138059ffcb67c}
+\hypertarget{mailbox_8h_a11db5966202c25f628538dcbbbc44314}{\index{mailbox.\-h@{mailbox.\-h}!hf\-\_\-mboxrecv@{hf\-\_\-mboxrecv}}
+\index{hf\-\_\-mboxrecv@{hf\-\_\-mboxrecv}!mailbox.h@{mailbox.\-h}}
+\subsubsection[{hf\-\_\-mboxrecv}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-mboxrecv (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8h_a11db5966202c25f628538dcbbbc44314}
+\hypertarget{mailbox_8h_a452e61854cdbbbbd62d42195c0eb6b40}{\index{mailbox.\-h@{mailbox.\-h}!hf\-\_\-mboxsend@{hf\-\_\-mboxsend}}
+\index{hf\-\_\-mboxsend@{hf\-\_\-mboxsend}!mailbox.h@{mailbox.\-h}}
+\subsubsection[{hf\-\_\-mboxsend}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mboxsend (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox, }
+\item[{void $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8h_a452e61854cdbbbbd62d42195c0eb6b40}

@@ -1,0 +1,60 @@
+\hypertarget{structmailbox}{\section{mailbox Struct Reference}
+\label{structmailbox}\index{mailbox@{mailbox}}
+}
+
+
+Mailbox data structure.  
+
+
+
+
+{\ttfamily \#include $<$mailbox.\-h$>$}
+
+
+
+Collaboration diagram for mailbox\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{structmailbox__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{structmailbox_a2568c0b3f722bca8beb8e85824806258}{msg}
+\item 
+uint16\-\_\-t \hyperlink{structmailbox_a7d31234908ebf91baf3dfbc8507f823e}{n\-\_\-waiting\-\_\-tasks}
+\item 
+uint16\-\_\-t \hyperlink{structmailbox_ae99432557a6663a6e7b43b27b4448c9c}{count}
+\item 
+\hyperlink{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{sem\-\_\-t} \hyperlink{structmailbox_a061152c5d6eb8b70f1056c385c6cce73}{msend}
+\item 
+\hyperlink{semaphore_8h_ad7630848c81d49708045a351922eb6b5}{sem\-\_\-t} \hyperlink{structmailbox_aab51b97fffcc79e7398d8fadd8b0d3cb}{mrecv}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Mailbox data structure. 
+
+\subsection{Field Documentation}
+\hypertarget{structmailbox_ae99432557a6663a6e7b43b27b4448c9c}{\index{mailbox@{mailbox}!count@{count}}
+\index{count@{count}!mailbox@{mailbox}}
+\subsubsection[{count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t mailbox\-::count}}\label{structmailbox_ae99432557a6663a6e7b43b27b4448c9c}
+number of elements on the mailbox \hypertarget{structmailbox_aab51b97fffcc79e7398d8fadd8b0d3cb}{\index{mailbox@{mailbox}!mrecv@{mrecv}}
+\index{mrecv@{mrecv}!mailbox@{mailbox}}
+\subsubsection[{mrecv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sem\-\_\-t} mailbox\-::mrecv}}\label{structmailbox_aab51b97fffcc79e7398d8fadd8b0d3cb}
+synchronization semaphore for mail receive \hypertarget{structmailbox_a061152c5d6eb8b70f1056c385c6cce73}{\index{mailbox@{mailbox}!msend@{msend}}
+\index{msend@{msend}!mailbox@{mailbox}}
+\subsubsection[{msend}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sem\-\_\-t} mailbox\-::msend}}\label{structmailbox_a061152c5d6eb8b70f1056c385c6cce73}
+synchronization semaphore for mail send \hypertarget{structmailbox_a2568c0b3f722bca8beb8e85824806258}{\index{mailbox@{mailbox}!msg@{msg}}
+\index{msg@{msg}!mailbox@{mailbox}}
+\subsubsection[{msg}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ mailbox\-::msg}}\label{structmailbox_a2568c0b3f722bca8beb8e85824806258}
+pointer to a message buffer \hypertarget{structmailbox_a7d31234908ebf91baf3dfbc8507f823e}{\index{mailbox@{mailbox}!n\-\_\-waiting\-\_\-tasks@{n\-\_\-waiting\-\_\-tasks}}
+\index{n\-\_\-waiting\-\_\-tasks@{n\-\_\-waiting\-\_\-tasks}!mailbox@{mailbox}}
+\subsubsection[{n\-\_\-waiting\-\_\-tasks}]{\setlength{\rightskip}{0pt plus 5cm}uint16\-\_\-t mailbox\-::n\-\_\-waiting\-\_\-tasks}}\label{structmailbox_a7d31234908ebf91baf3dfbc8507f823e}
+number of waiting tasks in the mailbox 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+sys/include/\hyperlink{mailbox_8h}{mailbox.\-h}\end{DoxyCompactItemize}

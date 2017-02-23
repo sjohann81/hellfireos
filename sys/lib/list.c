@@ -125,6 +125,7 @@ int32_t hf_list_remove(struct list *lst, int32_t pos)
 		}
 		t2 = t1;
 	}
+	
 	return -1;
 }
 
@@ -146,6 +147,7 @@ void *hf_list_get(struct list *lst, int32_t pos)
 		if (i++ == pos)
 			return (void *)t1->elem;
 	}
+	
 	return 0;
 }
 
@@ -170,6 +172,7 @@ int32_t hf_list_set(struct list *lst, void *item, int32_t pos)
 			return 0;
 		}
 	}
+	
 	return -1;
 }
 

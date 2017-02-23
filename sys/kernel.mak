@@ -1,4 +1,4 @@
-KERNEL_VER = v2.00
+KERNEL_VER = v2.16.12
 
 kernel:
 	$(CC) $(CFLAGS) \

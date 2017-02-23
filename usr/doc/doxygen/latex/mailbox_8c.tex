@@ -1,0 +1,105 @@
+\hypertarget{mailbox_8c}{\section{sys/ipc/mailbox.c File Reference}
+\label{mailbox_8c}\index{sys/ipc/mailbox.\-c@{sys/ipc/mailbox.\-c}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{mailbox_8c_a1c4f9a442c0ae595230138059ffcb67c}{hf\-\_\-mboxinit} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox, uint16\-\_\-t n\-\_\-waiting\-\_\-tasks)
+\begin{DoxyCompactList}\small\item\em Initializes a mailbox. \end{DoxyCompactList}\item 
+void \hyperlink{mailbox_8c_a452e61854cdbbbbd62d42195c0eb6b40}{hf\-\_\-mboxsend} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox, void $\ast$msg)
+\begin{DoxyCompactList}\small\item\em Posts a message on a mailbox. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{mailbox_8c_a11db5966202c25f628538dcbbbc44314}{hf\-\_\-mboxrecv} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox)
+\begin{DoxyCompactList}\small\item\em Gets a message from a mailbox. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{mailbox_8c_a3979e9de53c982b4bd24f177f109e107}{hf\-\_\-mboxaccept} (\hyperlink{mailbox_8h_ad26a2ac8eb9492434988388e39bdef27}{mail\-\_\-t} $\ast$mbox)
+\begin{DoxyCompactList}\small\item\em Tries to gets a message from a mailbox. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Sergio Johann Filho 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+January 2016
+\end{DoxyDate}
+\hypertarget{semaphore_8c_LICENSE}{}\subsection{L\-I\-C\-E\-N\-S\-E}\label{semaphore_8c_LICENSE}
+This source code is licensed under the G\-N\-U General Public License, Version 2. See the file 'doc/license/gpl-\/2.\-0.\-txt' for more details.\hypertarget{semaphore_8c_DESCRIPTION}{}\subsection{D\-E\-S\-C\-R\-I\-P\-T\-I\-O\-N}\label{semaphore_8c_DESCRIPTION}
+Mailbox I\-P\-C primitives. 
+
+\subsection{Function Documentation}
+\hypertarget{mailbox_8c_a3979e9de53c982b4bd24f177f109e107}{\index{mailbox.\-c@{mailbox.\-c}!hf\-\_\-mboxaccept@{hf\-\_\-mboxaccept}}
+\index{hf\-\_\-mboxaccept@{hf\-\_\-mboxaccept}!mailbox.c@{mailbox.\-c}}
+\subsubsection[{hf\-\_\-mboxaccept}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-mboxaccept (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8c_a3979e9de53c982b4bd24f177f109e107}
+
+
+Tries to gets a message from a mailbox. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mbox} & is a pointer to a mailbox structure.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to a message buffer.
+\end{DoxyReturn}
+This is the non-\/blocking version of \hyperlink{mailbox_8h_a11db5966202c25f628538dcbbbc44314}{hf\-\_\-mboxrecv()}; \hypertarget{mailbox_8c_a1c4f9a442c0ae595230138059ffcb67c}{\index{mailbox.\-c@{mailbox.\-c}!hf\-\_\-mboxinit@{hf\-\_\-mboxinit}}
+\index{hf\-\_\-mboxinit@{hf\-\_\-mboxinit}!mailbox.c@{mailbox.\-c}}
+\subsubsection[{hf\-\_\-mboxinit}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mboxinit (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox, }
+\item[{uint16\-\_\-t}]{n\-\_\-waiting\-\_\-tasks}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8c_a1c4f9a442c0ae595230138059ffcb67c}
+
+
+Initializes a mailbox. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mbox} & is a pointer to a mailbox structure. \\
+\hline
+{\em n\-\_\-waiting\-\_\-tasks} & is the number of tasks that will wait for messages on the mailbox. \\
+\hline
+\end{DoxyParams}
+\hypertarget{mailbox_8c_a11db5966202c25f628538dcbbbc44314}{\index{mailbox.\-c@{mailbox.\-c}!hf\-\_\-mboxrecv@{hf\-\_\-mboxrecv}}
+\index{hf\-\_\-mboxrecv@{hf\-\_\-mboxrecv}!mailbox.c@{mailbox.\-c}}
+\subsubsection[{hf\-\_\-mboxrecv}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hf\-\_\-mboxrecv (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8c_a11db5966202c25f628538dcbbbc44314}
+
+
+Gets a message from a mailbox. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mbox} & is a pointer to a mailbox structure.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to a message buffer.
+\end{DoxyReturn}
+A message is received and the counter controlling the number of messages left in this mailbox is decremented. If the count reaches zero, it is reinitialized. \hypertarget{mailbox_8c_a452e61854cdbbbbd62d42195c0eb6b40}{\index{mailbox.\-c@{mailbox.\-c}!hf\-\_\-mboxsend@{hf\-\_\-mboxsend}}
+\index{hf\-\_\-mboxsend@{hf\-\_\-mboxsend}!mailbox.c@{mailbox.\-c}}
+\subsubsection[{hf\-\_\-mboxsend}]{\setlength{\rightskip}{0pt plus 5cm}void hf\-\_\-mboxsend (
+\begin{DoxyParamCaption}
+\item[{{\bf mail\-\_\-t} $\ast$}]{mbox, }
+\item[{void $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{mailbox_8c_a452e61854cdbbbbd62d42195c0eb6b40}
+
+
+Posts a message on a mailbox. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mbox} & is a pointer to a mailbox structure. \\
+\hline
+{\em msg} & is a pointer to a message buffer.\\
+\hline
+\end{DoxyParams}
+The number of messages sent depends on the number of waiting tasks in the mailbox. 
