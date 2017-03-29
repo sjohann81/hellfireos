@@ -1,0 +1,203 @@
+micro hellfire file system (uhfs) and driver implementation
+===========================================================
+
+features:
+-simple and fast, table based.
+-generic for different types of media (including RAM!)
+-file names upto 39 chars, only '/' and NULL chars are forbidden.
+-accurate time (~7.8 ms precision)
+-extended date (> 32000 years, starting from zero)
+
+interface:
+
+application ---------------> hellfs ----------------> low level generic block i/o (generic) -------------------> device driver (specific)
+               hf_open()               hf_dev_read()                                           sd_read()
+               hf_read()               hf_dev_write()                                          sd_write()
+               hf_write()              hf_dev_ioctl()                                          hdd_read()
+               hf_close()                                                                      generic_read()
+               ...                                                                             ...
+
+(low level generic i/o interface)
+struct device {
+	int32_t (*dev_open)(uint32_t flags);
+	int32_t (*dev_read)(void *buf, uint32_t size);
+	int32_t (*dev_write)(void *buf, uint32_t size);
+	int32_t (*dev_ioctl)(uint32_t request, void *pval);
+};
+
+int32_t hf_dev_open(struct device *dev, uint32_t flags);
+int32_t hf_dev_read(struct device *dev, void *buf, uint32_t size);
+int32_t hf_dev_write(struct device *dev, void *buf, uint32_t size);
+int32_t hf_dev_ioctl(struct device *dev, uint32_t request, void *pval);
+
+[uhfs interface]
+
+(volume management)
+int32_t hf_mkfs(struct device *dev, uint16_t blk_size) - create a file system
+int32_t hf_mount(struct device *dev) - mount and register a file system
+int32_t hf_umount(struct device *dev) - unmount a file system
+int32_t hf_getfree(struct device *dev) - get free space on the volume
+int32_t hf_getlabel(struct device *dev, int8_t *label) - get volume label
+int32_t hf_setlabel(struct device *dev, int8_t *label) - set volume label
+
+(directory / file management)
+int32_t hf_mkdir(struct device *dev, int8_t *path) - create a sub-directory
+struct file * hf_opendir(struct device *dev, int8_t *path) - open a directory
+int32_t hf_closedir(struct file *desc) - close an open directory
+int32_t hf_readdir(struct file *desc, struct fs_direntry *entry) - read a directory item (entry)
+
+int64_t hf_size(struct device *dev, int8_t *path)
+int32_t hf_unlink(struct device *dev, int8_t *path) - remove a file or sub-directory
+int32_t hf_rename(struct device *dev, int8_t *path, int8_t *newname) - rename a file or sub-directory
+int32_t hf_chmod(struct device *dev, int8_t *path, int8_t mode) - change attributes
+int32_t hf_touch(struct device *dev, int8_t *path, struct date *ndate, struct time *ntime) - change timestamp
+
+(file operations)
+struct file * hf_fopen(struct device *dev, int8_t *path, int8_t *mode) - open/create a file
+		"r" 	Open the file for reading.
+		"w" 	Open the file for writing.
+		"a" 	Open the file to append data to the end of the file.
+		"w+" 	Open the file for both reading and writing. The file will be truncated to zero length when it is opened.
+		"a+" 	Open the file for both appending data to the end of the file and for reading.
+		"r+" 	Open the file for both reading and writing. 
+int32_t hf_fclose(struct file *desc) - close an open file
+size_t hf_fread(void *buf, int32_t isize, size_t items, struct file *desc) - read from a file
+size_t hf_fwrite(void *buf, int32_t isize, size_t items, struct file *desc) - write to a file
+int32_t hf_fseek(struct file *desc, int64_t offset, int32_t whence) - reposition read/write pointer
+int64_t hf_ftell(struct file *desc) - get current read/write pointer
+int32_t hf_feof(struct file *desc) - test for end-of-file on a file
+
+----------------------------------------------------------------------------------------------------
+block (cluster) size:		4096 bytes (default)
+data is always manipulated using block units (multiple sector read/writes)!
+
+super block entry (64 bytes):
+
+struct superblock {
+	uint32_t signature;
+	int8_t oem_id[16];
+	uint32_t block_size;
+	uint32_t n_blocks;
+	int8_t volume_label[16];
+	struct date vdate;
+	struct time vtime;
+	uint32_t first_cmb;
+	uint32_t root_dir_block;
+	uint32_t metadata_block;
+};
+
+struct date {
+	uint32_t day : 5;			/* range 1 - 31 */
+	uint32_t month : 4;			/* range 1 - 12 */
+	uint32_t year : 15;			/* range 0 - 32767 */
+	uint32_t reserved : 8;
+};
+
+struct time {
+	uint32_t millisecond : 7;		/* precision is 0.0078125 seconds */
+	uint32_t second : 6;			/* range 0 - 59 */
+	uint32_t minute : 6;			/* range 0 - 59 */
+	uint32_t hour : 5;			/* range 0 - 23 */
+	uint32_t reserved : 8;
+};
+
+filesystem structure (cluster map blocks are scattered all over the disk - they are kept near its own data blocks):
+-the super block is special. struct superblock is filled and put at the beginning of the block (the rest is zeroed).
+-the first root directory block (created along with the file system) is normally block 2, but may be anywhere. 
+-the number of blocks per storage region depends on the number of entries per cluster map block. 
+   *1024 blocks per region when block size is 4096 bytes (typical).
+   *256 blocks per region when block size is 1024 bytes (typical).
+   *32 blocks per region when block size is 128 bytes (minimum).
+   *16384 blocks per region when block size is 65536 (maximum).
+
+|-----------------|
+|   super block   | 1 block
+|                 |
+|-----------------|                                           --|
+|   cluster map   | 1 block                                     |
+|     block       |                                             |
+|-----------------|                                             | 1 storage region
+|                 |                                             |
+|   data blocks   | N-1 blocks (N is the number of entries      |
+|                 | on the cluster map block. first entry       |
+|                 | points to the next cluster map block        |
+       ...                                       ...          --|
+|-----------------| (second and following group of blocks)
+|   cluster map   | 1 block
+|     block       |
+|-----------------|
+|                 |
+|   data blocks   | N-1 blocks (N is the number of entries
+|                 | on the cluster map block. first entry
+|                 | points to the next cluster map block
+       ...                                       ...
+
+[super block][1st cluter map blk][       1023 data blocks          ][2nd cluster map blk][       1023 data blocks          ] ...
+                         |              1 storage region (1024 blocks)         |
+
+cluster map structure:
+-each cluster map block is an array of 32 bit entries (1024 entries, if block size is 4096 bytes) which defines physically the contents of the blocks in the disk. so, the cluster map blocks are a representation of the chained contents of the disk, including directory and data block chains (other directories, additional root directory or subdirectory blocks and files). the number of cluster map blocks is given by: disk size / block size / number of entries per cluster map block.
+-the first entry (0) of the cluster map block is special - it points to the next cluster map block.
+
+cluster map entry values:
+
+normal:
+0x00000000 - 0xffffffef -> data block (pointer to the next block)
+
+special:
+0xfffffff0 - 0xfffffffb	-> reserved
+0xfffffffc		-> fixed / not allocatable
+0xfffffffd		-> invalid (dead block)
+0xfffffffe              -> last block in the chain (end of file or end of chain of cluster map blocks)
+0xffffffff              -> unused (free) block
+
+directory implementation:
+-there should always be a root directory!
+-check the current directory for a repeated name before creating a sub-directory or file, and abort if this is the case. if there are already 64k dir entries in this level, abort.
+-when creating a sub-directory, a block is allocated and filled with empty directory entries. when creating files in this sub-directory, find the first empty dir entry in the chain (which may be on the first block or another one. the directory is just a file, so we have to search the cluster map blocks for additional blocks. if needed (not empty entries and end of file) allocate an additional block. when deleting a file or subdirectory, remove file blocks in the chain on the cluster map THEN the dir entry. if it is a subdir, check if it is empty first. if the directory entries in this directory block are all empty and this is not the first block, remove this block from the chain - the directory chain should be walked and updated on the cluster map (special attention if this block is not the first block AND there are other blocks with additional entries in the chain).
+
+directory entry structure (64 bytes per entry):
+
+struct dir_entry{
+	int8_t		filename[39];		/* all bytes except / and NULL (used to describe an empty dir entry on filename[0] or as a fill for unused bytes). */
+	uint8_t		attributes;
+	date_t		date;
+	time_t		time;
+	uint32_t	metadata_block;		/* block containing metadata for this file (future use) */
+	uint32_t	first_block;		/* the number of the first data block */
+	uint64_t	size;
+};
+
+file attribute word of a directory entry:
+0x01(0000 0001) - directory
+0x02(0000 0010) - reserved
+0x04(0000 0100) - reserved
+0x08(0000 1000) - reserved
+0x10(0001 0000) - execute
+0x20(0010 0000) - write
+0x40(0100 0000) - read
+0x80(1000 0000) - deleted / free entry
+
+     0   =   no permissions
+     1   =   execute only
+     2   =   write only
+     3   =   write and execute (1+2)
+     4   =   read only
+     5   =   read and execute (4+1)
+     6   =   read and write (4+2)
+     7   =   read and write and execute (4+2+1)
+
+creating a new file:
+-check the current directory for a repeated name before creating a file, and abort if this is the case. if there are already 64k dir entries in this level, abort.
+-find first free entry in directory and write file name. if needed, allocate a new block of dir entries. search the cluster map blocks (always from the start (default) or use a hash (todo!)) for a free block and mark it as EOF. write that block's address into directory entry.
+
+writing to a file:
+-check if the file is empty (size zero and not allocated a cluster).
+-if not, find out if the write address (seek) is inside the allocated block area (data can be stored on the same block). if it is, update data and update the dir entry (size) if needed.
+-if empty file or more blocks needed (append data) - find an unallocated cluster entry, reset that value to EOF and reset previous cluster map block pointer (if there is one, if not update the first block on the dir entry) to this new block. find all entries needed (for this write transaction) and update the cluster map block entries (preallocate). *write data to all blocks*, following the cluster map chain. update the dir entry (size).
+
+deleting a file:
+-find the directory entry for the file to delete.
+-using starting block value found in the directory entry, set all cluster map entries in file's cluster chain to empty blocks (walk the cluster map).
+-deallocate the directory entry by overwriting first byte of the entry with zero (and others as well if you will).
+-additional steps should be performed regarding the directory entries maintenance (described earlier).
