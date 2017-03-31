@@ -352,6 +352,30 @@ void srand(uint32_t seed){
 	rand1 = seed;
 }
 
+int32_t hexdump(int8_t *buf, uint32_t size){
+	uint32_t k, l;
+	int8_t ch;
+	
+	for(k = 0; k < size; k += 16){
+		printf("\n%08x ", buf + k);
+		for(l = 0; l < 16; l++){
+			printf("%02x ", buf[k + l]);
+			if (l == 7) putchar(' ');
+		}
+		printf(" |");
+		for(l = 0; l < 16; l++){
+			ch = buf[k + l];
+			if ((ch >= 32) && (ch <= 126))
+				putchar(ch);
+			else
+				putchar('.');
+		}
+		putchar('|');
+	}
+	
+	return 0;
+}
+
 /*
 printf() and sprintf()
 */

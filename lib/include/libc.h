@@ -4,16 +4,37 @@
 constants, tests and transformations
 */
 #define NULL			((void *)0)
-#define isprint(c)		(' '<=(c)&&(c)<='~')
-#define isspace(c)		((c)==' '||(c)=='\t'||(c)=='\n'||(c)=='\r')
-#define isdigit(c)		('0'<=(c)&&(c)<='9')
-#define islower(c)		('a'<=(c)&&(c)<='z')
-#define isupper(c)		('A'<=(c)&&(c)<='Z')
-#define isalpha(c)		(islower(c)||isupper(c))
-#define isalnum(c)		(isalpha(c)||isdigit(c))
-#define min(a,b)		((a)<(b)?(a):(b))
-#define ntohs(A)		(((A)>>8) | (((A)&0xff)<<8))
-#define ntohl(A)		(((A)>>24) | (((A)&0xff0000)>>8) | (((A)&0xff00)<<8) | ((A)<<24))
+#define isprint(c)		(' '<=(c) && (c)<='~')
+#define isspace(c)		((c) == ' ' || (c) == '\t' || (c) == '\n' || (c) == '\r')
+#define isdigit(c)		('0' <= (c) && (c) <= '9')
+#define islower(c)		('a' <= (c) && (c) <= 'z')
+#define isupper(c)		('A' <= (c) && (c) <='Z')
+#define isalpha(c)		(islower(c) || isupper(c))
+#define isalnum(c)		(isalpha(c) || isdigit(c))
+#define min(a,b)		((a) < (b)?(a):(b))
+
+#if BIG_ENDIAN
+
+#define htons(n) (n)
+#define ntohs(n) (n)
+#define htonl(n) (n)
+#define ntohl(n) (n)
+
+#else
+
+#define htons(n) (((((uint16_t)(n) & 0xFF)) << 8) | (((uint16_t)(n) & 0xFF00) >> 8))
+#define ntohs(n) (((((uint16_t)(n) & 0xFF)) << 8) | (((uint16_t)(n) & 0xFF00) >> 8))
+
+#define htonl(n) (((((uint32_t)(n) & 0xFF)) << 24) | \
+                  ((((uint32_t)(n) & 0xFF00)) << 8) | \
+                  ((((uint32_t)(n) & 0xFF0000)) >> 8) | \
+                  ((((uint32_t)(n) & 0xFF000000)) >> 24))
+
+#define ntohl(n) (((((uint32_t)(n) & 0xFF)) << 24) | \
+                  ((((uint32_t)(n) & 0xFF00)) << 8) | \
+                  ((((uint32_t)(n) & 0xFF0000)) >> 8) | \
+                  ((((uint32_t)(n) & 0xFF000000)) >> 24))
+#endif
 
 /*
 custom C library
@@ -43,6 +64,7 @@ int8_t *gets(int8_t *s);
 int32_t abs(int32_t n);
 int32_t random(void);
 void srand(uint32_t seed);
+int32_t hexdump(int8_t *buf, uint32_t size);
 int32_t printf(const int8_t *fmt, ...);
 int32_t sprintf(int8_t *out, const int8_t *fmt, ...);
 void *malloc(size_t size);
