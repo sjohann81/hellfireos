@@ -7,6 +7,8 @@
 void app_main(void){
 	struct device ramdisk0 = {ramdisk_open, ramdisk_read, ramdisk_write, ramdisk_close, ramdisk_ioctl, 0};
 	struct blk_info ramdisk0info;
+	struct file *fptr;
+	struct fs_direntry direntry;
 	int8_t str[30];
 	
 	hf_dev_ioctl(&ramdisk0, DISK_INIT, (void *)50);
@@ -18,7 +20,7 @@ void app_main(void){
 	printf("\nfreeblks: %d, label: %s", hf_getfree(&ramdisk0), str);
 	
 	hf_mkdir(&ramdisk0, "/uhhh");
-/*	hf_mkdir(&ramdisk0, "/tchub");
+	hf_mkdir(&ramdisk0, "/tchub");
 	hf_mkdir(&ramdisk0, "/mu");
 	hf_mkdir(&ramdisk0, "/mu2");
 	hf_mkdir(&ramdisk0, "/mu3");
@@ -31,6 +33,7 @@ void app_main(void){
 	hf_mkdir(&ramdisk0, "/uhhh/olar/putchu");
 	hf_mkdir(&ramdisk0, "/uhhh/olar/putchu/33");
 	hf_mkdir(&ramdisk0, "/mu/oper");
+
 
 	hf_mkdir(&ramdisk0, "/mu5/1");
 	hf_mkdir(&ramdisk0, "/mu5/2");
@@ -46,7 +49,13 @@ void app_main(void){
 	
 	hf_mkdir(&ramdisk0, "/mu5/3/1/0");
 	hf_mkdir(&ramdisk0, "/mu5/3/5/666");
-*/
+
+	fptr = hf_opendir(&ramdisk0, "/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+	}
+
 	hf_umount(&ramdisk0);
 //	hf_dev_ioctl(&ramdisk0, DISK_FINISH, 0);
 }

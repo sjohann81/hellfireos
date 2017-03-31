@@ -16,29 +16,25 @@
 #define UHFS_APPEND	0x0008
 #define UHFS_SYNC	0x0010
 #define UHFS_NONBLOCK	0x0020
-#define UHFS_OPENDIR	0x8000
+#define UHFS_EOF	0x4000
+#define UHFS_OPENFILE	0x8000
 
 enum {
-	UHFS_E_OK		= 0,
-	UHFS_E_ERROR		= -2000,
-	UHFS_E_NOTMOUNTED	= -2001,
-	UHFS_E_ALREADYMOUNTED	= -2002,
-	UHFS_E_INVSECTORSIZE	= -2003,
-	UHFS_E_INVBLOCKSIZE	= -2004,
-	UHFS_E_NOFREEBLKS	= -2005,
-	UHFS_E_PATHNOTFOUND	= -2006,
-	UHFS_E_NOTADIR		= -2007,
-	UHFS_E_FILEEXISTS	= -2008
+	UHFS_EOK		= 0,
+	UHFS_EERROR		= -1000,
+	UHFS_ENOTMOUNTED	= -1001,
+	UHFS_EALREADYMOUNTED	= -1002,
+	UHFS_EINVSECTORSIZE	= -1003,
+	UHFS_EINVBLOCKSIZE	= -1004,
+	UHFS_ESTORAGEFULL	= -1005,
+	UHFS_EPATHNOTFOUND	= -1006,
+	UHFS_ENOTADIR		= -1007,
+	UHFS_ENOTAFILE		= -1008,
+	UHFS_EFILEEXISTS	= -1009,
+	UHFS_EFILENOTOPEN	= -1010,
+	UHFS_EDIRNOTEMPTY	= -1011
 };
  
-struct file {
-	int8_t *path;
-	int8_t mode;
-	int32_t flags;
-	uint32_t block;
-	int64_t offset;
-};
-
 struct fs_date {
 	uint32_t day : 5;			/* range 1 - 31 */
 	uint32_t month : 4;			/* range 1 - 12 */
@@ -93,6 +89,16 @@ struct fs_blkdevice {
 	union fs_datablock datablock;
 };
 
+struct file {
+	struct device *dev;
+	int8_t *path;
+	uint32_t first_block;
+	int8_t mode;
+	int32_t flags;
+	uint32_t block;
+	int64_t offset;
+};
+
 /* volume management */
 int32_t hf_mkfs(struct device *dev, uint32_t blk_size);
 int32_t hf_mount(struct device *dev);
@@ -106,6 +112,7 @@ int32_t hf_mkdir(struct device *dev, int8_t *path);
 struct file * hf_opendir(struct device *dev, int8_t *path);
 int32_t hf_closedir(struct file *desc);
 int32_t hf_readdir(struct file *desc, struct fs_direntry *entry);
+int32_t hf_rmdir(struct device *dev, int8_t *path);
 
 /* file management */
 int64_t hf_size(struct device *dev, int8_t *path);
