@@ -13,8 +13,9 @@ int32_t ramdisk_open(uint32_t flags)
 
 int32_t ramdisk_read(void *buf, uint32_t size)
 {
+#if RAMDISK_DEBUG == 1
 	kprintf("\nDEBUG: read() block %d", rampos);
-
+#endif
 	memcpy(buf, ramarena + rampos * ramdisk_info.bytes_sector, ramdisk_info.bytes_sector);
 	rampos++;
 
@@ -25,10 +26,10 @@ int32_t ramdisk_write(void *buf, uint32_t size)
 {
 	if ((rampos * ramdisk_info.bytes_sector + ramdisk_info.bytes_sector > lastpos + 1) || size < 1)
 		return -1;
-
+#if RAMDISK_DEBUG == 1
 	kprintf("\nDEBUG: write() block %d", rampos);
 	hexdump(buf, ramdisk_info.bytes_sector);
-
+#endif
 	memcpy(ramarena + rampos * ramdisk_info.bytes_sector, buf, ramdisk_info.bytes_sector);
 	rampos++;
 	

@@ -1,3 +1,5 @@
+#define UHFS_DEBUG	0
+
 #define UHFS_FIXDBLK	0xfffffffc		/* fixed / not allocatable */
 #define UHFS_DEADBLK	0xfffffffd		/* invalid (dead block) */
 #define UHFS_EOCHBLK	0xfffffffe		/* last block in the chain (end of file or end of chain of cluster map blocks) */
