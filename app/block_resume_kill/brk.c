@@ -1,12 +1,13 @@
 #include <hellfire.h>
 
 void task(void){
-	int32_t jobs;
+	int32_t jobs, id;
 	
+	id = hf_selfid();
 	for(;;){
-		jobs = krnl_task->jobs;
-		printf("\n%s (%d)[%d][%d]", krnl_task->name, krnl_task->id, krnl_task->jobs, krnl_task->deadline_misses);
-		while (jobs == krnl_task->jobs);
+		jobs = hf_jobs(id);
+		printf("\n%s (%d)[%d][%d]", hf_selfname(), id, hf_jobs(id), hf_dlm(id));
+		while (jobs == hf_jobs(id));
 	}
 }
 
@@ -15,25 +16,25 @@ void task2(void){
 	
 	for(;;){
 		printf("\nblocking task 2");
-		jobs = krnl_task->jobs;
+		jobs = hf_jobs(hf_selfid());
 		hf_block(2);
-		while (jobs == krnl_task->jobs);
+		while (jobs == hf_jobs(hf_selfid()));
 		delay_ms(100);
 		printf("\nunblocking task 2");
-		jobs = krnl_task->jobs;
+		jobs = hf_jobs(hf_selfid());
 		hf_resume(2);
-		while (jobs == krnl_task->jobs);
+		while (jobs == hf_jobs(hf_selfid()));
 		delay_ms(100);
 		printf("\nkilling task 2");
-		jobs = krnl_task->jobs;
+		jobs = hf_jobs(hf_selfid());
 		hf_kill(2);
-		while (jobs == krnl_task->jobs);
+		while (jobs == hf_jobs(hf_selfid()));
 		delay_ms(100);
 		printf("\nspawning task 2");
-		jobs = krnl_task->jobs;
+		jobs = hf_jobs(hf_selfid());
 		hf_spawn(task, 8, 2, 8, "task b", 2048);
 		hf_delay(2, 1000);
-		while (jobs == krnl_task->jobs);
+		while (jobs == hf_jobs(hf_selfid()));
 		printf("\nend of life");
 		hf_kill(hf_selfid());
 	}
