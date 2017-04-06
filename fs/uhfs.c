@@ -96,7 +96,7 @@ static int32_t searchdirectory(struct device *dev, int8_t *path, uint32_t *pbloc
 
 			for (i = 0; i < blk_device->fssblock.block_size / sizeof(struct fs_direntry) && !found; i++) {
 				if (strcmp(blk_device->datablock.dir_data[i].filename, path) == 0) {
-					if (blk_device->datablock.dir_data[i].attributes & UHFS_ATTRDIR & ~UHFS_ATTRFREE) {
+					if (blk_device->datablock.dir_data[i].attributes & UHFS_ATTRDIR) {
 						found = 1;
 						*pblock = dir_blk;
 						*ppath = path;
@@ -497,8 +497,9 @@ struct file * hf_opendir(struct device *dev, int8_t *path)
 	fptr = (struct file *)hf_malloc(sizeof(struct file));
 	if (!fptr)
 		return 0;
-		
-	if (searchdirectory(dev, path, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
+
+	fptr->path = path;
+	if (searchdirectory(dev, &fptr->path, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
 		hf_free(fptr);
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_opendir: path not found");
@@ -507,8 +508,8 @@ struct file * hf_opendir(struct device *dev, int8_t *path)
 	}
 	
 	fptr->dev = dev;
-	fptr->path = (int8_t *)hf_malloc(strlen(path));
-	strcpy(fptr->path, path);
+//	fptr->path = (int8_t *)hf_malloc(strlen(path));
+//	strcpy(fptr->path, path);
 	fptr->first_block = first_dir_blk;
 	fptr->mode = 0;
 	fptr->flags = UHFS_OPENFILE;
@@ -520,14 +521,14 @@ struct file * hf_opendir(struct device *dev, int8_t *path)
 
 int32_t hf_closedir(struct file *desc)
 {
-	if (desc->flags != UHFS_OPENFILE) {
+	if (!(desc->flags & UHFS_OPENFILE)) {
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_closedir: not an open directory");
 #endif
 		return -1;
 	}
 
-	hf_free(desc->path);
+//	hf_free(desc->path);
 	desc->flags = 0;
 	hf_free(desc);
 	
@@ -586,7 +587,7 @@ int32_t hf_readdir(struct file *desc, struct fs_direntry *entry)
 int32_t hf_rmdir(struct device *dev, int8_t *path)
 {
 	struct fs_blkdevice *blk_device;
-	uint32_t i, j, k, chain_blk, dir_blk, dir_blk_next, dir_blk_nextnext, dir_blk_last, parent_dir_blk, first_dir_blk;
+	uint32_t i, j, k, chain_blk, dir_blk, dir_blk_next, dir_blk_nextnext = 0, dir_blk_last, parent_dir_blk, first_dir_blk;
 	int8_t *ppath, *lpath;
 	
 	if (!dev->ptr) {
@@ -654,6 +655,7 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 		/* directory is not empty */
 		if (!strcmp(blk_device->datablock.dir_data[i].filename, ppath)){
 			blk_device->datablock.dir_data[i].attributes |= UHFS_ATTRFREE;
+			blk_device->datablock.dir_data[i].filename[0] = '\0';
 			hf_dev_ioctl(dev, DISK_SEEKSET, (void *)dir_blk);
 			hf_dev_write(dev, blk_device->datablock.dir_data, 1);
 #if UHFS_DEBUG == 1
