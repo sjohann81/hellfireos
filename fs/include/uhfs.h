@@ -1,4 +1,4 @@
-#define UHFS_DEBUG	0
+#define UHFS_DEBUG	1
 
 #define UHFS_FIXDBLK	0xfffffffc		/* fixed / not allocatable */
 #define UHFS_DEADBLK	0xfffffffd		/* invalid (dead block) */
@@ -93,7 +93,6 @@ struct fs_blkdevice {
 
 struct file {
 	struct device *dev;
-	int8_t *path;
 	uint32_t first_block;
 	int8_t mode;
 	int32_t flags;

@@ -19,43 +19,133 @@ void app_main(void){
 	hf_getlabel(&ramdisk0, str);
 	printf("\nfreeblks: %d, label: %s", hf_getfree(&ramdisk0), str);
 	
-	hf_mkdir(&ramdisk0, "/uhhh");
-	hf_mkdir(&ramdisk0, "/tchub");
-	hf_mkdir(&ramdisk0, "/mu");
-	hf_mkdir(&ramdisk0, "/mu2");
-	hf_mkdir(&ramdisk0, "/mu3");
-	hf_mkdir(&ramdisk0, "/mu4");
-	hf_mkdir(&ramdisk0, "/mu5");
-	hf_mkdir(&ramdisk0, "/uhhh/oler");
-	hf_mkdir(&ramdisk0, "/uhhh/olar");
-	hf_mkdir(&ramdisk0, "/uhhh/oler/22");
-	hf_mkdir(&ramdisk0, "/uhhh/oler/22/putchu");
-	hf_mkdir(&ramdisk0, "/uhhh/olar/putchu");
-	hf_mkdir(&ramdisk0, "/uhhh/olar/putchu/33");
-	hf_mkdir(&ramdisk0, "/mu/oper");
-
-
-	hf_mkdir(&ramdisk0, "/mu5/1");
-	hf_mkdir(&ramdisk0, "/mu5/2");
-	hf_mkdir(&ramdisk0, "/mu5/3");
-	hf_mkdir(&ramdisk0, "/mu5/4");
-	hf_mkdir(&ramdisk0, "/mu5/5");
+	hf_mkdir(&ramdisk0, "/root");
 	
-	hf_mkdir(&ramdisk0, "/mu5/3/1");
-	hf_mkdir(&ramdisk0, "/mu5/3/2");
-	hf_mkdir(&ramdisk0, "/mu5/3/3");
-	hf_mkdir(&ramdisk0, "/mu5/3/4");
-	hf_mkdir(&ramdisk0, "/mu5/3/5");
-	
-	hf_mkdir(&ramdisk0, "/mu5/3/1/0");
-	hf_mkdir(&ramdisk0, "/mu5/3/5/666");
+	hf_mkdir(&ramdisk0, "/root/coisa");
+	hf_mkdir(&ramdisk0, "/root/cao");
+	hf_mkdir(&ramdisk0, "/root/mu");
+	hf_mkdir(&ramdisk0, "/root/mu2");
+	hf_mkdir(&ramdisk0, "/root/mu3");
+	hf_mkdir(&ramdisk0, "/root/mu4");
+	hf_mkdir(&ramdisk0, "/root/mu5");
+	hf_mkdir(&ramdisk0, "/root/coisa/abcdef");
+	hf_mkdir(&ramdisk0, "/root/coisa/fedcba");
+	hf_mkdir(&ramdisk0, "/root/coisa/abcdef/22");
+	hf_mkdir(&ramdisk0, "/root/coisa/abcdef/22/uuuuuuu");
+	hf_mkdir(&ramdisk0, "/root/coisa/fedcba/uuuuuuu");
+	hf_mkdir(&ramdisk0, "/root/coisa/fedcba/uuuuuuu/33");
+	hf_mkdir(&ramdisk0, "/root/mu/oper");
 
-	fptr = hf_opendir(&ramdisk0, "/.");
+
+	hf_mkdir(&ramdisk0, "/root/mu5/1");
+	hf_mkdir(&ramdisk0, "/root/mu5/2");
+	hf_mkdir(&ramdisk0, "/root/mu5/3");
+	hf_mkdir(&ramdisk0, "/root/mu5/4");
+	hf_mkdir(&ramdisk0, "/root/mu5/5");
+	
+	hf_mkdir(&ramdisk0, "/root/mu5/3/1");
+	hf_mkdir(&ramdisk0, "/root/mu5/3/2");
+	hf_mkdir(&ramdisk0, "/root/mu5/3/3");
+	hf_mkdir(&ramdisk0, "/root/mu5/3/4");
+	hf_mkdir(&ramdisk0, "/root/mu5/3/5");
+	
+	hf_mkdir(&ramdisk0, "/root/mu5/3/1/0");
+	hf_mkdir(&ramdisk0, "/root/mu5/3/5/666");
+	hf_mkdir(&ramdisk0, "/root/mu/12345678");
+	hf_mkdir(&ramdisk0, "/root/mu/12345678/111");
+	hf_mkdir(&ramdisk0, "/root/les");
+	hf_mkdir(&ramdisk0, "/root/les2");
+	hf_mkdir(&ramdisk0, "/root/les3");
+	hf_mkdir(&ramdisk0, "/root/les4");
+	hf_mkdir(&ramdisk0, "/root/les5");
+
+	fptr = hf_opendir(&ramdisk0, "/root/.");
 	while (!hf_readdir(fptr, &direntry)){
 		
 		printf("\nfile: %s", direntry.filename);
 	}
+	hf_closedir(fptr);
+	
+	fptr = hf_opendir(&ramdisk0, "/root/coisa/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+	}
+	hf_closedir(fptr);
+	
+	fptr = hf_opendir(&ramdisk0, "/root/mu5/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+	}
+	hf_closedir(fptr);
+	
+	fptr = hf_opendir(&ramdisk0, "/root/coisa/abcdef/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+	}
+	hf_closedir(fptr);
+	
+	fptr = hf_opendir(&ramdisk0, "/root/mu5/3/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+	}
+	hf_closedir(fptr);
 
+	hf_rmdir(&ramdisk0, "/root/mu5/3/5/666/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/3/1/0/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/3/5/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/3/4/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/3/3/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/3/2/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/3/1/.");
+	
+	hf_rmdir(&ramdisk0, "/root/mu5/5/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/4/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/3/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/2/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/1/.");
+	
+	hf_rmdir(&ramdisk0, "/root/mu/12345678/111/.");
+	hf_rmdir(&ramdisk0, "/root/mu/12345678/.");
+
+	hf_rmdir(&ramdisk0, "/root/coisa/abcdef/22/uuuuuuu/.");
+	hf_rmdir(&ramdisk0, "/root/coisa/abcdef/22/.");
+	hf_rmdir(&ramdisk0, "/root/coisa/fedcba/uuuuuuu/33/.");
+	hf_rmdir(&ramdisk0, "/root/coisa/fedcba/uuuuuuu/.");
+	hf_rmdir(&ramdisk0, "/root/coisa/abcdef/.");
+	hf_rmdir(&ramdisk0, "/root/coisa/fedcba/.");
+	
+	hf_rmdir(&ramdisk0, "/root/coisa/.");
+	hf_rmdir(&ramdisk0, "/root/cao/.");
+	hf_rmdir(&ramdisk0, "/root/mu/oper/.");
+	hf_rmdir(&ramdisk0, "/root/mu/.");
+	hf_rmdir(&ramdisk0, "/root/mu2/.");
+	hf_rmdir(&ramdisk0, "/root/mu3/.");
+	hf_rmdir(&ramdisk0, "/root/mu4/.");
+	hf_rmdir(&ramdisk0, "/root/mu5/.");
+	
+	hf_rmdir(&ramdisk0, "/root/les/.");
+	hf_rmdir(&ramdisk0, "/root/les2/.");
+	hf_rmdir(&ramdisk0, "/root/les3/.");
+	hf_rmdir(&ramdisk0, "/root/les4/.");
+	hf_rmdir(&ramdisk0, "/root/les5/.");
+	
+	fptr = hf_opendir(&ramdisk0, "/root/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+		if (direntry.attributes & UHFS_ATTRFREE)
+			printf("*");
+	}
+	hf_closedir(fptr);
+	
+	hf_rmdir(&ramdisk0, "/root/.");
+	
+	printf("\nfreeblks: %d, label: %s", hf_getfree(&ramdisk0), str);
+	
 	hf_umount(&ramdisk0);
-//	hf_dev_ioctl(&ramdisk0, DISK_FINISH, 0);
+	hf_dev_ioctl(&ramdisk0, DISK_FINISH, 0);
 }

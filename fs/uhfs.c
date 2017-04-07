@@ -95,24 +95,26 @@ static int32_t searchdirectory(struct device *dev, int8_t *path, uint32_t *pbloc
 			hf_dev_read(dev, blk_device->datablock.dir_data, 1);
 
 			for (i = 0; i < blk_device->fssblock.block_size / sizeof(struct fs_direntry) && !found; i++) {
-				if (strcmp(blk_device->datablock.dir_data[i].filename, path) == 0) {
-					if (blk_device->datablock.dir_data[i].attributes & UHFS_ATTRDIR) {
-						found = 1;
-						*pblock = dir_blk;
-						*ppath = path;
-						dir_blk = blk_device->datablock.dir_data[i].first_block;
-						first_dir_blk = dir_blk;
-					} else {
+				if (!(blk_device->datablock.dir_data[i].attributes & UHFS_ATTRFREE)) {
+					if (strcmp(blk_device->datablock.dir_data[i].filename, path) == 0) {
+						if (blk_device->datablock.dir_data[i].attributes & UHFS_ATTRDIR) {
+							found = 1;
+							*pblock = dir_blk;
+							*ppath = path;
+							dir_blk = blk_device->datablock.dir_data[i].first_block;
+							first_dir_blk = dir_blk;
+						} else {
 #if UHFS_DEBUG == 1
-						kprintf("\nsearchdirectory: %s is not a directory", blk_device->datablock.dir_data[i].filename);
+							kprintf("\nsearchdirectory: %s is not a directory", blk_device->datablock.dir_data[i].filename);
 #endif
-						return -1;
+							return -1;
+						}
 					}
 				}
 			}
 			if (found) break;
 
-			chain_blk = (dir_blk_next & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
+			chain_blk = ((dir_blk_next-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 			dir_blk = dir_blk_next;
 			if (dir_blk < 0 || (dir_blk > blk_device->fssblock.n_blocks * blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) break;
 			
@@ -382,6 +384,7 @@ int32_t hf_mkdir(struct device *dev, int8_t *path)
 	struct fs_blkdevice *blk_device;
 	uint32_t i, j, k, chain_blk, chain_blk_last, dir_blk, dir_blk_next, dir_blk_last, parent_dir_blk, first_dir_blk;
 	int8_t *ppath, *lpath;
+	int8_t *dirpath;
 	
 	if (!dev->ptr) {
 #if UHFS_DEBUG == 1
@@ -389,9 +392,15 @@ int32_t hf_mkdir(struct device *dev, int8_t *path)
 #endif
 		return -1;
 	}
+	
+	dirpath = (int8_t *)hf_malloc(strlen(path));
+	if (!dirpath)
+		return -1;
+	strcpy(dirpath, path);
 
-	if (searchdirectory(dev, path, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
+	if (searchdirectory(dev, dirpath, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
 		kprintf("\nhf_mkdir: path not found");
+		hf_free(dirpath);
 		return -1;
 	}
 #if UHFS_DEBUG == 1
@@ -400,7 +409,7 @@ int32_t hf_mkdir(struct device *dev, int8_t *path)
 	blk_device = dev->ptr;
 	
 	/* find the first empty directory entry */
-	chain_blk = (first_dir_blk & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
+	chain_blk = ((first_dir_blk-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 	dir_blk = first_dir_blk;
 #if UHFS_DEBUG == 1
 	kprintf("\ndirectory at blk %d (pblock %d)", dir_blk, parent_dir_blk);
@@ -440,12 +449,14 @@ int32_t hf_mkdir(struct device *dev, int8_t *path)
 					hf_dev_ioctl(dev, DISK_SEEKSET, (void *)dir_blk);
 					hf_dev_write(dev, blk_device->datablock.dir_data, 1);
 					
+					hf_free(dirpath);
+					
 					return 0;
 				}
 			}
 			
 			chain_blk_last = chain_blk;
-			chain_blk = (dir_blk_next & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
+			chain_blk = ((dir_blk_next-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 			dir_blk_last = dir_blk;
 			dir_blk = dir_blk_next;
 #if UHFS_DEBUG == 1
@@ -458,7 +469,11 @@ int32_t hf_mkdir(struct device *dev, int8_t *path)
 		kprintf("\nhf_mkdir: directory is full. extending it...");
 #endif
 		k = getfreeblock(dev);
-		if (!k) return -1;
+		if (!k){
+			hf_free(dirpath);
+			
+			return -1;
+		}
 			
 		/* clean the block for empty directory entries */
 		hf_dev_ioctl(dev, DISK_SEEKSET, (void *)k);
@@ -475,8 +490,10 @@ int32_t hf_mkdir(struct device *dev, int8_t *path)
 		hf_dev_write(dev, blk_device->datablock.cmb_data, 1);
 		
 		dir_blk = k;
-		chain_blk = (k & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
+		chain_blk = ((k-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 	}
+	
+	hf_free(dirpath);
 	
 	return 0;
 }
@@ -486,6 +503,7 @@ struct file * hf_opendir(struct device *dev, int8_t *path)
 	struct file *fptr;
 	uint32_t parent_dir_blk, first_dir_blk;
 	int8_t *ppath, *lpath;
+	int8_t *dirpath;
 	
 	if (!dev->ptr) {
 #if UHFS_DEBUG == 1
@@ -498,23 +516,28 @@ struct file * hf_opendir(struct device *dev, int8_t *path)
 	if (!fptr)
 		return 0;
 
-	fptr->path = path;
-	if (searchdirectory(dev, &fptr->path, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
+	dirpath = (int8_t *)hf_malloc(strlen(path));
+	if (!dirpath)
+		return -1;
+	strcpy(dirpath, path);	
+	
+	if (searchdirectory(dev, dirpath, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
 		hf_free(fptr);
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_opendir: path not found");
 #endif
+		hf_free(dirpath);
 		return 0;
 	}
 	
 	fptr->dev = dev;
-//	fptr->path = (int8_t *)hf_malloc(strlen(path));
-//	strcpy(fptr->path, path);
 	fptr->first_block = first_dir_blk;
 	fptr->mode = 0;
 	fptr->flags = UHFS_OPENFILE;
 	fptr->block = first_dir_blk;
 	fptr->offset = 0;
+	
+	hf_free(dirpath);
 	
 	return fptr;
 }
@@ -528,7 +551,6 @@ int32_t hf_closedir(struct file *desc)
 		return -1;
 	}
 
-//	hf_free(desc->path);
 	desc->flags = 0;
 	hf_free(desc);
 	
@@ -538,7 +560,7 @@ int32_t hf_closedir(struct file *desc)
 int32_t hf_readdir(struct file *desc, struct fs_direntry *entry)
 {
 	struct fs_blkdevice *blk_device;
-	static uint32_t chain_blk, dir_blk, dir_blk_next, dir_blk_nextnext = 0;
+	static uint32_t chain_blk, dir_blk, dir_blk_next;
 	
 	if (!(desc->flags & UHFS_OPENFILE)) {
 #if UHFS_DEBUG == 1
@@ -547,25 +569,19 @@ int32_t hf_readdir(struct file *desc, struct fs_direntry *entry)
 		return -1;
 	}
 
-	if (desc->flags & UHFS_EOF) {
-		dir_blk_nextnext = 0;
+	if (desc->flags & UHFS_EOF)
 		return -1;
-	}
 	
 	blk_device = desc->dev->ptr;
 
 	if (desc->offset == 0){
-		if (dir_blk_nextnext != UHFS_EOCHBLK) {
-			/* find the next directory block */
-			chain_blk = (desc->block & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
-		}
+		/* find the next directory block */
+		chain_blk = ((desc->block-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 		dir_blk = desc->block;
 
 		hf_dev_ioctl(desc->dev, DISK_SEEKSET, (void *)chain_blk);
 		hf_dev_read(desc->dev, blk_device->datablock.cmb_data, 1);
 		dir_blk_next = blk_device->datablock.cmb_data[(dir_blk - 1) & (blk_device->fssblock.block_size / sizeof(uint32_t) - 1)];
-		if (dir_blk_next != UHFS_EOCHBLK)
-			dir_blk_nextnext = blk_device->datablock.cmb_data[(dir_blk_next - 1) & (blk_device->fssblock.block_size / sizeof(uint32_t) - 1)];
 		hf_dev_ioctl(desc->dev, DISK_SEEKSET, (void *)dir_blk);
 		hf_dev_read(desc->dev, blk_device->datablock.dir_data, 1);
 		desc->block = dir_blk_next;
@@ -587,8 +603,9 @@ int32_t hf_readdir(struct file *desc, struct fs_direntry *entry)
 int32_t hf_rmdir(struct device *dev, int8_t *path)
 {
 	struct fs_blkdevice *blk_device;
-	uint32_t i, j, k, chain_blk, dir_blk, dir_blk_next, dir_blk_nextnext = 0, dir_blk_last, parent_dir_blk, first_dir_blk;
+	uint32_t i, chain_blk, dir_blk, dir_blk_next, parent_dir_blk, first_dir_blk;
 	int8_t *ppath, *lpath;
+	int8_t *dirpath;
 	
 	if (!dev->ptr) {
 #if UHFS_DEBUG == 1
@@ -596,11 +613,18 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 #endif
 		return -1;
 	}
+	
+	dirpath = (int8_t *)hf_malloc(strlen(path));
+	if (!dirpath)
+		return -1;
+	strcpy(dirpath, path);
 
-	if (searchdirectory(dev, path, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
+	if (searchdirectory(dev, dirpath, &parent_dir_blk, &ppath, &first_dir_blk, &lpath)) {
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_rmdir: path not found");
 #endif
+		hf_free(dirpath);
+		
 		return -1;
 	}
 #if UHFS_DEBUG == 1
@@ -608,7 +632,7 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 #endif
 	blk_device = dev->ptr;
 	
-	chain_blk = (first_dir_blk & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
+	chain_blk = ((first_dir_blk-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 	dir_blk = first_dir_blk;
 #if UHFS_DEBUG == 1
 	kprintf("\ndirectory at blk %d (pblock %d)", dir_blk, parent_dir_blk);
@@ -618,8 +642,6 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 		hf_dev_ioctl(dev, DISK_SEEKSET, (void *)chain_blk);
 		hf_dev_read(dev, blk_device->datablock.cmb_data, 1);
 		dir_blk_next = blk_device->datablock.cmb_data[(dir_blk - 1) & (blk_device->fssblock.block_size / sizeof(uint32_t) - 1)];
-		if (dir_blk_next != UHFS_EOCHBLK)
-			dir_blk_nextnext = blk_device->datablock.cmb_data[(dir_blk_next - 1) & (blk_device->fssblock.block_size / sizeof(uint32_t) - 1)];
 		hf_dev_ioctl(dev, DISK_SEEKSET, (void *)dir_blk);
 		hf_dev_read(dev, blk_device->datablock.dir_data, 1);
 #if UHFS_DEBUG == 1
@@ -631,13 +653,13 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 #if UHFS_DEBUG == 1
 				kprintf("\nhf_rmdir: directory not empty");
 #endif
+				hf_free(dirpath);
+				
 				return -1;
 			}
 		}
 
-		if (dir_blk_nextnext != UHFS_EOCHBLK)
-			chain_blk = (dir_blk_next & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
-		dir_blk_last = dir_blk;
+		chain_blk = ((dir_blk_next-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 		dir_blk = dir_blk_next;
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_rmdir: jumping to next part of the directory (%d)", dir_blk_next);
@@ -655,7 +677,6 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 		/* directory is not empty */
 		if (!strcmp(blk_device->datablock.dir_data[i].filename, ppath)){
 			blk_device->datablock.dir_data[i].attributes |= UHFS_ATTRFREE;
-			blk_device->datablock.dir_data[i].filename[0] = '\0';
 			hf_dev_ioctl(dev, DISK_SEEKSET, (void *)dir_blk);
 			hf_dev_write(dev, blk_device->datablock.dir_data, 1);
 #if UHFS_DEBUG == 1
@@ -666,7 +687,7 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 	}
 
 	/* free directory blocks. FIXME: should avoid multiple writes to the same cluster map block */	
-	chain_blk = (first_dir_blk & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
+	chain_blk = ((first_dir_blk-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 	dir_blk = first_dir_blk;
 #if UHFS_DEBUG == 1
 	kprintf("\nhf_rmdir: chain %d block %d", chain_blk, dir_blk);
@@ -676,18 +697,16 @@ int32_t hf_rmdir(struct device *dev, int8_t *path)
 		hf_dev_read(dev, blk_device->datablock.cmb_data, 1);
 		dir_blk_next = blk_device->datablock.cmb_data[(dir_blk - 1) & (blk_device->fssblock.block_size / sizeof(uint32_t) - 1)];
 		blk_device->datablock.cmb_data[(dir_blk - 1) & (blk_device->fssblock.block_size / sizeof(uint32_t) - 1)] = UHFS_FREEBLK;
-		if (dir_blk_next != UHFS_EOCHBLK)
-			dir_blk_nextnext = blk_device->datablock.cmb_data[(dir_blk_next - 1) & (blk_device->fssblock.block_size / sizeof(uint32_t) - 1)];
 		hf_dev_ioctl(dev, DISK_SEEKSET, (void *)chain_blk);
 		hf_dev_write(dev, blk_device->datablock.cmb_data, 1);
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_rmdir: freed block %d", dir_blk);
 #endif
-		if (dir_blk_nextnext != UHFS_EOCHBLK)
-			chain_blk = (dir_blk_next & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
-		dir_blk_last = dir_blk;
+		chain_blk = ((dir_blk_next-1) & ~(blk_device->fssblock.block_size / sizeof(uint32_t) - 1)) + 1;
 		dir_blk = dir_blk_next;
 	} while (dir_blk_next != UHFS_EOCHBLK);
+	
+	hf_free(dirpath);
 	
 	return 0;
 }
