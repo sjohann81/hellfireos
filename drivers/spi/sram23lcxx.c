@@ -5,7 +5,8 @@
  * 
  * compatible with the 23lc512 and 23lc1024 Microchip family chips.
  * this driver controls the chip using the SPI interface and operates
- * in sequential mode only.
+ * in sequential mode only. the 23lc1024 should be accessed using
+ * hiaddr set to 1, other chips use 0.
  * this driver will not work directly with 23x256 chips, because they
  * don't operate in sequential mode by default.
  */
@@ -15,15 +16,14 @@
 #include <spi.h>
 #include <sram23lcxx.h>
 
-void sram25lcxx_read(uint32_t addr, uint8_t *buf, uint32_t size)
+void sram25lcxx_read(uint32_t addr, uint8_t hiaddr, uint8_t *buf, uint32_t size)
 {
 	uint32_t i;
 	
 	spi_start();
 	spi_sendrecv(CMD_READ);
-#if ADDR24BIT == 1
-	spi_sendrecv((addr >> 16) & 0xff);
-#endif
+	if (hiaddr)
+		spi_sendrecv((addr >> 16) & 0xff);
 	spi_sendrecv((addr >> 8) & 0xff);
 	spi_sendrecv(addr & 0xff);
 	for(i = 0; i < size; i++)
@@ -31,15 +31,14 @@ void sram25lcxx_read(uint32_t addr, uint8_t *buf, uint32_t size)
 	spi_stop();
 }
 
-void sram25lcxx_write(uint32_t addr, uint8_t *buf, uint32_t size)
+void sram25lcxx_write(uint32_t addr, uint8_t hiaddr, uint8_t *buf, uint32_t size)
 {
 	uint32_t i;
 	
 	spi_start();
 	spi_sendrecv(CMD_WRITE);
-#if ADDR24BIT == 1
-	spi_sendrecv((addr >> 16) & 0xff);
-#endif
+	if (hiaddr)
+		spi_sendrecv((addr >> 16) & 0xff);
 	spi_sendrecv((addr >> 8) & 0xff);
 	spi_sendrecv(addr & 0xff);
 	for(i = 0; i < size; i++)

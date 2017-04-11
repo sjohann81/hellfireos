@@ -11,8 +11,6 @@
  * 25xx512, 25xx1024: 128
  */
 
-#define PAGE_SIZE	64
-
 #define CMD_READ	0x03
 #define CMD_WRITE	0x02
 #define CMD_WRDI	0x04
@@ -22,4 +20,4 @@
 
 uint8_t eeprom25lcxx_readbyte(uint16_t addr);
 void eeprom25lcxx_read(uint16_t addr, uint8_t *buf, uint16_t size);
-void eeprom25lcxx_writepage(uint16_t page, uint8_t *data);
+void eeprom25lcxx_writepage(uint16_t page, uint8_t page_size, uint8_t *data);

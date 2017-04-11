@@ -42,7 +42,7 @@ void eeprom25lcxx_read(uint16_t addr, uint8_t *buf, uint16_t size)
 	spi_stop();
 }
 
-void eeprom25lcxx_writepage(uint16_t page, uint8_t *data)
+void eeprom25lcxx_writepage(uint16_t page, uint8_t page_size, uint8_t *data)
 {
 	uint16_t i;
 	
@@ -51,9 +51,9 @@ void eeprom25lcxx_writepage(uint16_t page, uint8_t *data)
 	spi_stop();
 	spi_start();
 	spi_sendrecv(CMD_WRITE);
-	spi_sendrecv((page * PAGE_SIZE) >> 8);
-	spi_sendrecv((page * PAGE_SIZE) & 0xff);
-	for (i = 0; i < PAGE_SIZE; i++)
+	spi_sendrecv((page * page_size) >> 8);
+	spi_sendrecv((page * page_size) & 0xff);
+	for (i = 0; i < page_size; i++)
 		spi_sendrecv(data[i]);
 	spi_stop();
 	delay_ms(10);
