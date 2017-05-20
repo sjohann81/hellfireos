@@ -179,13 +179,13 @@ void app_main(void)
 		hf_spawn(t2, 0, 0, 0, "t2", 4096);
 		hf_spawn(t8, 0, 0, 0, "t8", 4096);
 	}else if (hf_cpuid() == 3){
-		hf_spawn(t3, 0, 0, 0, "t1", 4096);
-		hf_spawn(t9, 0, 0, 0, "t1", 4096);
+		hf_spawn(t3, 0, 0, 0, "t3", 4096);
+		hf_spawn(t9, 0, 0, 0, "t9", 4096);
 	}else if (hf_cpuid() == 4){
-		hf_spawn(t4, 0, 0, 0, "t1", 4096);
+		hf_spawn(t4, 0, 0, 0, "t4", 4096);
 	}else if (hf_cpuid() == 5){
-		hf_spawn(t5, 0, 0, 0, "t1", 4096);
+		hf_spawn(t5, 0, 0, 0, "t5", 4096);
 	}else if (hf_cpuid() == 6){
-		hf_spawn(t6, 0, 0, 0, "t1", 4096);
+		hf_spawn(t6, 0, 0, 0, "t6", 4096);
 	}
 }
