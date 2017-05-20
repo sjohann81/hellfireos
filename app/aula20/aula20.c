@@ -1,16 +1,15 @@
 #include <hellfire.h>
 #include <noc.h>
 
-int8_t *gen_rdm_bytestream (size_t num_bytes)
+int8_t *gen_rdm_bytestream(size_t size)
 {
-  int8_t *stream = malloc (num_bytes);
+  int8_t *stream = malloc (size);
   size_t i;
 
-  for (i = 0; i < num_bytes; i++)
+  for(i = 0; i < size; i++)
   {
-    stream[i] = rand ();
+		stream[i] = random();
   }
-
   return stream;
 }
 
@@ -19,9 +18,12 @@ void t1(void){
 	int8_t *buf;
 	uint16_t val;
 	uint16_t cpu,size;
+	
 	printf("CPU %d, executando tarefa 1.", hf_cpuid());
-	if (hf_comm_create(hf_selfid(), 5000, 0))
+	
+	if (hf_comm_create(hf_selfid(), 5001, 0))
 		panic(0xff);
+	
 	//sprintf(buf, "i am cpu %d, thread %d: msg %d size: %d\n", hf_cpuid(), hf_selfid(), msg++, sizeof(buf));
 	buf = gen_rdm_bytestream (256);
 	val = hf_sendack(2, 5000, buf, 256, 0, 500);
@@ -48,7 +50,7 @@ void t2(void){
 	uint16_t val;
 	uint16_t cpu,size;
 	
-	if (hf_comm_create(hf_selfid(), 5000, 0))
+	if (hf_comm_create(hf_selfid(), 5002, 0))
 		panic(0xff);
 	
 
@@ -67,7 +69,7 @@ void t3(void){
 	int8_t *buf;//buf[64];
 	uint16_t val;
 	uint16_t cpu,size;
-	if (hf_comm_create(hf_selfid(), 5000, 0))
+	if (hf_comm_create(hf_selfid(), 5003, 0))
 		panic(0xff);
 
 	val = hf_recvack(&cpu, 5000, buf, &size, 0);
@@ -81,7 +83,7 @@ void t4(void){
 	uint16_t val;
 	uint16_t cpu,size;
 
-	if (hf_comm_create(hf_selfid(), 5000, 0))
+	if (hf_comm_create(hf_selfid(), 5004, 0))
 		panic(0xff);
 	val = hf_recvack(&cpu, 5000, buf, &size, 0);
 	printf("CPU %d, executando tarefa 4.", hf_cpuid());
@@ -93,7 +95,7 @@ void t5(void){
 	uint16_t val;
 	uint16_t cpu,size;
 	
-	if (hf_comm_create(hf_selfid(), 5000, 0))
+	if (hf_comm_create(hf_selfid(), 5005, 0))
 		panic(0xff);
 
 	val = hf_recvack(&cpu, 5000, buf, &size, 0);
@@ -106,7 +108,7 @@ void t6(void){
 	uint16_t val;
 	uint16_t cpu,size;
 	
-	if (hf_comm_create(hf_selfid(), 5000, 0))
+	if (hf_comm_create(hf_selfid(), 5006, 0))
 		panic(0xff);
 
 	val = hf_recvack(&cpu, 5000, buf, &size, 0);
@@ -117,11 +119,11 @@ void t6(void){
 
 
 void t7(void){
-	int8_t *buf//[1280];
+	int8_t *buf;//[1280];
 	uint16_t val;
 	uint16_t cpu,size;
 	
-	if (hf_comm_create(hf_selfid(), 5000, 0))
+	if (hf_comm_create(hf_selfid(), 5007, 0))
 		panic(0xff);
 	val = hf_recvack(&cpu, 5000, buf, &size, 0);
 	printf("CPU %d, executando tarefa 7.", hf_cpuid());
