@@ -20,6 +20,7 @@
 #define ERR_COMM_BUSY		-205		/*!< communication channel is busy */
 #define ERR_COMM_UNFEASIBLE	-206		/*!< communication is not feasible */
 #define ERR_COMM_ERROR		-207		/*!< general communication error */
+#define ERR_COMM_EMPTY		-208		/*!< reception queue is empty */
 
 #define PKT_HEADER_SIZE		8
 #define PKT_TARGET_CPU		0
@@ -56,6 +57,7 @@ uint16_t hf_cpuid(void);
 uint16_t hf_ncores(void);
 int32_t hf_comm_create(uint16_t id, uint16_t port, uint16_t packets);
 int32_t hf_comm_destroy(uint16_t id);
+int32_t hf_recvprobe(void);
 int32_t hf_recv(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16_t *size, uint16_t channel);
 int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t size, uint16_t channel);
 int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16_t *size, uint16_t channel);

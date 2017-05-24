@@ -5,10 +5,12 @@ void sender(void)
 {
 	int32_t msg = 0;
 	int8_t buf[1500];
-	uint16_t val;
+	int16_t val;
 	
 	if (hf_comm_create(hf_selfid(), 1000, 0))
 		panic(0xff);
+		
+	delay_ms(50);
 	
 	while (1){
 		sprintf(buf, "i am cpu %d, thread %d: msg %d size: %d\n", hf_cpuid(), hf_selfid(), msg++, sizeof(buf));
@@ -21,7 +23,8 @@ void sender(void)
 void receiver(void)
 {
 	int8_t buf[1500];
-	uint16_t cpu, task, size, val;
+	uint16_t cpu, task, size;
+	int16_t val;
 	
 	if (hf_comm_create(hf_selfid(), 5000, 0))
 		panic(0xff);

@@ -5,10 +5,12 @@ void sender(void)
 {
 	int32_t i, msg = 0;
 	int8_t buf[500];
-	uint16_t val;
+	int16_t val;
 	
 	if (hf_comm_create(hf_selfid(), 1000, 0))
 		panic(0xff);
+		
+	delay_ms(50);
 	
 	while (1){
 		for (i = 0; i < hf_ncores(); i++, msg++){
@@ -25,7 +27,8 @@ void sender(void)
 void receiver(void)
 {
 	int8_t buf[500];
-	uint16_t cpu, task, size, val;
+	uint16_t cpu, task, size;
+	int16_t val;
 	
 	if (hf_comm_create(hf_selfid(), 1111, 0))
 		panic(0xff);
@@ -43,10 +46,12 @@ void sender2(void)
 {
 	int32_t i, msg = 0;
 	int8_t buf[500];
-	uint16_t val;
+	int16_t val;
 	
 	if (hf_comm_create(hf_selfid(), 2000, 0))
 		panic(0xff);
+		
+	delay_ms(50);
 	
 	while (1){
 		for (i = 0; i < hf_ncores(); i++, msg++){
@@ -63,7 +68,8 @@ void sender2(void)
 void receiver2(void)
 {
 	int8_t buf[500];
-	uint16_t cpu, task, size, val;
+	uint16_t cpu, task, size;
+	int16_t val;
 	
 	if (hf_comm_create(hf_selfid(), 2222, 0))
 		panic(0xff);

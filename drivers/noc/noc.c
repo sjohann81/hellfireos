@@ -254,6 +254,32 @@ int32_t hf_comm_destroy(uint16_t id)
 }
 
 /**
+ * @brief Probes for a message from a task.
+
+ * @return channel of the first message that is waiting in queue (a value >= 0), ERR_COMM_EMPTY when no messages are
+ * waiting in queue, ERR_COMM_UNFEASIBLE when no message queue (comm) was created.
+ */
+int32_t hf_recvprobe(void)
+{
+	uint16_t id;
+	int32_t k;
+	uint16_t *buf_ptr;
+
+	id = hf_selfid();
+	if (pktdrv_tqueue[id] == NULL) return ERR_COMM_UNFEASIBLE;
+	
+	k = hf_queue_count(pktdrv_tqueue[id]);
+	if (k){
+		buf_ptr = hf_queue_get(pktdrv_tqueue[id], 0);
+		if (buf_ptr)
+			if (buf_ptr[PKT_CHANNEL] != 0xffff)
+				return buf_ptr[PKT_CHANNEL];
+	}
+	
+	return ERR_COMM_EMPTY;
+}
+
+/**
  * @brief Receives a message from a task (blocking receive).
  * 
  * @param source_cpu is a pointer to a variable which will hold the source cpu
@@ -286,7 +312,12 @@ int32_t hf_recv(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16
 		if (k){
 			buf_ptr = hf_queue_get(pktdrv_tqueue[id], 0);
 			if (buf_ptr)
-				if (buf_ptr[PKT_CHANNEL] == channel) break;
+				if (buf_ptr[PKT_CHANNEL] == channel && buf_ptr[PKT_SEQ] == seq + 1) break;
+			
+			status = _di();
+			buf_ptr = hf_queue_remhead(pktdrv_tqueue[id]);
+			hf_queue_addtail(pktdrv_tqueue[id], buf_ptr);
+			_ei(status);
 		}
 	}
 		
@@ -314,12 +345,19 @@ int32_t hf_recv(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16
 		hf_queue_addtail(pktdrv_queue, buf_ptr);
 		_ei(status);
 		
+		i = 0;
 		while (1){
 			k = hf_queue_count(pktdrv_tqueue[id]);
 			if (k){
 				buf_ptr = hf_queue_get(pktdrv_tqueue[id], 0);
 				if (buf_ptr)
-					if (buf_ptr[PKT_CHANNEL] == channel) break;
+					if (buf_ptr[PKT_CHANNEL] == channel && buf_ptr[PKT_SEQ] == seq) break;
+
+				status = _di();
+				buf_ptr = hf_queue_remhead(pktdrv_tqueue[id]);
+				hf_queue_addtail(pktdrv_tqueue[id], buf_ptr);
+				_ei(status);
+				if (i++ > NOC_PACKET_SLOTS << 3) break;
 			}
 		}
 		status = _di();
