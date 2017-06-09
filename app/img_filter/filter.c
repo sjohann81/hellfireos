@@ -88,7 +88,7 @@ void do_sobel(uint8_t *img, int32_t width, int32_t height){
 	uint8_t image_buf[3][3];
 	
 	for(i = 0; i < height; i++){
-		if (i > 0 || i < height){
+		if (i > 0 || i < height-1){
 			for(j = 0; j < width-1; j++){
 				if (j > 0 || j < width-1){
 					for (k = 0; k < 3;k++)
