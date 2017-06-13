@@ -417,7 +417,7 @@ int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t
 		out_buf[PKT_CHANNEL] = channel;
 		
 		for (i = PKT_HEADER_SIZE; i < NOC_PACKET_SIZE; i++, p+=2)
-			out_buf[i] = (buf[p] << 8) | buf[p+1];
+			out_buf[i] = ((uint8_t)buf[p] << 8) | (uint8_t)buf[p+1];
 
 again1:		while ((_ni_status() & 0x1) == 0);
 		status = _di();
@@ -440,7 +440,7 @@ again1:		while ((_ni_status() & 0x1) == 0);
 	out_buf[PKT_CHANNEL] = channel;
 
 	for (i = PKT_HEADER_SIZE; i < NOC_PACKET_SIZE && (p < size); i++, p+=2)
-		out_buf[i] = (buf[p] << 8) | buf[p+1];
+		out_buf[i] = ((uint8_t)buf[p] << 8) | (uint8_t)buf[p+1];
 	for(; i < NOC_PACKET_SIZE; i++)
 		out_buf[i] = 0xdead;
 
