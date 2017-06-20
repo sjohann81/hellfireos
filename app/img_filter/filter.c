@@ -67,9 +67,9 @@ void do_gausian(uint8_t *img, int32_t width, int32_t height){
 	uint8_t image_buf[5][5];
 	
 	for(i = 0; i < height; i++){
-		if (i > 1 || i < height-2){
+		if (i > 1 && i < height-2){
 			for(j = 0; j < width; j++){
-				if (j > 1 || j < width-2){
+				if (j > 1 && j < width-2){
 					for (k = 0; k < 5;k++)
 						for(l = 0; l < 5; l++)
 							image_buf[k][l] = image[(((i + l-2) * width) + (j + k-2))];
@@ -88,9 +88,9 @@ void do_sobel(uint8_t *img, int32_t width, int32_t height){
 	uint8_t image_buf[3][3];
 	
 	for(i = 0; i < height; i++){
-		if (i > 0 || i < height-1){
+		if (i > 0 && i < height-1){
 			for(j = 0; j < width-1; j++){
-				if (j > 0 || j < width-1){
+				if (j > 0 && j < width-1){
 					for (k = 0; k < 3;k++)
 						for(l = 0; l < 3; l++)
 							image_buf[k][l] = image[(((i + l-1) * width) + (j + k-1))];
