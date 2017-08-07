@@ -429,7 +429,8 @@ static int show_mpsoc_stats(unsigned char *output){
 	
 
 static int mem_read(State *s, int size, unsigned int address, int cpu_n){
-	unsigned int value=0, ptr;
+	unsigned int value=0;
+	unsigned int *ptr;
 	
 	Core *core;
 	NetworkInterface *ni;
@@ -493,7 +494,7 @@ static int mem_read(State *s, int size, unsigned int address, int cpu_n){
 			return 0xa5a5a5a5;
 	}
 
-	ptr = (unsigned int)s->mem + (address % MEM_SIZE);
+	ptr = (unsigned int *)(s->mem + (address % MEM_SIZE));
 
 	switch(size){
 		case 4:
@@ -523,7 +524,7 @@ static int mem_read(State *s, int size, unsigned int address, int cpu_n){
 
 static void mem_write(State *s, int size, int unsigned address, unsigned int value, FILE *std_out, int cpu_n){
 	static char_count=0;
-	unsigned int ptr;
+	unsigned int *ptr;
 	
 	Core *core;
 	Port *port;	
@@ -613,7 +614,7 @@ static void mem_write(State *s, int size, int unsigned address, unsigned int val
 			return;
 	}
 
-	ptr = (unsigned int)s->mem + (address % MEM_SIZE);
+	ptr = (unsigned int *)(s->mem + (address % MEM_SIZE));
 
 	switch(size){
 		case 4:

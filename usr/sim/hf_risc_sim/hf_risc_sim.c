@@ -48,7 +48,8 @@ FILE *fptr;
 int32_t log_enabled = 0;
 
 static int32_t mem_read(state *s, int32_t size, uint32_t address){
-	uint32_t value=0, ptr;
+	uint32_t value=0;
+	uint32_t *ptr;
 
 	switch(address){
 		case IRQ_VECTOR:	return s->vector;
@@ -63,7 +64,7 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 		case UART_DIVISOR:	return 0;
 	}
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 
 	switch(size){
 		case 4:
@@ -71,7 +72,7 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 				printf("\nunaligned access (load word) pc=0x%x addr=0x%x", s->pc, address);
 				exit(1);
 			}else{
-				value = *(uint32_t *)(intptr_t)ptr;
+				value = *(uint32_t *)ptr;
 				value = ntohl(value);
 			}
 			break;
@@ -80,12 +81,12 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 				printf("\nunaligned access (load halfword) pc=0x%x addr=0x%x", s->pc, address);
 				exit(1);
 			}else{
-				value = *(uint16_t *)(intptr_t)ptr;
+				value = *(uint16_t *)ptr;
 				value = ntohs((uint16_t)value);
 			}
 			break;
 		case 1:
-			value = *(uint8_t *)(intptr_t)ptr;
+			value = *(uint8_t *)ptr;
 			break;
 		default:
 			printf("\nerror");
@@ -95,7 +96,8 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 }
 
 static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
-	uint32_t ptr, i;
+	uint32_t i;
+	uint32_t *ptr;
 
 	switch(address){
 		case IRQ_VECTOR:	s->vector = value; return;
@@ -128,13 +130,13 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 				fprintf(fptr, "%c", (int8_t)(value & 0xff));
 			return;
 		case UART_WRITE:
-			printf("%c", (int8_t)(value & 0xff));
+			fprintf(stderr, "%c", (int8_t)(value & 0xff));
 			return;
 		case UART_DIVISOR:
 			return;
 	}
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 
 	switch(size){
 		case 4:
@@ -143,7 +145,7 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 				exit(1);
 			}else{
 				value = htonl(value);
-				*(int32_t *)(intptr_t)ptr = value;
+				*(int32_t *)ptr = value;
 			}
 			break;
 		case 2:
@@ -152,11 +154,11 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 				exit(1);
 			}else{
 				value = htons((uint16_t)value);
-				*(int16_t *)(intptr_t)ptr = (uint16_t)value;
+				*(int16_t *)ptr = (uint16_t)value;
 			}
 			break;
 		case 1:
-			*(int8_t *)(intptr_t)ptr = (uint8_t)value;
+			*(int8_t *)ptr = (uint8_t)value;
 			break;
 		default:
 			printf("\nerror");

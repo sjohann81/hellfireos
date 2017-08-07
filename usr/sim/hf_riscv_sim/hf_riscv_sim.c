@@ -61,18 +61,18 @@ void bp(state *s, uint32_t ir){
 }
 
 static int32_t mem_fetch(state *s, uint32_t address){
-	uint32_t value=0, ptr;
+	uint32_t value=0;
+	uint32_t *ptr;
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
-
-	value = *(int32_t *)(intptr_t)ptr;
-//	value = ntohl(value);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
+	value = *ptr;
 
 	return(value);
 }
 
 static int32_t mem_read(state *s, int32_t size, uint32_t address){
-	uint32_t value=0, ptr;
+	uint32_t value=0;
+	uint32_t *ptr;
 
 	switch(address){
 		case IRQ_VECTOR:	return s->vector;
@@ -87,7 +87,7 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 		case UART_DIVISOR:	return 0;
 	}
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 
 	switch(size){
 		case 4:
@@ -96,8 +96,7 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 				dumpregs(s);
 				exit(1);
 			}else{
-				value = *(int32_t *)(intptr_t)ptr;
-//				value = ntohl(value);
+				value = *(int32_t *)ptr;
 			}
 			break;
 		case 2:
@@ -106,23 +105,22 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 				dumpregs(s);
 				exit(1);
 			}else{
-				value = *(int16_t *)(intptr_t)ptr;
-//				value = ntohs((uint16_t)value);
+				value = *(int16_t *)ptr;
 			}
 			break;
 		case 1:
-			value = *(int8_t *)(intptr_t)ptr;
+			value = *(int8_t *)ptr;
 			break;
 		default:
 			printf("\nerror");
 	}
-//	printf("\nload(%d): %x, addr: %08x", size, value, address);
 
 	return(value);
 }
 
 static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
-	uint32_t ptr, i;
+	uint32_t i;
+	uint32_t *ptr;
 
 	switch(address){
 		case IRQ_VECTOR:	s->vector = value; return;
@@ -150,34 +148,29 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 			return;
 	}
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 	
 	switch(size){
 		case 4:
-//			printf("\nstore(%d): %x, addr: %08x", size, value, address);
 			if(address & 3){
 				printf("\nunaligned access (store word) pc=0x%x addr=0x%x", s->pc, address);
 				dumpregs(s);
 				exit(1);
 			}else{
-//				value = htonl(value);
-				*(int32_t *)(intptr_t)ptr = value;
+				*(int32_t *)ptr = value;
 			}
 			break;
 		case 2:
-//			printf("\nstore(%d): %x, addr: %08x", size, (uint16_t)value, address);
 			if(address & 1){
 				printf("\nunaligned access (store halfword) pc=0x%x addr=0x%x", s->pc, address);
 				dumpregs(s);
 				exit(1);
 			}else{
-//				value = htons((uint16_t)value);
-				*(int16_t *)(intptr_t)ptr = (uint16_t)value;
+				*(int16_t *)ptr = (uint16_t)value;
 			}
 			break;
 		case 1:
-//			printf("\nstore(%d): %x, addr: %08x", size, (uint8_t)value, address);
-			*(int8_t *)(intptr_t)ptr = (uint8_t)value;
+			*(int8_t *)ptr = (uint8_t)value;
 			break;
 		default:
 			printf("\nerror");
@@ -222,9 +215,7 @@ void cycle(state *s){
 	ptr_l = r[rs1] + (int32_t)imm_i;
 	ptr_s = r[rs1] + (int32_t)imm_s;
 	r[0] = 0;
-	
-//	bp(s, inst);
-	
+
 	switch(opcode){
 		case 0x37: r[rd] = imm_u; break;										/* LUI */
 		case 0x17: r[rd] = s->pc + imm_u; break;									/* AUIPC */
@@ -279,65 +270,27 @@ void cycle(state *s){
 			}
 			break;
 		case 0x33:
-			if (funct7 == 0x1){											/* RV32M */
-				switch(funct3){
-					case 0:	r[rd] = (((int64_t)r[rs1] * (int64_t)r[rs2]) & 0xffffffff); break;		/* MUL */
-					case 1:	r[rd] = ((((int64_t)r[rs1] * (int64_t)r[rs2]) >> 32) & 0xffffffff); break;	/* MULH */
-					case 2:	r[rd] = ((((int64_t)r[rs1] * (uint64_t)u[rs2]) >> 32) & 0xffffffff); break;	/* MULHSU */
-					case 3:	r[rd] = ((((uint64_t)u[rs1] * (uint64_t)u[rs2]) >> 32) & 0xffffffff); break;	/* MULHU */
-					case 4:	if (r[rs2]) r[rd] = r[rs1] / r[rs2]; else r[rd] = 0; break;							/* DIV */
-					case 5:	if (r[rs2]) r[rd] = u[rs1] / u[rs2]; else r[rd] = 0; break;							/* DIVU */
-					case 6:	if (r[rs2]) r[rd] = r[rs1] % r[rs2]; else r[rd] = 0; break;							/* REM */
-					case 7:	if (r[rs2]) r[rd] = u[rs1] % u[rs2]; else r[rd] = 0; break;							/* REMU */
-					default: goto fail;
-				}
-				break;
-			}else{
-				switch(funct3){
-					case 0x0:
-						switch(funct7){
-							case 0x0: r[rd] = r[rs1] + r[rs2]; break;				/* ADD */
-							case 0x20: r[rd] = r[rs1] - r[rs2]; break;				/* SUB */
-							default: goto fail;
-						}
-						break;
-					case 0x1: r[rd] = r[rs1] << r[rs2]; break;						/* SLL */
-					case 0x2: r[rd] = r[rs1] < r[rs2]; break;		 				/* SLT */
-					case 0x3: r[rd] = u[rs1] < u[rs2]; break;		 				/* SLTU */
-					case 0x4: r[rd] = r[rs1] ^ r[rs2]; break;						/* XOR */
-					case 0x5:
-						switch(funct7){
-							case 0x0: r[rd] = u[rs1] >> u[rs2]; break;				/* SRL */
-							case 0x20: r[rd] = r[rs1] >> r[rs2]; break;				/* SRA */
-							default: goto fail;
-						}
-						break;
-					case 0x6: r[rd] = r[rs1] | r[rs2]; break;						/* OR */
-					case 0x7: r[rd] = r[rs1] & r[rs2]; break;						/* AND */
-					default: goto fail;
-				}
-				break;
-			}
-		case 0x73:
 			switch(funct3){
-				case 0:
-					switch(imm_i){
-//						case 0:	break;									/* SCALL */
-//						case 1:	bp(s, inst); break;							/* SBREAK */
-//						default: goto fail;
+				case 0x0:
+					switch(funct7){
+						case 0x0: r[rd] = r[rs1] + r[rs2]; break;					/* ADD */
+						case 0x20: r[rd] = r[rs1] - r[rs2]; break;					/* SUB */
+						default: goto fail;
 					}
 					break;
-				case 2:
-					switch(imm_i){
-						case 0xc00: break;								/* RDCYCLE */
-						case 0xc80: break;								/* RDCYCLEH */
-						case 0xc01: break;								/* RDTIME */
-						case 0xc81: break;								/* RDTIMEH */
-						case 0xc02: break;								/* RDINSTRET */
-						case 0xc82: break;								/* RDINSTRETH */
+				case 0x1: r[rd] = r[rs1] << r[rs2]; break;							/* SLL */
+				case 0x2: r[rd] = r[rs1] < r[rs2]; break;		 					/* SLT */
+				case 0x3: r[rd] = u[rs1] < u[rs2]; break;		 					/* SLTU */
+				case 0x4: r[rd] = r[rs1] ^ r[rs2]; break;							/* XOR */
+				case 0x5:
+					switch(funct7){
+						case 0x0: r[rd] = u[rs1] >> u[rs2]; break;					/* SRL */
+						case 0x20: r[rd] = r[rs1] >> r[rs2]; break;					/* SRA */
 						default: goto fail;
-					};
+					}
 					break;
+				case 0x6: r[rd] = r[rs1] | r[rs2]; break;							/* OR */
+				case 0x7: r[rd] = r[rs1] & r[rs2]; break;							/* AND */
 				default: goto fail;
 			}
 			break;
