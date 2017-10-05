@@ -1,25 +1,28 @@
 #define UHFS_DEBUG	1
 
-#define UHFS_FIXDBLK	0xfffffffc		/* fixed / not allocatable */
-#define UHFS_DEADBLK	0xfffffffd		/* invalid (dead block) */
-#define UHFS_EOCHBLK	0xfffffffe		/* last block in the chain (end of file or end of chain of cluster map blocks) */
-#define UHFS_FREEBLK	0xffffffff		/* unused (free) block */
+#define UHFS_FIXDBLK		0xfffffffc		/* fixed / not allocatable */
+#define UHFS_DEADBLK		0xfffffffd		/* invalid (dead block) */
+#define UHFS_EOCHBLK		0xfffffffe		/* last block in the chain (end of file or end of chain of cluster map blocks) */
+#define UHFS_FREEBLK		0xffffffff		/* unused (free) block */
 
-#define UHFS_ATTRDIR	0x01			/* directory */
-#define UHFS_ATTREXEC	0x10			/* execute */
-#define UHFS_ATTRWRITE	0x20			/* write */
-#define UHFS_ATTRREAD	0x40			/* read */
-#define UHFS_ATTRFREE	0x80			/* deleted / free directory entry */
+#define UHFS_ATTRDIR		0x01			/* directory */
+#define UHFS_ATTRHIDDEN		0x02			/* hidden */
+#define UHFS_ATTRARCHIVE	0x04			/* file needs archiving */
+#define UHFS_ATTRSYSTEM		0x08			/* system */
+#define UHFS_ATTREXEC		0x10			/* execute */
+#define UHFS_ATTRWRITE		0x20			/* write */
+#define UHFS_ATTRREAD		0x40			/* read */
+#define UHFS_ATTRFREE		0x80			/* deleted / free directory entry */
 
-#define UHFS_RDONLY	0x0001
-#define UHFS_WRONLY	0x0002
-#define UHFS_RDWR	0x0003
-#define UHFS_CREAT	0x0004
-#define UHFS_APPEND	0x0008
-#define UHFS_SYNC	0x0010
-#define UHFS_NONBLOCK	0x0020
-#define UHFS_EOF	0x4000
-#define UHFS_OPENFILE	0x8000
+#define UHFS_RDONLY		0x0001
+#define UHFS_WRONLY		0x0002
+#define UHFS_RDWR		0x0003
+#define UHFS_CREAT		0x0004
+#define UHFS_APPEND		0x0008
+#define UHFS_SYNC		0x0010
+#define UHFS_NONBLOCK		0x0020
+#define UHFS_EOF		0x4000
+#define UHFS_OPENFILE		0x8000
 
 enum {
 	UHFS_EOK		= 0,
@@ -36,7 +39,7 @@ enum {
 	UHFS_EFILENOTOPEN	= -1010,
 	UHFS_EDIRNOTEMPTY	= -1011
 };
- 
+
 struct fs_date {
 	uint32_t day : 5;			/* range 1 - 31 */
 	uint32_t month : 4;			/* range 1 - 12 */
@@ -116,8 +119,9 @@ int32_t hf_readdir(struct file *desc, struct fs_direntry *entry);
 int32_t hf_rmdir(struct device *dev, int8_t *path);
 
 /* file management */
-int64_t hf_size(struct device *dev, int8_t *path);
+int32_t hf_create(struct device *dev, int8_t *path);
 int32_t hf_unlink(struct device *dev, int8_t *path);
+int64_t hf_size(struct device *dev, int8_t *path);
 int32_t hf_rename(struct device *dev, int8_t *path, int8_t *newname);
 int32_t hf_chmod(struct device *dev, int8_t *path, int8_t mode);
 int32_t hf_touch(struct device *dev, int8_t *path, struct fs_date *ndate, struct fs_time *ntime);
@@ -125,8 +129,8 @@ int32_t hf_touch(struct device *dev, int8_t *path, struct fs_date *ndate, struct
 /* file operations */
 struct file * hf_fopen(struct device *dev, int8_t *path, int8_t *mode);
 int32_t hf_fclose(struct file *desc);
-size_t hf_fread(void *buf, int32_t isize, size_t items, struct file *desc);
-size_t hf_fwrite(void *buf, int32_t isize, size_t items, struct file *desc);
+int64_t hf_fread(void *buf, int32_t isize, int32_t items, struct file *desc);
+int64_t hf_fwrite(void *buf, int32_t isize, int32_t items, struct file *desc);
 int32_t hf_fseek(struct file *desc, int64_t offset, int32_t whence);
 int64_t hf_ftell(struct file *desc);
 int32_t hf_feof(struct file *desc);

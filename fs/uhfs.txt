@@ -46,6 +46,7 @@ struct file * hf_opendir(struct device *dev, int8_t *path) - open a directory
 int32_t hf_closedir(struct file *desc) - close an open directory
 int32_t hf_readdir(struct file *desc, struct fs_direntry *entry) - read a directory item (entry)
 
+int32_t hf_create(struct device *dev, int8_t *path) - create a file
 int32_t hf_unlink(struct device *dev, int8_t *path) - remove a file
 int64_t hf_size(struct device *dev, int8_t *path)
 int32_t hf_rename(struct device *dev, int8_t *path, int8_t *newname) - rename a file or sub-directory
