@@ -34,9 +34,10 @@
 
 typedef struct {
 	int32_t r[32];
-	int32_t pc, pc_next;
+	uint32_t pc, pc_next;
 	int8_t *mem;
-	int32_t vector, cause, mask, status, status_dly[4], epc, counter, compare, compare2;
+	uint32_t vector, cause, mask, status, status_dly[4], epc, counter, compare, compare2;
+	uint64_t cycles;
 } state;
 
 int8_t sram[MEM_SIZE];
@@ -135,7 +136,7 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 			fflush(stdout);
 			if (log_enabled)
 				fclose(fptr);
-			printf("\nend of simulation - %d cycles.\n", s->counter);
+			printf("\nend of simulation - %ld cycles.\n", s->cycles);
 			exit(0);
 		case DEBUG_ADDR:
 			if (log_enabled)
@@ -303,6 +304,7 @@ void cycle(state *s){
 	for (i = 0; i < 3; i++)
 		s->status_dly[i] = s->status_dly[i+1];
 	
+	s->cycles++;
 	s->counter++;
 	if ((s->compare2 & 0xffffff) == (s->counter & 0xffffff)) s->cause |= 0x20;		/*IRQ_COMPARE2*/
 	if (s->compare == s->counter) s->cause |= 0x10;						/*IRQ_COMPARE*/
@@ -365,6 +367,7 @@ int main(int argc, char *argv[]){
 	s->counter = 0;
 	s->compare = 0;
 	s->compare2 = 0;
+	s->cycles = 0;
 
 	for(;;){
 		cycle(s);
