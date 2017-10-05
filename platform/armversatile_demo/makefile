@@ -1,5 +1,5 @@
-APP = app/ramdisk
-ARCH = riscv/hf-riscv
+APP = app/test_float
+ARCH = arm/versatilepb
 
 SERIAL_BAUD=57600
 SERIAL_DEVICE=/dev/ttyUSB0
@@ -16,14 +16,10 @@ SRC_DIR = $(CURDIR)/../..
 
 include $(SRC_DIR)/arch/$(ARCH)/arch.mak
 include $(SRC_DIR)/lib/lib.mak
-include $(SRC_DIR)/drivers/spi.mak
-include $(SRC_DIR)/drivers/device.mak
-include $(SRC_DIR)/drivers/block.mak
-include $(SRC_DIR)/fs/uhfs.mak
 include $(SRC_DIR)/sys/kernel.mak
 include $(SRC_DIR)/$(APP)/app.mak
 
-INC_DIRS += -I $(SRC_DIR)/lib/include -I $(SRC_DIR)/sys/include -I $(SRC_DIR)/drivers/spi/include -I $(SRC_DIR)/drivers/device/include -I $(SRC_DIR)/drivers/block/include -I $(SRC_DIR)/fs/include
+INC_DIRS += -I $(SRC_DIR)/lib/include -I $(SRC_DIR)/sys/include
 CFLAGS += -DCPU_ARCH=$(CPU_ARCH) -DMAX_TASKS=$(MAX_TASKS) -DMEM_ALLOC=$(MEM_ALLOC) -DHEAP_SIZE=$(HEAP_SIZE) -DMUTEX_TYPE=$(MUTEX_TYPE) -DFLOATING_POINT=$(FLOATING_POINT) -DKERNEL_LOG=$(KERNEL_LOG) -DTERM_BAUD=$(SERIAL_BAUD)
 
 serial:
@@ -35,7 +31,7 @@ load: serial
 debug: serial
 	cat ${SERIAL_DEVICE}
 
-image: hal libc spi device block uhfs kernel app
+image: hal libc kernel app
 	$(LD) $(LDFLAGS) -T$(LINKER_SCRIPT) -Map image.map -o image.elf *.o
 	$(DUMP) --disassemble --reloc image.elf > image.lst
 	$(DUMP) -h image.elf > image.sec

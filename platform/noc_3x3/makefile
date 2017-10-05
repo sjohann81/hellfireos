@@ -1,4 +1,4 @@
-APP = app/noc_test3
+APP = app/noc_test4
 ARCH = mips/plasma
 
 CPU_ARCH = \"$(ARCH)\"
