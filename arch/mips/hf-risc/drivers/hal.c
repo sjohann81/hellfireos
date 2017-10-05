@@ -239,3 +239,4 @@ void _panic(void)
 	volatile uint32_t *trap_addr = (uint32_t *)0xe0000000;
 	*trap_addr = 0;
 }
+

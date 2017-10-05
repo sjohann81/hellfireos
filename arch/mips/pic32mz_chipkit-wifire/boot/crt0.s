@@ -71,6 +71,7 @@ _isr:
 	addi  $sp, $sp, 104
 isr_return:
 	mtc0  $k0, $14	
+
 	eret
 	nop
 
@@ -134,9 +135,9 @@ _interrupt_set:
 	.set reorder
 .end _interrupt_set
 
-	.global   setjmp
-	.ent     setjmp
-setjmp:
+	.global   _context_save
+	.ent     _context_save
+_context_save:
 	.set noreorder
 
 	sw    $s0, 0($a0)
@@ -156,36 +157,11 @@ setjmp:
 	nop
 
 	.set reorder
-.end setjmp
+.end _context_save
 
-
-	.global   longjmp
-	.ent     longjmp
-longjmp:
-	.set noreorder
-
-	lw    $s0, 0($a0)
-	lw    $s1, 4($a0)
-	lw    $s2, 8($a0)
-	lw    $s3, 12($a0)
-	lw    $s4, 16($a0)
-	lw    $s5, 20($a0)
-	lw    $s6, 24($a0)
-	lw    $s7, 28($a0)
-	lw    $fp, 32($a0)
-	lw    $gp, 36($a0)
-	lw    $sp, 40($a0)
-	lw    $ra, 44($a0)
-	ori   $v0,  $a1, 0
-	jr    $ra
-	nop
-
-	.set reorder
-.end longjmp
-
-	.global   _restoreexec
-	.ent    _restoreexec
-_restoreexec:
+	.global   _context_restore
+	.ent     _context_restore
+_context_restore:
 	.set noreorder
 
 	lw    $s0, 0($a0)
@@ -209,4 +185,4 @@ _restoreexec:
 	mtc0  $k1, $12
 
 	.set reorder
-.end _restoreexec
+.end _context_restore

@@ -13,6 +13,7 @@ typedef void				(*funcptr)();
 /* disable interrupts, return previous int status / enable interrupts */
 #define _di()				_interrupt_set(0)
 #define _ei(S)				_interrupt_set(S)
+#define IRQ_FLAG			0x01
 
 /* configure, read and write board pins */
 #define _port_setup(a, opts)		*(volatile uint32_t *)(a) = (opts)
@@ -55,11 +56,10 @@ typedef uint32_t context[20];
 
 /* hardware dependent stuff */
 int32_t _interrupt_set(int32_t s);
-void _restoreexec(context env, int32_t val, int32_t ctask);
 
 /* hardware dependent C library stuff */
-int32_t setjmp(context env);
-void longjmp(context env, int32_t val);
+int32_t _context_save(context env);
+void _context_restore(context env, int32_t val);
 void putchar(int32_t value);
 int32_t kbhit(void);
 int32_t getchar(void);
