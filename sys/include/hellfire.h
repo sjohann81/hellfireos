@@ -19,6 +19,7 @@ include default stuff
 #include <hal.h>
 #include <interrupt.h>
 #include <libc.h>
+#include <crc.h>
 #if FLOATING_POINT == 1
 #include <math.h>
 #endif

@@ -299,7 +299,7 @@ void hf_yield(void)
 		dprintf("hf_yield() %d ", (uint32_t)_read_us());
 #endif	
 	krnl_task = &krnl_tcb[krnl_current_task];
-	rc = setjmp(krnl_task->task_context);
+	rc = _context_save(krnl_task->task_context);
 	if (rc){
 		_ei(status);
 		return;
@@ -315,7 +315,7 @@ void hf_yield(void)
 #if KERNEL_LOG >= 1
 		dprintf("\n%d %d %d %d %d ", krnl_current_task, krnl_task->period, krnl_task->capacity, krnl_task->deadline, (uint32_t)_read_us());
 #endif
-		_restoreexec(krnl_task->task_context, status, krnl_current_task);
+		_context_restore(krnl_task->task_context, 1);
 		panic(PANIC_UNKNOWN);
 	}else{
 		panic(PANIC_NO_TASKS_LEFT);

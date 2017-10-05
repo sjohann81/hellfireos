@@ -19,7 +19,6 @@
 #define TASK_READY			1		/*!< task ready to run (on run queue) */
 #define TASK_RUNNING			2		/*!< task running (only one task/core can be in this state, on run queue) */
 #define TASK_BLOCKED			3		/*!< task blocked, can be resumed later (on run queue) */
-
 #define TASK_DELAYED			4		/*!< task being delayed (on delay queue) */
 #define TASK_WAITING			5		/*!< task waiting for an event (on event queue) */
 

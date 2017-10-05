@@ -67,8 +67,8 @@ static void rt_queue_next()
  * 
  * The job of the dispatcher is simple: save the current task context on the TCB,
  * update its state to ready and check its stack for overflow. If there are
- * tasks to be scheduled, process the delay queue and invoke the real-time scheduler.
- * If no RT tasks are ready to be scheduled, invoke the best effort scheduler.
+ * tasks to be scheduled, process the delay queue and invoke the real-time scheduler callback.
+ * If no RT tasks are ready to be scheduled, invoke the best effort scheduler callback.
  * Update the scheduled task state to running and restore the context of the task.
  * 
  * Delayed tasks are in the delay queue, and are processed in the following way:
@@ -89,10 +89,9 @@ void dispatch_isr(void *arg)
 	_timer_reset();
 	if (krnl_schedule == 0) return;
 	krnl_task = &krnl_tcb[krnl_current_task];
-	rc = setjmp(krnl_task->task_context);
-	if (rc){
+	rc = _context_save(krnl_task->task_context);
+	if (rc)
 		return;
-	}
 	if (krnl_task->state == TASK_RUNNING)
 		krnl_task->state = TASK_READY;
 	if (krnl_task->pstack[0] != STACK_MAGIC)
@@ -107,7 +106,7 @@ void dispatch_isr(void *arg)
 #if KERNEL_LOG >= 1
 		dprintf("\n%d %d %d %d %d ", krnl_current_task, krnl_task->period, krnl_task->capacity, krnl_task->deadline, (uint32_t)_read_us());
 #endif
-		_restoreexec(krnl_task->task_context, 1, krnl_current_task);
+		_context_restore(krnl_task->task_context, 1);
 		panic(PANIC_UNKNOWN);
 	}else{
 		panic(PANIC_NO_TASKS_LEFT);
@@ -115,7 +114,7 @@ void dispatch_isr(void *arg)
 }
 
 /**
- * @brief Best effort (BE) scheduler.
+ * @brief Best effort (BE) scheduler (callback).
  * 
  * @return Best effort task id.
  * 
@@ -141,7 +140,7 @@ int32_t sched_rr(void)
 }
 
 /**
- * @brief Best effort (BE) scheduler.
+ * @brief Best effort (BE) scheduler (callback).
  * 
  * @return Best effort task id.
  * 
@@ -166,7 +165,7 @@ int32_t sched_lottery(void)
 }
 
 /**
- * @brief Best effort (BE) scheduler.
+ * @brief Best effort (BE) scheduler (callback).
  * 
  * @return Best effort task id.
  * 
@@ -221,7 +220,7 @@ done:
 }
 
 /**
- * @brief Real time (RT) scheduler.
+ * @brief Real time (RT) scheduler (callback).
  * 
  * @return Real time task id.
  * 
