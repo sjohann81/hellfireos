@@ -88,5 +88,29 @@ void *realloc(void *ptr, uint32_t size);
 union float_long{
 	float f;
 	int32_t l;
+	uint32_t u;
 };
 
+/* the following deal with IEEE double-precision numbers */
+#define EXCESSD		1022
+#define HIDDEND		(1 << 20)
+#define EXPD(fp)	(((fp.l.upper) >> 20) & 0x7FF)
+#define SIGND(fp)	((fp.l.upper) & SIGNBIT)
+#define MANTD(fp)	(((((fp.l.upper) & 0xFFFFF) | HIDDEND) << 10) | (fp.l.lower >> 22))
+#define HIDDEND_LL	((long long)1 << 52)
+#define MANTD_LL(fp)	((fp.ll & (HIDDEND_LL-1)) | HIDDEND_LL)
+#define PACKD_LL(s,e,m)	(((long long)((s)+((e)<<20))<<32)|(m))
+
+union double_long {
+	double d;
+	struct {
+#ifdef LITTLE_ENDIAN
+		unsigned long lower;
+		long upper;
+#else
+		long upper;
+		unsigned long lower;
+#endif
+	} l;
+	long long ll;
+};
