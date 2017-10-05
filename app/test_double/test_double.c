@@ -1,14 +1,15 @@
 #include <hellfire.h>
 
-float epsilon(void){
+double epsilon(void){
 	double x = 1.0;
 	
 	while ((1.0 + (x / 2.0)) > 1.0)
 		x = x / 2.0;
+		
 	return x;
 }
 
-void doit(float a, float x){
+void doit(double a, double x){
 	printf("\n\na = %f, x = %f\n", a, x);
 	printf("\nx                                            = %.9f", x);
 	printf("\n(a + x) - a                                  = %.9f", (a + x) - a);
@@ -31,7 +32,7 @@ void doit(float a, float x){
 
 void testfp(void){
 	int i;
-	float a, x;
+	double a, x;
 
 	printf("\nmachine epsilon: %.9f", epsilon());
 
@@ -43,12 +44,38 @@ void testfp(void){
 
 }
 
+int fac(int n){
+	int i, f;
+
+	for (i = 1, f = 1; i <= n; i++)
+		f = f * i;
+
+	return f;
+}
+
+int euler(){
+	int i;
+	double e, f;
+
+	e = 0;
+	for (i = 0; i < 13; i++){
+		e += 1.0 / (double)fac(i);
+		f = e;
+		printf("[%d] - e = %.9f\n", i, f);
+	}
+
+	return 0;
+}
+
+
 void task(){
 	uint32_t i = 0;
 	
 	while (1){
 		printf("\ntest %d", i++);
 		testfp();
+		euler();
+		delay_ms(1000);
 	}
 }
 

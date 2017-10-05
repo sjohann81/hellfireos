@@ -20,7 +20,7 @@ void app_main(void){
 	printf("\nfreeblks: %d, label: %s", hf_getfree(&ramdisk0), str);
 	
 	hf_mkdir(&ramdisk0, "/root");
-	
+/*	
 	hf_mkdir(&ramdisk0, "/root/coisa");
 	hf_mkdir(&ramdisk0, "/root/cao");
 	hf_mkdir(&ramdisk0, "/root/mu");
@@ -144,6 +144,34 @@ void app_main(void){
 	
 	hf_rmdir(&ramdisk0, "/root/.");
 	
+	hf_mkdir(&ramdisk0, "/root");
+*/
+	hf_create(&ramdisk0, "/root/pig");
+	hf_create(&ramdisk0, "/root/pig2");
+	hf_create(&ramdisk0, "/root/pig3");
+
+	hf_unlink(&ramdisk0, "/root/pig2");
+	printf("\nsize %d", hf_size(&ramdisk0, "/root/pig"));
+	
+	fptr = hf_opendir(&ramdisk0, "/root/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+	}
+	hf_closedir(fptr);
+	
+	hf_rename(&ramdisk0, "/root/pig", "pig1");
+	
+	fptr = hf_opendir(&ramdisk0, "/root/.");
+	while (!hf_readdir(fptr, &direntry)){
+		
+		printf("\nfile: %s", direntry.filename);
+		if (direntry.attributes & UHFS_ATTRFREE) putchar('*');
+	}
+	hf_closedir(fptr);
+	
+	
+
 	printf("\nfreeblks: %d, label: %s", hf_getfree(&ramdisk0), str);
 	
 	hf_umount(&ramdisk0);

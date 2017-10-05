@@ -1,7 +1,7 @@
 #include <hellfire.h>
 #include "image.h"
 
-uint8_t gausian(uint8_t buffer[5][5]){
+uint8_t gaussian(uint8_t buffer[5][5]){
 	int32_t sum = 0, mpixel;
 	uint8_t i, j;
 
@@ -62,56 +62,61 @@ uint8_t sobel(uint8_t buffer[3][3]){
 	return (uint8_t)sum;
 }
 
-void do_gausian(uint8_t *img, int32_t width, int32_t height){
-	int32_t i, j, k, l;
+void do_gaussian(uint8_t *input, uint8_t *output, int32_t width, int32_t height){
+	int32_t i = 0, j = 0, k, l;
 	uint8_t image_buf[5][5];
 	
 	for(i = 0; i < height; i++){
 		if (i > 1 && i < height-2){
 			for(j = 0; j < width; j++){
 				if (j > 1 && j < width-2){
-					for (k = 0; k < 5;k++)
+					for (k = 0; k < 5; k++)
 						for(l = 0; l < 5; l++)
-							image_buf[k][l] = image[(((i + l-2) * width) + (j + k-2))];
+							image_buf[k][l] = input[(((i + l-2) * width) + (j + k-2))];
 
-					img[((i * width) + j)] = gausian(image_buf);
+					output[((i * width) + j)] = gaussian(image_buf);
 				}else{
-					img[((i * width) + j)] = image[((i * width) + j)];
+					output[((i * width) + j)] = input[((i * width) + j)];
 				}
 			}
+		}else{
+			output[((i * width) + j)] = input[((i * width) + j)];
 		}
 	}
 }
 
-void do_sobel(uint8_t *img, int32_t width, int32_t height){
-	int32_t i, j, k, l;
+void do_sobel(uint8_t *input, uint8_t *output, int32_t width, int32_t height){
+	int32_t i = 0, j = 0, k, l;
 	uint8_t image_buf[3][3];
 	
 	for(i = 0; i < height; i++){
-		if (i > 0 && i < height-1){
+		if (i > 2 && i < height-3){
 			for(j = 0; j < width-1; j++){
-				if (j > 0 && j < width-1){
-					for (k = 0; k < 3;k++)
+				if (j > 2 && j < width-3){
+					for (k = 0; k < 3; k++)
 						for(l = 0; l < 3; l++)
-							image_buf[k][l] = image[(((i + l-1) * width) + (j + k-1))];
+							image_buf[k][l] = input[(((i + l-1) * width) + (j + k-1))];
 
-					img[((i * width) + j)] = sobel(image_buf);
+					output[((i * width) + j)] = sobel(image_buf);
 				}else{
-					img[((i * width) + j)] = image[((i * width) + j)];
+					output[((i * width) + j)] = 0;
 				}
 			}
+		}else{
+			output[((i * width) + j)] = 0;
 		}
 	}
 }
 
 void task(void){
 	uint32_t i, j, k = 0;
-	uint8_t *img;
+	uint8_t *img, *img2;
 	uint32_t time;
 	
 	while(1) {
 		img = (uint8_t *) malloc(height * width);
-		if (img == NULL){
+		img2 = (uint8_t *) malloc(height * width);
+		if (img == NULL || img2 == NULL){
 			printf("\nmalloc() failed!\n");
 			for(;;);
 		}
@@ -120,8 +125,8 @@ void task(void){
 
 		time = _readcounter();
 
-		do_gausian(img, width, height);
-		do_sobel(img, width, height);
+		do_gaussian(image, img, width, height);
+		do_sobel(img, img2, width, height);
 
 		time = _readcounter() - time;
 
@@ -131,7 +136,7 @@ void task(void){
 		printf("uint8_t image[] = {\n");
 		for (i = 0; i < height; i++){
 			for (j = 0; j < width; j++){
-				printf("0x%x", img[i * width + j]);
+				printf("0x%x", img2[i * width + j]);
 				if ((i < height-1) || (j < width-1)) printf(", ");
 				if ((++k % 16) == 0) printf("\n");
 			}
@@ -139,6 +144,7 @@ void task(void){
 		printf("};\n");
 
 		free(img);
+		free(img2);
 
 		printf("\n\nend of processing!\n");
 		panic(0);

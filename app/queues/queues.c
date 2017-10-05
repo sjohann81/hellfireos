@@ -32,8 +32,9 @@ void task(void)
 		if (hf_queue_addtail(q, &c)) printf("FAIL");
 		if (hf_queue_addtail(q, &d)) printf("FAIL");
 		show_queue(q);
-		printf("\nremoving the 3rd node");
-		if (!hf_queue_rem(q, 2)) printf("FAIL");
+		printf("\nremoving the two elements from the head");
+		if (!hf_queue_remhead(q)) printf("FAIL");
+		if (!hf_queue_remhead(q)) printf("FAIL");
 		show_queue(q);
 		panic(0);
 	}
