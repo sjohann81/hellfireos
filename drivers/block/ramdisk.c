@@ -13,6 +13,12 @@ int32_t ramdisk_open(uint32_t flags)
 
 int32_t ramdisk_read(void *buf, uint32_t size)
 {
+	if ((rampos > lastpos) || size < 1) {
+		kprintf("\nread() error: invalid read");
+		for(;;);
+		
+		return -1;
+	}
 #if RAMDISK_DEBUG == 1
 	kprintf("\nDEBUG: read() block %d", rampos);
 #endif
@@ -24,8 +30,12 @@ int32_t ramdisk_read(void *buf, uint32_t size)
 
 int32_t ramdisk_write(void *buf, uint32_t size)
 {
-	if ((rampos * ramdisk_info.bytes_sector + ramdisk_info.bytes_sector > lastpos + 1) || size < 1)
+	if ((rampos > lastpos) || size < 1) {
+		kprintf("\nwrite() error: invalid write");
+		for(;;);
+		
 		return -1;
+	}
 #if RAMDISK_DEBUG == 1
 	kprintf("\nDEBUG: write() block %d", rampos);
 	hexdump(buf, ramdisk_info.bytes_sector);
