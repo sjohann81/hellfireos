@@ -1,0 +1,20 @@
+/* cache level, write policy, sets, block size (words), blocks per set (associativity) (1 - DM, 2 - 2 way...), block replacement strategy (f, r, l - fifo, random, lru), miss setup penalty, miss burst penalty */
+
+(write back, 256 sets (lines), 4 words per block, DM, 32 + 160 cycles miss penalty)
+(unified cache)
+1:u:wb:256:4:1:f:32:160
+
+(split I and D caches, equal organization.)
+1:i:wb:256:4:1:f:32:160
+1:d:wb:256:4:1:f:32:160
+
+(split I and D caches, different organization)
+1:i:wb:256:4:1:f:32:160
+1:d:wb:128:4:1:f:32:160
+
+(multi-level cache)
+(split L1 I and D caches, unified L2)
+2:u:wb:1024:8:1:f:32:300
+1:i:wb:128:8:2:l:32:50
+1:d:wb:128:4:2:l:32:50
+
