@@ -7,14 +7,12 @@
 # you don't need to run this script as root. after completion, just move the
 # mips-elf/ directory to its place (e.g /usr/local) and add the tools directory
 # to the PATH environment variable (export $PATH:=$PATH:/usr/local/arm-none-eabi/
-# gcc-4.9.3/bin). alternatively, the compiler may be left anywhere in the user
+# gcc-7.1.0/bin). alternatively, the compiler may be left anywhere in the user
 # home directory.
 #
 
 binutils_base="binutils-2.28"
 gcc_base="gcc-7.1.0"
-newlib_base="newlib-2.2.0"
-gdb_base="gdb-7.9.1"
 
 root_dir=`pwd`
 
@@ -39,15 +37,11 @@ mkdir $dl_dir
 cd $dl_dir
 wget -c ftp://ftp.gnu.org/gnu/binutils/${binutils_base}.tar.bz2
 wget -c ftp://ftp.gnu.org/gnu/gcc/${gcc_base}/${gcc_base}.tar.bz2
-wget -c ftp://sourceware.org/pub/newlib/${newlib_base}.tar.gz
-wget -c ftp://ftp.gnu.org/gnu/gdb/${gdb_base}.tar.gz
 
 # unpack everything
 cd $src_dir
 tar -jxvf ${dl_dir}/"${binutils_base}.tar.bz2"
 tar -jxvf ${dl_dir}/"${gcc_base}.tar.bz2"
-tar -zxvf ${dl_dir}/"${newlib_base}.tar.gz"
-tar -zxvf ${dl_dir}/"${gdb_base}.tar.gz"
 
 #
 # build binutils
@@ -71,33 +65,7 @@ cd $bld_dir
 mkdir ${gcc_base}-initial
 cd ${gcc_base}-initial
 ${src_dir}/${gcc_base}/configure --prefix=$PREFIX --target=$TARGET \
-        --with-gnu-as --with-gnu-ld --enable-languages=c \
+        --with-gnu-as --with-gnu-ld --enable-languages=c,c++ \
         --with-newlib --without-headers 
 make
 make install
-
-# build libgcc.a
-make all-target-libgcc
-make install-target-libgcc
-
-#
-# build newlib
-#
-cd $bld_dir
-mkdir $newlib_base
-cd $newlib_base
-${src_dir}/${newlib_base}/configure --prefix=$PREFIX --target=$TARGET \
-	--disable-newlib-supplied-syscalls 
-make
-make install
-
-#
-# build GDB
-#
-cd $bld_dir
-mkdir $gdb_base
-cd $gdb_base
-${src_dir}/${gdb_base}/configure --prefix=$PREFIX --target=$TARGET
-make
-make install
-

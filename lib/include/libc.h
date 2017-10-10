@@ -58,6 +58,7 @@ void *memset(void *s, int32_t c, uint32_t n);
 int32_t strtol(const int8_t *s, int8_t **end, int32_t base);
 int32_t atoi(const int8_t *s);
 float atof(const int8_t *p);
+int32_t ftoa(float f, int8_t *outbuf, int32_t precision);
 int8_t *itoa(int32_t i, int8_t *s, int32_t base);
 int32_t puts(const int8_t *str);
 int8_t *gets(int8_t *s);

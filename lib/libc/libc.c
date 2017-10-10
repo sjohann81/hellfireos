@@ -291,7 +291,7 @@ float atof(const int8_t *p){
 	return sign * val / power;
 }
 
-int32_t ftoa(int8_t *outbuf, float f, int32_t precision){
+int32_t ftoa(float f, int8_t *outbuf, int32_t precision){
 	int32_t mantissa, int_part, frac_part, exp2, i;
 	int8_t *p;
 	union float_long fl;
@@ -300,6 +300,7 @@ int32_t ftoa(int8_t *outbuf, float f, int32_t precision){
 
 	if (f < 0.0){
 		*p = '-';
+		f = -f;
 		p++;
 	}
 	
@@ -436,204 +437,130 @@ int32_t hexdump(int8_t *buf, uint32_t size){
 	return 0;
 }
 
-/*
-printf() and sprintf()
-*/
-#define PAD_RIGHT 1
-#define PAD_ZERO 2
-#define PRINT_BUF_LEN 30
+/* printf() / sprintf() stuff */
+
+static uint32_t divide(long *n, int base)
+{
+	uint32_t res;
+
+	res = ((uint32_t)*n) % base;
+	*n = (long)(((uint32_t)*n) / base);
+	return res;
+}
+
+static int toint(const char **s)
+{
+	int i = 0;
+	while (isdigit((int)**s))
+		i = i * 10 + *((*s)++) - '0';
+	return i;
+}
 
 static void printchar(int8_t **str, int32_t c){
 	if (str){
 		**str = c;
 		++(*str);
-	} else
-		(void)putchar(c);
+	}else{
+		putchar(c);
+	}
 }
 
-static int32_t prints(int8_t **out, const int8_t *string, int32_t width, int32_t pad){
-	int32_t pc = 0, padchar = ' ';
-	int32_t len = 0;
-	const int8_t *ptr;
+static int vsprintf(char **buf, const char *fmt, va_list args)
+{
+	char **p, *str;
+	const char *digits = "0123456789abcdef";
+	char pad, tmp[16];
+	int width, base, sign, i;
+	long num;
 
-	if (width > 0){
-		for (ptr = string; *ptr; ++ptr)
-			++len;
-		if (len >= width)
-			width = 0;
+	for (p = buf; *fmt; fmt++) {
+		if (*fmt != '%') {
+			printchar(p, *fmt);
+			continue;
+		}
+		/* get flags */
+		++fmt;
+		pad = ' ';
+		if (*fmt == '0') {
+			pad = '0';
+			fmt++;
+		}
+		/* get width */
+		width = -1;
+		if (isdigit(*fmt)) {
+			width = toint(&fmt);
+		}
+		/* ignore long */
+		if (*fmt == 'l')
+			fmt++;
+		base = 10;
+		sign = 0;
+		switch (*fmt) {
+		case 'c':
+			printchar(p, (char)va_arg(args, int));
+			continue;
+		case 's':
+			str = va_arg(args, char *);
+			if (str == NULL)
+				str = "<NULL>";
+			for (; *str && width != 0; str++, width--) {
+				printchar(p, *str);
+			}
+			while (width-- > 0)
+				printchar(p, pad);
+			continue;
+		case 'X':
+		case 'x':
+			base = 16;
+			break;
+		case 'd':
+			sign = 1;
+			break;
+		case 'u':
+			break;
+		default:
+			continue;
+		}
+		num = va_arg(args, long);
+		if (sign && num < 0) {
+			num = -num;
+			printchar(p, '-');
+			width--;
+		}
+		i = 0;
+		if (num == 0)
+			tmp[i++] = '0';
 		else
-			width -= len;
-		if (pad & PAD_ZERO)
-			padchar = '0';
+			while (num != 0)
+				tmp[i++] = digits[divide(&num, base)];
+		width -= i;
+		while (width-- > 0)
+			printchar(p, pad);
+		while (i-- > 0)
+			printchar(p, tmp[i]);
 	}
-	if (!(pad & PAD_RIGHT)){
-		for ( ; width > 0; --width){
-			printchar(out, padchar);
-			++pc;
-		}
-	}
-	for ( ; *string ; ++string){
-		printchar(out, *string);
-		++pc;
-	}
-	for ( ; width > 0; --width){
-		printchar(out, padchar);
-		++pc;
-	}
-
-	return pc;
-}
-
-static int32_t printi(int8_t **out, int32_t i, int32_t b, int32_t sg, int32_t width, int32_t pad, int32_t letbase){
-	int8_t print_buf[PRINT_BUF_LEN];
-	int8_t *s;
-	int32_t t, neg = 0, pc = 0;
-	uint32_t u = i;
-
-	if (i == 0){
-		print_buf[0] = '0';
-		print_buf[1] = '\0';
-		return prints(out, print_buf, width, pad);
-	}
-	if (sg && b == 10 && i < 0){
-		neg = 1;
-		u = -i;
-	}
-
-	s = print_buf + PRINT_BUF_LEN-1;
-	*s = '\0';
-
-	while (u){
-		t = u % b;
-		if (t >= 10)
-			t += letbase - '0' - 10;
-		*--s = t + '0';
-		u /= b;
-	}
-
-	if (neg){
-		if (width && (pad & PAD_ZERO)){
-			printchar(out, '-');
-			++pc;
-			--width;
-		}else{
-			*--s = '-';
-		}
-	}
-
-	return pc + prints(out, s, width, pad);
-}
-
-static int32_t print(int8_t **out, const int8_t *format, va_list *largs){
-	va_list args;
-	int32_t width, pad;
-	int32_t pc = 0;
-	int8_t scr[2];
-	int8_t *s;
-#if FLOATING_POINT == 1
-	int32_t i, j, precision = 6;
-	int8_t buf[30];
-	float f;
-	double d;
-#endif
-	va_copy(args, *largs);
-
-	for (; *format != 0; ++format){
-		if (*format == '%'){
-			++format;
-			width = pad = 0;
-			if (*format == '\0')
-				break;
-			if (*format == '%')
-				goto out;
-			if (*format == '-'){
-				++format;
-				pad = PAD_RIGHT;
-			}
-			while (*format == '0'){
-				++format;
-				pad |= PAD_ZERO;
-			}
-			for (; *format >= '0' && *format <= '9'; ++format){
-				width *= 10;
-				width += *format - '0';
-			}
-			switch(*format){
-				case 's':
-					s = (int8_t *)va_arg(args, size_t);
-					pc += prints(out, s?s:"(null)", width, pad);
-					break;
-				case 'd':
-					pc += printi(out, va_arg(args, size_t), 10, 1, width, pad, 'a');
-					break;
-				case 'x':
-					pc += printi(out, va_arg(args, size_t), 16, 0, width, pad, 'a');
-					break;
-				case 'X':
-					pc += printi(out, va_arg(args, size_t), 16, 0, width, pad, 'A');
-					break;
-				case 'u':
-					pc += printi(out, va_arg(args, size_t), 10, 0, width, pad, 'a');
-					break;
-				case 'c':
-					scr[0] = (int8_t)va_arg(args, size_t);
-					scr[1] = '\0';
-					pc += prints(out, scr, width, pad);
-					break;
-#if FLOATING_POINT == 1
-				case '.':
-					// decimal point: 1 to 9 places max. single precision is only about 7 places anyway.
-					i = *++format - '0';
-					precision = i;
-					pc++;
-					++format;
-				case 'e':
-				case 'E':
-				case 'g':
-				case 'G':
-				case 'f':
-					d = va_arg(args, double);
-					f = (float)d;
-					ftoa(buf, f, precision);
-					j = 0;
-					while (buf[j]){
-						printchar(out, buf[j++]);
-						pc++;
-					}
-					precision = 6;
-					break;
-#endif
-			}
-		}else{
-	out:
-			printchar(out, *format);
-			++pc;
-		}
-	}
-	if (out) **out = '\0';
-	va_end(args);
 	
-	return pc;
+	return 0;
 }
 
 int32_t printf(const int8_t *fmt, ...){
-        va_list args;
-        int32_t v;
-        
-        va_start(args, fmt);
-        v = print(0, fmt, &args);
-        va_end(args);
-        return v;
+	va_list args;
+	int32_t v;
+
+	va_start(args, fmt);
+	v = vsprintf(0, fmt, args);
+	va_end(args);
+	return v;
 }
 
 int32_t sprintf(int8_t *out, const int8_t *fmt, ...){
-        va_list args;
-        int32_t v;
-        
-        va_start(args, fmt);
-        v = print(&out, fmt, &args);
-        va_end(args);
-        return v;
+	va_list args;
+	int32_t v;
+
+	va_start(args, fmt);
+	v = vsprintf(&out, fmt, args);
+	va_end(args);
+	return v;
 }
 
 void *malloc(size_t size){
