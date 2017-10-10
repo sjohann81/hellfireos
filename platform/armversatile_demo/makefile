@@ -1,4 +1,4 @@
-APP = app/test_float
+APP = app/float_double
 ARCH = arm/versatilepb
 
 SERIAL_BAUD=57600

@@ -1,5 +1,5 @@
 APP = app/coremark
-ARCH = mips/hf-risc
+ARCH = riscv/hf-riscv
 
 SERIAL_BAUD=57600
 SERIAL_DEVICE=/dev/ttyUSB0

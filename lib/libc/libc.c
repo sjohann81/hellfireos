@@ -461,7 +461,7 @@ static void printchar(int8_t **str, int32_t c){
 		**str = c;
 		++(*str);
 	}else{
-		putchar(c);
+		if (c) putchar(c);
 	}
 }
 
@@ -539,6 +539,7 @@ static int vsprintf(char **buf, const char *fmt, va_list args)
 		while (i-- > 0)
 			printchar(p, tmp[i]);
 	}
+	printchar(p, '\0');
 	
 	return 0;
 }
