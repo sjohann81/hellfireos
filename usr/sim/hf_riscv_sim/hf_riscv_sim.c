@@ -143,7 +143,7 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 				fprintf(fptr, "%c", (int8_t)(value & 0xff));
 			return;
 		case UART_WRITE:
-			fprintf(stderr, "%c", (int8_t)(value & 0xff));
+			fprintf(stdout, "%c", (int8_t)(value & 0xff));
 			return;
 		case UART_DIVISOR:
 			return;

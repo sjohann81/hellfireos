@@ -133,7 +133,7 @@ static int32_t mem_read(struct cache_s *cache, state *s, int32_t size, uint32_t 
 	return(value);
 }
 
-static void mem_write(struct cache_s *cache, state *s, int32_t size, uint32_t address, uint32_t value){
+static void mem_write(struct cache_s *icache, struct cache_s *dcache, state *s, int32_t size, uint32_t address, uint32_t value){
 	uint32_t i, cycles;
 	uint32_t *ptr;
 
@@ -151,7 +151,16 @@ static void mem_write(struct cache_s *cache, state *s, int32_t size, uint32_t ad
 			if (log_enabled)
 				fclose(fptr);
 			printf("\nend of simulation - %ld cycles.\n", s->cycles);
-			cache_finish(cache);
+			/* TODO: finish all caches when split/multilevel caches are used! */
+			if (icache == dcache){
+				printf("\ncache performance summary (unified):\n");
+				cache_finish(icache);
+			}else{
+				printf("\ncache performance summary (I cache):\n");
+				cache_finish(icache);
+				printf("\ncache performance summary (D cache):\n");
+				cache_finish(dcache);
+			}
 			exit(0);
 		case DEBUG_ADDR:
 			if (log_enabled)
@@ -164,7 +173,7 @@ static void mem_write(struct cache_s *cache, state *s, int32_t size, uint32_t ad
 			return;
 	}
 
-	cycles = cache_write(cache, address);
+	cycles = cache_write(dcache, address);
 	s->cycles += cycles;
 	s->counter += cycles;
 
@@ -197,7 +206,7 @@ static void mem_write(struct cache_s *cache, state *s, int32_t size, uint32_t ad
 	}
 }
 
-void cycle(struct cache_s *cache, state *s){
+void cycle(struct cache_s *icache, struct cache_s *dcache, state *s){
 	uint32_t inst, i;
 	uint32_t opcode, rd, rs1, rs2, funct3, funct7, imm_i, imm_s, imm_sb, imm_u, imm_uj;
 	int32_t *r = s->r;
@@ -213,7 +222,7 @@ void cycle(struct cache_s *cache, state *s){
 			s->status_dly[i] = 0;
 	}
 
-	inst = mem_fetch(cache, s, s->pc);
+	inst = mem_fetch(icache, s, s->pc);
 
 	opcode = inst & 0x7f;
 	rd = (inst >> 7) & 0x1f;
@@ -254,19 +263,19 @@ void cycle(struct cache_s *cache, state *s){
 			break;
 		case 0x3:
 			switch(funct3){
-				case 0x0: r[rd] = (int8_t)mem_read(cache, s, 1, ptr_l); break;					/* LB */
-				case 0x1: r[rd] = (int16_t)mem_read(cache, s, 2, ptr_l); break;					/* LH */
-				case 0x2: r[rd] = mem_read(cache, s, 4, ptr_l); break;						/* LW */
-				case 0x4: r[rd] = (uint8_t)mem_read(cache, s, 1,ptr_l); break;					/* LBU */
-				case 0x5: r[rd] = (uint16_t)mem_read(cache, s, 2, ptr_l); break;				/* LHU */
+				case 0x0: r[rd] = (int8_t)mem_read(dcache, s, 1, ptr_l); break;					/* LB */
+				case 0x1: r[rd] = (int16_t)mem_read(dcache, s, 2, ptr_l); break;				/* LH */
+				case 0x2: r[rd] = mem_read(dcache, s, 4, ptr_l); break;						/* LW */
+				case 0x4: r[rd] = (uint8_t)mem_read(dcache, s, 1,ptr_l); break;					/* LBU */
+				case 0x5: r[rd] = (uint16_t)mem_read(dcache, s, 2, ptr_l); break;				/* LHU */
 				default: goto fail;
 			}
 			break;
 		case 0x23:
 			switch(funct3){
-				case 0x0: mem_write(cache, s , 1, ptr_s, r[rs2]); break;					/* SB */
-				case 0x1: mem_write(cache, s, 2, ptr_s, r[rs2]); break;						/* SH */
-				case 0x2: mem_write(cache, s, 4, ptr_s, r[rs2]); break;						/* SW */
+				case 0x0: mem_write(icache, dcache, s , 1, ptr_s, r[rs2]); break;				/* SB */
+				case 0x1: mem_write(icache, dcache, s, 2, ptr_s, r[rs2]); break;				/* SH */
+				case 0x2: mem_write(icache, dcache, s, 4, ptr_s, r[rs2]); break;				/* SW */
 				default: goto fail;
 			}
 			break;
@@ -290,27 +299,65 @@ void cycle(struct cache_s *cache, state *s){
 			}
 			break;
 		case 0x33:
+			if (funct7 == 0x1){												/* RV32M */
+				switch(funct3){
+					case 0:	r[rd] = (((int64_t)r[rs1] * (int64_t)r[rs2]) & 0xffffffff); break;			/* MUL */
+					case 1:	r[rd] = ((((int64_t)r[rs1] * (int64_t)r[rs2]) >> 32) & 0xffffffff); break;		/* MULH */
+					case 2:	r[rd] = ((((int64_t)r[rs1] * (uint64_t)u[rs2]) >> 32) & 0xffffffff); break;		/* MULHSU */
+					case 3:	r[rd] = ((((uint64_t)u[rs1] * (uint64_t)u[rs2]) >> 32) & 0xffffffff); break;		/* MULHU */
+					case 4:	if (r[rs2]) r[rd] = r[rs1] / r[rs2]; else r[rd] = 0; break;				/* DIV */
+					case 5:	if (r[rs2]) r[rd] = u[rs1] / u[rs2]; else r[rd] = 0; break;				/* DIVU */
+					case 6:	if (r[rs2]) r[rd] = r[rs1] % r[rs2]; else r[rd] = 0; break;				/* REM */
+					case 7:	if (r[rs2]) r[rd] = u[rs1] % u[rs2]; else r[rd] = 0; break;				/* REMU */
+					default: goto fail;
+				}
+				break;
+			}else{
+				switch(funct3){
+					case 0x0:
+						switch(funct7){
+							case 0x0: r[rd] = r[rs1] + r[rs2]; break;					/* ADD */
+							case 0x20: r[rd] = r[rs1] - r[rs2]; break;					/* SUB */
+							default: goto fail;
+						}
+						break;
+					case 0x1: r[rd] = r[rs1] << r[rs2]; break;							/* SLL */
+					case 0x2: r[rd] = r[rs1] < r[rs2]; break;		 					/* SLT */
+					case 0x3: r[rd] = u[rs1] < u[rs2]; break;		 					/* SLTU */
+					case 0x4: r[rd] = r[rs1] ^ r[rs2]; break;							/* XOR */
+					case 0x5:
+						switch(funct7){
+							case 0x0: r[rd] = u[rs1] >> u[rs2]; break;					/* SRL */
+							case 0x20: r[rd] = r[rs1] >> r[rs2]; break;					/* SRA */
+							default: goto fail;
+						}
+						break;
+					case 0x6: r[rd] = r[rs1] | r[rs2]; break;							/* OR */
+					case 0x7: r[rd] = r[rs1] & r[rs2]; break;							/* AND */
+					default: goto fail;
+				}
+				break;
+			}
+		case 0x73:
 			switch(funct3){
-				case 0x0:
-					switch(funct7){
-						case 0x0: r[rd] = r[rs1] + r[rs2]; break;					/* ADD */
-						case 0x20: r[rd] = r[rs1] - r[rs2]; break;					/* SUB */
-						default: goto fail;
+				case 0:
+					switch(imm_i){
+//						case 0:	break;										/* SCALL */
+//						case 1:	bp(s, inst); break;								/* SBREAK */
+//						default: goto fail;
 					}
 					break;
-				case 0x1: r[rd] = r[rs1] << r[rs2]; break;							/* SLL */
-				case 0x2: r[rd] = r[rs1] < r[rs2]; break;		 					/* SLT */
-				case 0x3: r[rd] = u[rs1] < u[rs2]; break;		 					/* SLTU */
-				case 0x4: r[rd] = r[rs1] ^ r[rs2]; break;							/* XOR */
-				case 0x5:
-					switch(funct7){
-						case 0x0: r[rd] = u[rs1] >> u[rs2]; break;					/* SRL */
-						case 0x20: r[rd] = r[rs1] >> r[rs2]; break;					/* SRA */
+				case 2:
+					switch(imm_i){
+						case 0xc00: break;									/* RDCYCLE */
+						case 0xc80: break;									/* RDCYCLEH */
+						case 0xc01: break;									/* RDTIME */
+						case 0xc81: break;									/* RDTIMEH */
+						case 0xc02: break;									/* RDINSTRET */
+						case 0xc82: break;									/* RDINSTRETH */
 						default: goto fail;
-					}
+					};
 					break;
-				case 0x6: r[rd] = r[rs1] | r[rs2]; break;							/* OR */
-				case 0x7: r[rd] = r[rs1] & r[rs2]; break;							/* AND */
 				default: goto fail;
 			}
 			break;
@@ -341,13 +388,12 @@ fail:
 int main(int argc, char *argv[]){
 	state context;
 	state *s;
-	struct cache_s l1_cache;
-	struct cache_s *cache;
+	struct cache_s l1_icache, l1_dcache;
+	struct cache_s *icache, *dcache;
 	FILE *in;
 	int bytes, i;
 
 	s = &context;
-	cache = &l1_cache;
 	memset(s, 0, sizeof(state));
 	memset(sram, 0xff, sizeof(MEM_SIZE));
 
@@ -363,21 +409,25 @@ int main(int argc, char *argv[]){
 			printf("\nerror reading binary file.\n");
 			return 1;
 		}
-		if (strcmp(argv[2], "wt") != 0 && strcmp(argv[2], "wa") != 0 && (strcmp(argv[2], "wb") != 0)){
+		if (strcmp(argv[2], "u") != 0 && strcmp(argv[2], "s") != 0){
+			printf("\ncaches must be either unified or split.");
+			return 1;
+		}
+		if (strcmp(argv[3], "wt") != 0 && strcmp(argv[3], "wa") != 0 && strcmp(argv[3], "wb") != 0){
 			printf("\npolicy must be write through, no write allocate, write through, write allocate or write back.");
 			return 1;
 		}
-		if (!ispowerof2(atoi(argv[3]))){
+		if (!ispowerof2(atoi(argv[4]))){
+			printf("\nnumber of cache sets must be a power of two (%d).\n", atoi(argv[3]));
+			return 1;
+		}
+		if (!ispowerof2(atoi(argv[5]))){
 			printf("\ncache block size must be a power of two (%d).\n", atoi(argv[2]));
 			return 1;
 		}
-		if (!ispowerof2(atoi(argv[4]))){
-			printf("\nnumber of cache lines must be a power of two (%d).\n", atoi(argv[3]));
-			return 1;
-		}
 		
-		if (argc == 8){
-			fptr = fopen(argv[6], "wb");
+		if (argc == 9){
+			fptr = fopen(argv[8], "wb");
 			if (!fptr){
 				printf("\nerror reading binary file.\n");
 				return 1;
@@ -385,7 +435,8 @@ int main(int argc, char *argv[]){
 			log_enabled = 1;
 		}
 	}else{
-		printf("\nsyntax: hf_risc_sim_cache [file.bin] [wt/wa/wb] [block size] [lines] [miss setup] [miss burst] [log.txt]\n");
+		printf("\nsyntax: hf_risc_sim_cache [file.bin] [u/s] [wt/wa/wb] [sets] [block size] [miss setup] [miss burst] [log.txt]\n");
+		printf("\n[u/s] - unified I/D cache, split I/D caches");
 		printf("\n[wt/wa/wb] - write through, no write allocate / write through, write allocate / write back");
 		printf("\n[block size] - block size (in words)");
 		printf("\n[lines] - number of lines");
@@ -409,12 +460,23 @@ int main(int argc, char *argv[]){
 	s->compare2 = 0;
 	s->cycles = 0;
 	
-	cache_init(cache, (int8_t *)argv[2], atoi(argv[3]), atoi(argv[4]), atoi(argv[5]), atoi(argv[6]));
+	if (strcmp(argv[2], "u") == 0){
+		icache = &l1_icache;
+		dcache = &l1_icache;
+		printf("\ncache configuration (shared, direct mapped, ");
+		cache_init(icache, (int8_t *)argv[3], atoi(argv[4]), atoi(argv[5]), 1, atoi(argv[6]), atoi(argv[7]));
+	}else{
+		icache = &l1_icache;
+		dcache = &l1_dcache;
+		printf("\ncache configuration (I cache, direct mapped, ");
+		cache_init(icache, (int8_t *)argv[3], atoi(argv[4]), atoi(argv[5]), 1, atoi(argv[6]), atoi(argv[7]));
+		printf("\ncache configuration (D cache, direct mapped, ");
+		cache_init(dcache, (int8_t *)argv[3], atoi(argv[4]), atoi(argv[5]), 1, atoi(argv[6]), atoi(argv[7]));
+	}
 
 	for(;;){
-		cycle(cache, s);
+		cycle(icache, dcache, s);
 	}
 
 	return(0);
 }
-

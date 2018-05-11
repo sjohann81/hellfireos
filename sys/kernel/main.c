@@ -31,7 +31,7 @@ static void print_config(void)
 {
 	kprintf("\n===========================================================");
 	kprintf("\nHellfireOS %s (%s) [%s, %s]", KERN_VER, __VERSION__, __DATE__, __TIME__);
-	kprintf("\nEmbedded Systems Group - GSE, PUCRS - [2007 - 2017]");
+	kprintf("\nEmbedded Systems Group - GSE, PUCRS - [2007 - 2018]");
 	kprintf("\n===========================================================\n");
 	kprintf("\narch:          %s", CPU_ARCH);
 	kprintf("\nsys clk:       %d kHz", CPU_SPEED/1000);

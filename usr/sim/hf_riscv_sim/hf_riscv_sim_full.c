@@ -34,9 +34,9 @@
 
 typedef struct {
 	int32_t r[32];
-	int32_t pc, pc_next;
+	uint32_t pc, pc_next;
 	int8_t *mem;
-	int32_t vector, cause, mask, status, status_dly[4], epc, counter, compare, compare2;
+	uint32_t vector, cause, mask, status, status_dly[4], epc, counter, compare, compare2;
 } state;
 
 int8_t sram[MEM_SIZE];
@@ -61,18 +61,18 @@ void bp(state *s, uint32_t ir){
 }
 
 static int32_t mem_fetch(state *s, uint32_t address){
-	uint32_t value=0, ptr;
+	uint32_t value=0;
+	uint32_t *ptr;
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
-
-	value = *(int32_t *)(intptr_t)ptr;
-//	value = ntohl(value);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
+	value = *ptr;
 
 	return(value);
 }
 
 static int32_t mem_read(state *s, int32_t size, uint32_t address){
-	uint32_t value=0, ptr;
+	uint32_t value=0;
+	uint32_t *ptr;
 
 	switch(address){
 		case IRQ_VECTOR:	return s->vector;
@@ -87,7 +87,7 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 		case UART_DIVISOR:	return 0;
 	}
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 
 	switch(size){
 		case 4:
@@ -96,8 +96,7 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 				dumpregs(s);
 				exit(1);
 			}else{
-				value = *(int32_t *)(intptr_t)ptr;
-//				value = ntohl(value);
+				value = *(int32_t *)ptr;
 			}
 			break;
 		case 2:
@@ -106,23 +105,22 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 				dumpregs(s);
 				exit(1);
 			}else{
-				value = *(int16_t *)(intptr_t)ptr;
-//				value = ntohs((uint16_t)value);
+				value = *(int16_t *)ptr;
 			}
 			break;
 		case 1:
-			value = *(int8_t *)(intptr_t)ptr;
+			value = *(int8_t *)ptr;
 			break;
 		default:
 			printf("\nerror");
 	}
-//	printf("\nload(%d): %x, addr: %08x", size, value, address);
 
 	return(value);
 }
 
 static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
-	uint32_t ptr, i;
+	uint32_t i;
+	uint32_t *ptr;
 
 	switch(address){
 		case IRQ_VECTOR:	s->vector = value; return;
@@ -150,34 +148,29 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 			return;
 	}
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 	
 	switch(size){
 		case 4:
-//			printf("\nstore(%d): %x, addr: %08x", size, value, address);
 			if(address & 3){
 				printf("\nunaligned access (store word) pc=0x%x addr=0x%x", s->pc, address);
 				dumpregs(s);
 				exit(1);
 			}else{
-//				value = htonl(value);
-				*(int32_t *)(intptr_t)ptr = value;
+				*(int32_t *)ptr = value;
 			}
 			break;
 		case 2:
-//			printf("\nstore(%d): %x, addr: %08x", size, (uint16_t)value, address);
 			if(address & 1){
 				printf("\nunaligned access (store halfword) pc=0x%x addr=0x%x", s->pc, address);
 				dumpregs(s);
 				exit(1);
 			}else{
-//				value = htons((uint16_t)value);
-				*(int16_t *)(intptr_t)ptr = (uint16_t)value;
+				*(int16_t *)ptr = (uint16_t)value;
 			}
 			break;
 		case 1:
-//			printf("\nstore(%d): %x, addr: %08x", size, (uint8_t)value, address);
-			*(int8_t *)(intptr_t)ptr = (uint8_t)value;
+			*(int8_t *)ptr = (uint8_t)value;
 			break;
 		default:
 			printf("\nerror");
@@ -222,8 +215,6 @@ void cycle(state *s){
 	ptr_l = r[rs1] + (int32_t)imm_i;
 	ptr_s = r[rs1] + (int32_t)imm_s;
 	r[0] = 0;
-	
-//	bp(s, inst);
 	
 	switch(opcode){
 		case 0x37: r[rd] = imm_u; break;										/* LUI */

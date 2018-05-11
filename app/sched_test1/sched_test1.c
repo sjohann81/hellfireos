@@ -3,7 +3,7 @@
 void thread(void)
 {
 	for(;;){
-		printf("t%d ", hf_selfid());
+		printf("t%d\n", hf_selfid());
 		delay_ms(1000);
 	}
 }

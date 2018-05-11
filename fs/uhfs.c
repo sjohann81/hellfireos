@@ -4,24 +4,8 @@
 #include <uhfs.h>
 
 /* auxiliary functions */
-static int32_t test_pot(uint32_t val)
-{
-	switch(val){
-	case 64:
-	case 128:
-	case 256:
-	case 512:
-	case 1024:
-	case 2048:
-	case 4096:
-	case 8192:
-	case 16384:
-	case 32768:
-	case 65536:
-		return 1;
-	default:
-		return 0;
-	}
+static int32_t ispowerof2(uint32_t x){
+	return x && !(x & (x - 1));
 }
 
 static uint32_t getfreeblock(struct device *dev)
@@ -166,13 +150,13 @@ int32_t hf_mkfs(struct device *dev, uint32_t blk_size)
 	}
 
 	hf_dev_ioctl(dev, DISK_GETINFO, &fsblk_info);
-	if (!test_pot(fsblk_info.bytes_sector)) {
+	if (!ispowerof2(fsblk_info.bytes_sector)) {
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_mkfs: invalid sector size");
 #endif
 		return -1;
 	}
-	if (!test_pot(blk_size) || (blk_size < fsblk_info.bytes_sector)) {
+	if (!ispowerof2(blk_size) || (blk_size < fsblk_info.bytes_sector)) {
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_mkfs: invalid block size");
 #endif
@@ -270,7 +254,7 @@ int32_t hf_mount(struct device *dev)
 	}
 
 	hf_dev_ioctl(dev, DISK_GETINFO, &fsblk_info);
-	if (!test_pot(fsblk_info.bytes_sector)) {
+	if (!ispowerof2(fsblk_info.bytes_sector)) {
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_mount: invalid sector size");
 #endif
@@ -293,7 +277,7 @@ int32_t hf_mount(struct device *dev)
 	hf_free(tmp_sblock);
 	
 	/* allocate memory for a block of data. this is the only block we have in memory! */
-	if (!test_pot(blk_device->fssblock.block_size) || (blk_device->fssblock.block_size < fsblk_info.bytes_sector)) {
+	if (!ispowerof2(blk_device->fssblock.block_size) || (blk_device->fssblock.block_size < fsblk_info.bytes_sector)) {
 #if UHFS_DEBUG == 1
 		kprintf("\nhf_mount: invalid block size");
 #endif

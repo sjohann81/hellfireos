@@ -1,4 +1,4 @@
-/* file:          eeprom23lcxx.c
+/* file:          sram23lcxx.c
  * description:   Microchip SRAM chip driver
  * date:          12/2016
  * author:        Sergio Johann Filho <sergio.filho@pucrs.br>

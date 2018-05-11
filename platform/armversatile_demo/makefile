@@ -1,4 +1,4 @@
-APP = app/float_double
+APP = app/malloc_test
 ARCH = arm/versatilepb
 
 SERIAL_BAUD=57600
@@ -8,7 +8,7 @@ CPU_ARCH = \"$(ARCH)\"
 MAX_TASKS = 30
 MUTEX_TYPE = 0
 MEM_ALLOC = 3
-HEAP_SIZE = 500000
+HEAP_SIZE = 67108864
 FLOATING_POINT = 1
 KERNEL_LOG = 0
 

@@ -36,7 +36,7 @@ void fwt97(double *x, int32_t n) {
 	a = -0.05298011854;
 	for (i = 2; i < n; i += 2)
 		x[i] += a * (x[i-1] + x[i+1]);
-	x[0]+=2*a*x[1];
+	x[0] += 2*a*x[1];
 
 	// Predict 2
 	a = 0.8829110762;

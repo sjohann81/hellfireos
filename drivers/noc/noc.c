@@ -187,6 +187,9 @@ uint16_t hf_ncores(void)
  * routines will manage the queue, putting and pulling packets from the queue on demand. The communication
  * subsystem is configured by the association of a task id to a receiving port (alias) and the definition
  * of how many packet slots a task has on its queue.
+ * 
+ * If the third parameter (packets) is set to 0, the maximum number of packets from the pool is available
+ * to the task for the reception of data. This is the default, and should be used in most situations.
  */
 int32_t hf_comm_create(uint16_t id, uint16_t port, uint16_t packets)
 {
