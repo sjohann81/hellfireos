@@ -46,7 +46,7 @@ int32_t log_enabled = 0;
 
 void dumpregs(state *s){
 	int32_t i;
-	
+
 	for (i = 0; i < 32; i+=4){
 		printf("\nr%02d [%08x] r%02d [%08x] r%02d [%08x] r%02d [%08x]", \
 		i, s->r[i], i+1, s->r[i+1], i+2, s->r[i+2], i+3, s->r[i+3]);
@@ -60,7 +60,7 @@ void bp(state *s, uint32_t ir){
 	getchar();
 }
 
-static int32_t mem_fetch(state *s, uint32_t address){
+static int32_t mem_fetch(uint32_t address){
 	uint32_t value=0;
 	uint32_t *ptr;
 
@@ -149,7 +149,7 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 	}
 
 	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
-	
+
 	switch(size){
 		case 4:
 			if(address & 3){
@@ -176,14 +176,70 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 			printf("\nerror");
 	}
 }
+/*
+unique case (instr_i[15:13])
+          3'b000: begin
+            // c.addi4spn -> addi rd', x2, imm
+            instr_o = {2'b0, instr_i[10:7], instr_i[12:11], instr_i[5], instr_i[6], 2'b00, 5'h02, 3'b000, 2'b01, instr_i[4:2], OPCODE_OPIMM};
+            if (instr_i[12:5] == 8'b0)  illegal_instr_o = 1'b1;
+          end
+
+          3'b010: begin
+            // c.lw -> lw rd', imm(rs1')
+            instr_o = {5'b0, instr_i[5], instr_i[12:10], instr_i[6], 2'b00, 2'b01, instr_i[9:7], 3'b010, 2'b01, instr_i[4:2], OPCODE_LOAD};
+          end
+
+          3'b110: begin
+            // c.sw -> sw rs2', imm(rs1')
+            instr_o = {5'b0, instr_i[5], instr_i[12], 2'b01, instr_i[4:2], 2'b01, instr_i[9:7], 3'b010, instr_i[11:10], instr_i[6], 2'b00, OPCODE_STORE};
+          end
+
+          default: begin
+            illegal_instr_o = 1'b1;
+          end
+        endcase
+      end
+*/
+
+uint32_t pre_decode(state *s, uint32_t *inst) {
+	switch (*inst & 0x3) {
+		case 0x0:
+			switch ((*inst & 0xe000) >> 13) {
+				case 0x0:	/* c.addi4spn -> addi rd', x2, imm */
+					if (*inst & 0x1fe0 == 0) goto fail;
+					*inst = ((*inst & 0x780) << 19) | ((*inst & 0x1800) << 13) | ((*inst & 0x20) << 18) | ((*inst & 0x40) << 16) | (0x2 << 15) | (0x1 << 10) | ((*inst & 0x1c) << 5) | 0x13;
+					break;
+				case 0x2:	/* c.lw -> lw rd', imm(rs1') */
+					*inst = ((*inst & 0x20) << 21) | ((*inst & 0x1c0) << 13) | ((*inst & 0x40) << 16) | (0x1 << 18) | ((*inst & 0x380) << 8) | (0x2 << 12) | (0x1 << 10) | ((*inst & 0x1c) << 5) | 0x3;
+					break;
+				case 0x6:	/* c.sw -> sw rs2', imm(rs1') */
+				default: goto fail;
+			}
+			break;
+		case 0x1:
+
+			break;
+		case 0x2:
+
+			break;
+		default:
+			return 0;
+	}
+
+	return 1;
+
+fail:
+	printf("\ninvalid opcode (pc=0x%x opcode=0x%x)", s->pc, *inst);
+	exit(0);
+}
 
 void cycle(state *s){
-	uint32_t inst, i;
+	uint32_t inst, i, rvc;
 	uint32_t opcode, rd, rs1, rs2, funct3, funct7, imm_i, imm_s, imm_sb, imm_u, imm_uj;
 	int32_t *r = s->r;
 	uint32_t *u = (uint32_t *)s->r;
 	uint32_t ptr_l, ptr_s;
-	
+
 	if (s->status && (s->cause & s->mask)){
 		s->epc = s->pc_next;
 		s->pc = s->vector;
@@ -193,7 +249,8 @@ void cycle(state *s){
 			s->status_dly[i] = 0;
 	}
 
-	inst = mem_fetch(s, s->pc);
+	inst = mem_fetch(s->pc);
+	rvc = pre_decode(s, &inst);		/* RVC implementation */
 
 	opcode = inst & 0x7f;
 	rd = (inst >> 7) & 0x1f;
@@ -205,7 +262,7 @@ void cycle(state *s){
 	imm_s = ((inst & 0xf80) >> 7) | ((inst & 0xfe000000) >> 20);
 	imm_sb = ((inst & 0xf00) >> 7) | ((inst & 0x7e000000) >> 20) | ((inst & 0x80) << 4) | ((inst & 0x80000000) >> 19);
 	imm_u = inst & 0xfffff000;
-	imm_uj = ((inst & 0x7fe00000) >> 20) | ((inst & 0x100000) >> 9) | (inst & 0xff000) | ((inst & 0x80000000) >> 11); 
+	imm_uj = ((inst & 0x7fe00000) >> 20) | ((inst & 0x100000) >> 9) | (inst & 0xff000) | ((inst & 0x80000000) >> 11);
 	if (inst & 0x80000000){
 		imm_i |= 0xfffff000;
 		imm_s |= 0xfffff000;
@@ -215,7 +272,7 @@ void cycle(state *s){
 	ptr_l = r[rs1] + (int32_t)imm_i;
 	ptr_s = r[rs1] + (int32_t)imm_s;
 	r[0] = 0;
-	
+
 	switch(opcode){
 		case 0x37: r[rd] = imm_u; break;										/* LUI */
 		case 0x17: r[rd] = s->pc + imm_u; break;									/* AUIPC */
@@ -334,13 +391,16 @@ void cycle(state *s){
 			break;
 		default: goto fail;
 	}
-	
+
 	s->pc = s->pc_next;
-	s->pc_next = s->pc_next + 4;
+	if (rvc)
+		s->pc_next = s->pc_next + 2;
+	else
+		s->pc_next = s->pc_next + 4;
 	s->status = s->status_dly[0];
 	for (i = 0; i < 3; i++)
 		s->status_dly[i] = s->status_dly[i+1];
-	
+
 	s->counter++;
 	if ((s->compare2 & 0xffffff) == (s->counter & 0xffffff)) s->cause |= 0x20;		/*IRQ_COMPARE2*/
 	if (s->compare == s->counter) s->cause |= 0x10;						/*IRQ_COMPARE*/
@@ -348,7 +408,7 @@ void cycle(state *s){
 	if (s->counter & 0x10000) s->cause |= 0x4; else s->cause &= 0xfffb;			/*IRQ_COUNTER2*/
 	if (!(s->counter & 0x40000)) s->cause |= 0x2; else s->cause &= 0xfffd;			/*IRQ_COUNTER_NOT*/
 	if (s->counter & 0x40000) s->cause |= 0x1; else s->cause &= 0xfffe;			/*IRQ_COUNTER*/
-	
+
 	return;
 fail:
 	printf("\ninvalid opcode (pc=0x%x opcode=0x%x)", s->pc, inst);

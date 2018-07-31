@@ -34,7 +34,7 @@
 
 typedef struct {
 	int64_t r[32];
-	int64_t pc, pc_next;
+	uint64_t pc, pc_next;
 	int8_t *mem;
 	int64_t vector, cause, mask, status, status_dly[4], epc, counter, compare, compare2;
 } state;
@@ -46,10 +46,10 @@ int32_t log_enabled = 0;
 
 void dumpregs(state *s){
 	int32_t i;
-	
+
 	for (i = 0; i < 32; i+=2){
 		printf("\nr%02d [%016x] r%02d [%016x]", \
-		i, s->r[i], i+1, s->r[i+1], i+2, s->r[i+2], i+3, s->r[i+3]);
+		i, s->r[i], i+1, s->r[i+1]);
 	}
 	printf("\n");
 }
@@ -61,18 +61,18 @@ void bp(state *s, uint64_t ir){
 }
 
 static int32_t mem_fetch(state *s, uint32_t address){
-	uint32_t value=0, ptr;
+	uint32_t value=0;
+	uint32_t *ptr;
 
-	ptr = (uint32_t)(intptr_t)s->mem + (address % MEM_SIZE);
-
-	value = *(int32_t *)(intptr_t)ptr;
-//	value = ntohl(value);
+	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
+	value = *ptr;
 
 	return(value);
 }
 
 static int64_t mem_read(state *s, int32_t size, uint64_t address){
-	uint64_t value=0, ptr;
+	uint64_t value=0;
+	uint64_t *ptr;
 
 	switch(address){
 		case IRQ_VECTOR:	return s->vector;
@@ -87,7 +87,7 @@ static int64_t mem_read(state *s, int32_t size, uint64_t address){
 		case UART_DIVISOR:	return 0;
 	}
 
-	ptr = (uint64_t)(intptr_t)s->mem + (address % MEM_SIZE);
+	ptr = (uint64_t *)(s->mem + (address % MEM_SIZE));
 
 	switch(size){
 		case 8:
@@ -96,8 +96,7 @@ static int64_t mem_read(state *s, int32_t size, uint64_t address){
 				dumpregs(s);
 				exit(1);
 			}else{
-				value = *(int64_t *)(intptr_t)ptr;
-//				value = ntohl(value);
+				value = *(int64_t *)ptr;
 			}
 			break;
 		case 4:
@@ -106,8 +105,7 @@ static int64_t mem_read(state *s, int32_t size, uint64_t address){
 				dumpregs(s);
 				exit(1);
 			}else{
-				value = *(int32_t *)(intptr_t)ptr;
-//				value = ntohl(value);
+				value = *(int32_t *)ptr;
 			}
 			break;
 		case 2:
@@ -116,12 +114,11 @@ static int64_t mem_read(state *s, int32_t size, uint64_t address){
 				dumpregs(s);
 				exit(1);
 			}else{
-				value = *(int16_t *)(intptr_t)ptr;
-//				value = ntohs((uint16_t)value);
+				value = *(int16_t *)ptr;
 			}
 			break;
 		case 1:
-			value = *(int8_t *)(intptr_t)ptr;
+			value = *(int8_t *)ptr;
 			break;
 		default:
 			printf("\nerror");
@@ -132,7 +129,8 @@ static int64_t mem_read(state *s, int32_t size, uint64_t address){
 }
 
 static void mem_write(state *s, int32_t size, uint64_t address, uint64_t value){
-	uint64_t ptr, i;
+	uint64_t *ptr;
+	uint64_t i;
 
 	switch(address){
 		case IRQ_VECTOR:	s->vector = value; return;
@@ -160,8 +158,8 @@ static void mem_write(state *s, int32_t size, uint64_t address, uint64_t value){
 			return;
 	}
 
-	ptr = (uint64_t)(intptr_t)s->mem + (address % MEM_SIZE);
-	
+	ptr = (uint64_t *)(s->mem + (address % MEM_SIZE));
+
 	switch(size){
 		case 8:
 //			printf("\nstore(%d): %x, addr: %08x", size, value, address);
@@ -207,11 +205,12 @@ static void mem_write(state *s, int32_t size, uint64_t address, uint64_t value){
 
 void cycle(state *s){
 	uint32_t inst, i;
-	uint32_t opcode, rd, rs1, rs2, funct3, funct7, imm_i, imm_s, imm_sb, imm_u, imm_uj;
+	uint32_t opcode, rd, rs1, rs2, funct3, funct7;
+	int64_t imm_i, imm_s, imm_sb, imm_u, imm_uj;
 	int64_t *r = s->r;
 	uint64_t *u = (uint64_t *)s->r;
 	uint32_t ptr_l, ptr_s;
-	
+
 	if (s->status && (s->cause & s->mask)){
 		s->epc = s->pc_next;
 		s->pc = s->vector;
@@ -233,24 +232,22 @@ void cycle(state *s){
 	imm_s = ((inst & 0xf80) >> 7) | ((inst & 0xfe000000) >> 20);
 	imm_sb = ((inst & 0xf00) >> 7) | ((inst & 0x7e000000) >> 20) | ((inst & 0x80) << 4) | ((inst & 0x80000000) >> 19);
 	imm_u = inst & 0xfffff000;
-	imm_uj = ((inst & 0x7fe00000) >> 20) | ((inst & 0x100000) >> 9) | (inst & 0xff000) | ((inst & 0x80000000) >> 11); 
+	imm_uj = ((inst & 0x7fe00000) >> 20) | ((inst & 0x100000) >> 9) | (inst & 0xff000) | ((inst & 0x80000000) >> 11);
 	if (inst & 0x80000000){
-		imm_i |= 0xfffff000;
-		imm_s |= 0xfffff000;
-		imm_sb |= 0xffffe000;
-		imm_uj |= 0xffe00000;
+		imm_i |= 0xfffffffffffff000;
+		imm_s |= 0xfffffffffffff000;
+		imm_sb |= 0xffffffffffffe000;
+		imm_uj |= 0xffffffffffe00000;
 	}
-	ptr_l = r[rs1] + (int32_t)imm_i;
-	ptr_s = r[rs1] + (int32_t)imm_s;
+	ptr_l = r[rs1] + imm_i;
+	ptr_s = r[rs1] + imm_s;
 	r[0] = 0;
-	
-//	bp(s, inst);
-	
+
 	switch(opcode){
-		case 0x37: r[rd] = imm_u; break;										/* LUI */
-		case 0x17: r[rd] = s->pc + imm_u; break;									/* AUIPC */
+		case 0x37: r[rd] = (int64_t)(int32_t)imm_u; break;										/* LUI */
+		case 0x17: r[rd] = s->pc + (int64_t)(int32_t)imm_u; break;									/* AUIPC */
 		case 0x6f: r[rd] = s->pc_next; s->pc_next = s->pc + imm_uj; break;						/* JAL */
-		case 0x67: r[rd] = s->pc_next; s->pc_next = (r[rs1] + imm_i) & 0xfffffffe; break;				/* JALR */
+		case 0x67: r[rd] = s->pc_next; s->pc_next = (r[rs1] + imm_i); break;				/* JALR */
 		case 0x63:
 			switch(funct3){
 				case 0x0: if (r[rs1] == r[rs2]){ s->pc_next = s->pc + imm_sb; } break;				/* BEQ */
@@ -305,15 +302,15 @@ void cycle(state *s){
 			break;
 		case 0x1b:
 			switch(funct3){
-				case 0x0: r[rd] = r[rs1] + (int32_t)imm_i; break;						/* ADDIW */
-				case 0x1: r[rd] = (int32_t)u[rs1] << (rs2 & 0x3f); break;					/* SLLIW */
+				case 0x0: r[rd] = (int64_t)(int32_t)((r[rs1] + imm_i) & 0xffffffff); break;						/* ADDIW */
+				case 0x1: r[rd] = (int64_t)(int32_t)(u[rs1] << (rs2 & 0x3f)); break;					/* SLLIW */
 				case 0x5:
 					switch(funct7){
-						case 0x0: r[rd] = (int32_t)u[rs1] >> (rs2 & 0x3f); break;			/* SRLIW */
-						case 0x20: r[rd] = (int32_t)r[rs1] >> (rs2 & 0x3f); break;			/* SRAIW */
+						case 0x0: r[rd] = (int64_t)(int32_t)((u[rs1] & 0xffffffff) >> (rs2 & 0x3f)); break;			/* SRLIW */
+						case 0x20: r[rd] = (int64_t)((int32_t)(r[rs1] & 0xffffffff) >> (rs2 & 0x3f)); break;			/* SRAIW */
 						default: goto fail;
 					}
-					break;					
+					break;
 				default: goto fail;
 			}
 			break;
@@ -351,14 +348,15 @@ void cycle(state *s){
 						default: goto fail;
 					}
 					break;
-				case 0x1: r[rd] = (int32_t)r[rs1] << (int32_t)r[rs2]; break;					/* SLLW */
+				case 0x1: r[rd] = (int32_t)r[rs1] << (r[rs2] & 0x3f); break;					/* SLLW */
 				case 0x5:
 					switch(funct7){
-						case 0x0: r[rd] = (int32_t)u[rs1] >> (int32_t)u[rs2]; break;			/* SRLW */
+						case 0x0: r[rd] = (uint32_t)r[rs1] >> (uint32_t)r[rs2]; break;		/* SRLW */
 						case 0x20: r[rd] = (int32_t)r[rs1] >> (int32_t)r[rs2]; break;			/* SRAW */
 						default: goto fail;
 					}
-					break;				
+					break;
+				default: goto fail;
 			}
 			break;
 		case 0x73:
@@ -386,13 +384,13 @@ void cycle(state *s){
 			break;
 		default: goto fail;
 	}
-	
+
 	s->pc = s->pc_next;
 	s->pc_next = s->pc_next + 4;
 	s->status = s->status_dly[0];
 	for (i = 0; i < 3; i++)
 		s->status_dly[i] = s->status_dly[i+1];
-	
+
 	s->counter++;
 	if ((s->compare2 & 0xffffff) == (s->counter & 0xffffff)) s->cause |= 0x20;		/*IRQ_COMPARE2*/
 	if (s->compare == s->counter) s->cause |= 0x10;						/*IRQ_COMPARE*/
@@ -400,7 +398,7 @@ void cycle(state *s){
 	if (s->counter & 0x10000) s->cause |= 0x4; else s->cause &= 0xfffb;			/*IRQ_COUNTER2*/
 	if (!(s->counter & 0x40000)) s->cause |= 0x2; else s->cause &= 0xfffd;			/*IRQ_COUNTER_NOT*/
 	if (s->counter & 0x40000) s->cause |= 0x1; else s->cause &= 0xfffe;			/*IRQ_COUNTER*/
-	
+
 	return;
 fail:
 	printf("\ninvalid opcode (pc=0x%x opcode=0x%x)", s->pc, inst);
