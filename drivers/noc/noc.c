@@ -64,7 +64,7 @@ void ni_init(void)
 	int32_t i;
 	void *ptr;
 
-	kprintf("\nKERNEL: this is core %d", CPU_ID);
+	kprintf("\nKERNEL: this is core #%d", CPU_ID);
 	kprintf("\nKERNEL: NoC queue init, %d packets", NOC_PACKET_SLOTS);
 
 	pktdrv_queue = hf_queue_create(NOC_PACKET_SLOTS);
@@ -80,15 +80,13 @@ void ni_init(void)
 	}
 
 	i = ni_flush(NOC_PACKET_SIZE);
-	if (i)
-		kprintf("\nKERNEL: NoC NI ready");
-	else
+	if (i){
+		_irq_register(IRQ_NOC_READ, (funcptr)ni_isr);
+		_irq_mask_set(IRQ_NOC_READ);
+		kprintf("\nKERNEL: NoC driver registered");
+	}else{
 		kprintf("\nKERNEL: NoC NI init failed");
-
-	_irq_register(IRQ_NOC_READ, (funcptr)ni_isr);
-	_irq_mask_set(IRQ_NOC_READ);
-
-	kprintf("\nKERNEL: NoC driver registered");
+	}
 }
 
 /**
@@ -108,7 +106,7 @@ void ni_isr(void *arg)
 	uint16_t *buf_ptr;
 
 	buf_ptr = hf_queue_remhead(pktdrv_queue);
-	if (buf_ptr){
+	if (buf_ptr) {
 		ni_read_packet(buf_ptr, NOC_PACKET_SIZE);
 
 		if (buf_ptr[PKT_PAYLOAD] != NOC_PACKET_SIZE - 2){
@@ -128,7 +126,7 @@ void ni_isr(void *arg)
 			kprintf("\nKERNEL: no task on port %d (offender: cpu %d port %d) - dropping packet...", buf_ptr[PKT_TARGET_PORT], buf_ptr[PKT_SOURCE_CPU], buf_ptr[PKT_SOURCE_PORT]);
 			hf_queue_addtail(pktdrv_queue, buf_ptr);
 		}
-	} else {
+	}else{
 		kprintf("\nKERNEL: NoC queue full! dropping packet...");
 		ni_flush(NOC_PACKET_SIZE);
 	}
