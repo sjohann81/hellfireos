@@ -23,12 +23,12 @@ int32_t ip_addr_maskcmp(uint8_t addr1[4], uint8_t addr2[4], uint8_t mask[4])
 {
 	int32_t i;
 	uint8_t ad1[4], ad2[4];
-	
+
 	for (i = 0; i < 4; i++){
 		ad1[i] = addr1[i] & mask[i];
 		ad2[i] = addr2[i] & mask[i];
 	}
-	
+
 	if (!memcmp(ad1, ad2, 4))
 		return 1;
 	else
@@ -46,7 +46,7 @@ int32_t ip_addr_cmp(uint8_t addr1[4], uint8_t addr2[4])
 int32_t ip_addr_isany(uint8_t addr[4])
 {
 	uint8_t addr_any[4] = {0x00, 0x00, 0x00, 0x00};
-	
+
 	if (!memcmp(addr, addr_any, 4))
 		return 1;
 	else
@@ -59,12 +59,12 @@ int32_t ip_addr_isbroadcast(uint8_t addr[4], uint8_t mask[4])
 	uint8_t ad[4], msk[4];
 	uint8_t addr_any[4] = {0x00, 0x00, 0x00, 0x00};
 	uint8_t addr_all[4] = {0xff, 0xff, 0xff, 0xff};
-	
+
 	for (i = 0; i < 4; i++){
 		ad[i] = addr[i] & ~mask[i];
 		msk[i] = ~mask[i] & 0xff;
 	}
-	
+
 	if (!memcmp(ad, msk, 4) || !memcmp(ad, addr_any, 4) | !memcmp(ad, addr_all, 4))
 		return 1;
 	else
@@ -77,9 +77,9 @@ int32_t ip_addr_ismulticast(uint8_t addr[4])
 	uint8_t ad[4];
 	uint8_t ad1[4] = {0xf0, 0x00, 0x00, 0x00};
 	uint8_t ad2[4] = {0xe0, 0x00, 0x00, 0x00};
-	
+
 	for (i = 0; i < 4; i++) ad[i] = addr[i] & ad1[i];
-	
+
 	if (!memcmp(ad, ad2, 4))
 		return 1;
 	else
@@ -90,7 +90,7 @@ int32_t ip_out(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 {
 	uint32_t sum;
 	int32_t val;
-	
+
 	packet[IP_HDR_VHL] = IP_VER_IHL >> 8;
 	packet[IP_HDR_TOS] = 0x00;
 	packet[IP_HDR_LEN1] = len >> 8;
@@ -100,6 +100,7 @@ int32_t ip_out(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 	packet[IP_HDR_FLAGS1] = 0x00;
 	packet[IP_HDR_FLAGS2] = 0x00;
 	packet[IP_HDR_TTL] = IP_DEFAULT_TTL;
+	/* IP_HDR_PROTO ?? */
 	packet[IP_HDR_SRCADDR1] = myip[0];
 	packet[IP_HDR_SRCADDR2] = myip[1];
 	packet[IP_HDR_SRCADDR3] = myip[2];
@@ -112,7 +113,7 @@ int32_t ip_out(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 	sum = (~ipchksum(packet)) & 0xffff;
 	packet[IP_HDR_CHKSUM1] = sum >> 8;
 	packet[IP_HDR_CHKSUM2] = sum & 0xff;
-	
+
 	val = netif_send(packet, len);
 
 	return val;
@@ -143,7 +144,7 @@ int32_t ip_in(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 				return -1;
 		}
 	}else{
-		if (packet[IP_HDR_PROTO] == IP_PROTO_ICMP && ~configured && 
+		if (packet[IP_HDR_PROTO] == IP_PROTO_ICMP && ~configured &&
 			len == IP_CFG_PING + IP_HEADER_SIZE + ICMP_HDR_SIZE){		/* configure the IP address */
 			myip[0] = packet[IP_HDR_DESTADDR1];
 			myip[1] = packet[IP_HDR_DESTADDR2];
