@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include "noc.h"
@@ -156,7 +157,7 @@ unsigned int GPIOAIN[MAX_N_CORES];
 unsigned int GPIO0OUT[MAX_N_CORES];
 
 unsigned long long cpu_cycles[MAX_N_CORES];
-unsigned int ins_counter_op[0x40][MAX_N_CORES], ins_counter_func[0x40][MAX_N_CORES], ins_counter_rt[0x20][MAX_N_CORES];
+unsigned int ins_counter_op[0x40][MAX_N_CORES], ins_counter_func[0x40][MAX_N_CORES], ins_counter_rt[0x40][MAX_N_CORES];
 unsigned long long max_cycles=-1;
 char sim_metric = '\0';
 int uart_delay[MAX_N_CORES];
@@ -523,7 +524,7 @@ static int mem_read(State *s, int size, unsigned int address, int cpu_n){
 }
 
 static void mem_write(State *s, int size, int unsigned address, unsigned int value, FILE *std_out, int cpu_n){
-	static char_count=0;
+	static int char_count=0;
 	unsigned int *ptr;
 	
 	Core *core;
