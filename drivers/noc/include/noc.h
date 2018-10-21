@@ -50,6 +50,11 @@ struct queue *pktdrv_tqueue[MAX_TASKS];
  */
 struct queue *pktdrv_queue;
 
+/**
+ * @brief Callback function pointer. Called when PKT_TARGET_PORT is 0xffff.
+ */
+int32_t (*pktdrv_callback)(uint16_t *buf);
+
 void ni_init(void);
 void ni_isr(void *arg);
 

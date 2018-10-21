@@ -2,7 +2,7 @@
 
 void task(void){
 	int32_t jobs, id;
-	
+
 	id = hf_selfid();
 	for(;;){
 		jobs = hf_jobs(id);

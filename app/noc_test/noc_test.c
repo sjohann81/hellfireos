@@ -4,7 +4,7 @@
 void sender(void)
 {
 	int32_t msg = 0;
-	int8_t buf[1500];
+	int8_t buf[150];
 	int16_t val;
 
 	if (hf_comm_create(hf_selfid(), 1000, 0))
@@ -22,7 +22,7 @@ void sender(void)
 
 void receiver(void)
 {
-	int8_t buf[1500];
+	int8_t buf[500];
 	uint16_t cpu, task, size;
 	int16_t val;
 

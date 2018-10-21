@@ -98,7 +98,9 @@ void ni_init(void)
  * contents of the empty packet are filled with flits from the hardware queue and the reference is
  * put on the target task (associated to a port) queue of packets. There is one queue per task of
  * configurable size (individual queues are elastic if size is zero, limited to the size of free
- * buffer elements from the common pool).
+ * buffer elements from the common pool). If port 0xffff (65535) is used as the target, the packet
+ * is passed to a callback. This mechanism can be used to build custom OS functions (such as user
+ * defined protocols, RPC or remote system calls).
  */
 void ni_isr(void *arg)
 {
@@ -110,6 +112,19 @@ void ni_isr(void *arg)
 		ni_read_packet(buf_ptr, NOC_PACKET_SIZE);
 
 		if (buf_ptr[PKT_PAYLOAD] != NOC_PACKET_SIZE - 2){
+			hf_queue_addtail(pktdrv_queue, buf_ptr);
+			return;
+		}
+
+		if (buf_ptr[PKT_TARGET_CPU] != ((NOC_COLUMN(CPU_ID) << 4) | NOC_LINE(CPU_ID))){
+			kprintf("\nKERNEL: hardware error: this is not CPU X:%d Y:%d", (buf_ptr[PKT_TARGET_CPU] & 0xf0) >> 4, buf_ptr[PKT_TARGET_CPU] & 0xf);
+			hf_queue_addtail(pktdrv_queue, buf_ptr);
+			return;
+		}
+
+		if (buf_ptr[PKT_TARGET_PORT] == 0xffff){
+			if (pktdrv_callback)
+				pktdrv_callback(buf_ptr);
 			hf_queue_addtail(pktdrv_queue, buf_ptr);
 			return;
 		}

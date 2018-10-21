@@ -57,7 +57,6 @@ int32_t ni_read_packet(uint16_t *buf, uint16_t pkt_size)
 	for (i = 0; i < pkt_size; i++)
 		buf[i] = _ni_read();
 	_ei(status);
-
 	return 0;
 }
 

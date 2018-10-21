@@ -16,10 +16,10 @@ void sender(void)
 	channel = hf_cpuid();
 	while (1){
 		sprintf(buf, "i am cpu %d, thread %d, channel %d: msg %d size: %d\n", hf_cpuid(), hf_selfid(), channel, msg++, sizeof(buf));
-		val = hf_sendack(2, 5000, buf, sizeof(buf), channel, 500);
+		val = hf_send(2, 5000, buf, sizeof(buf), channel);
 		if (val)
-			printf("hf_sendack(): error %d\n", val);
-		delay_ms(50);
+			printf("hf_send(): error %d\n", val);
+		delay_ms(10);
 	}
 }
 
@@ -36,9 +36,9 @@ void receiver(void)
 	while (1){
 		i = hf_recvprobe();
 		if (i >= 0) {
-			val = hf_recvack(&cpu, &task, buf, &size, i);
+			val = hf_recv(&cpu, &task, buf, &size, i);
 			if (val)
-				printf("hf_recvack(): error %d\n", val);
+				printf("hf_recv(): error %d\n", val);
 			else
 				printf("%s", buf);
 		}
