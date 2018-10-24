@@ -1,5 +1,0 @@
-<map id="hf_queue_destroy" name="hf_queue_destroy">
-<area shape="rect" id="node3" href="$noc_8h.html#a2ca5bce1d7d281b5ca1ee007b170143b" title="hf_comm_destroy" alt="" coords="180,5,305,35"/>
-<area shape="rect" id="node5" href="$condvar_8c.html#a0085b7d8162e3195b6c5a021f811ce17" title="Destroys a condition variable." alt="" coords="188,59,297,88"/>
-<area shape="rect" id="node7" href="$semaphore_8c.html#ad57efd8da531446fb91c3ddc81ae51b2" title="Destroys a semaphore." alt="" coords="189,112,296,141"/>
-</map>

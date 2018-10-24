@@ -1,5 +1,0 @@
-<map id="hf_selfid" name="hf_selfid">
-<area shape="rect" id="node3" href="$noc_8h.html#ae7a660aa945d2d8476b45b4d9c554968" title="hf_recv" alt="" coords="128,5,192,35"/>
-<area shape="rect" id="node5" href="$noc_8h.html#af2b7dd983287ae458c3f6db414e57c9e" title="hf_send" alt="" coords="127,59,193,88"/>
-<area shape="rect" id="node7" href="$task_8c.html#ae369e4112ea0585309f59dc9039767f6" title="Kills a task." alt="" coords="132,112,188,141"/>
-</map>

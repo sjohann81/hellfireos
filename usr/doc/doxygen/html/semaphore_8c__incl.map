@@ -1,8 +1,0 @@
-<map id="sys/sync/semaphore.c" name="sys/sync/semaphore.c">
-<area shape="rect" id="node7" href="$queue_8h.html" title="queue.h" alt="" coords="157,83,224,112"/>
-<area shape="rect" id="node9" href="$semaphore_8h.html" title="semaphore.h" alt="" coords="248,83,344,112"/>
-<area shape="rect" id="node11" href="$kernel_8h.html" title="kernel.h" alt="" coords="368,83,435,112"/>
-<area shape="rect" id="node13" href="$panic_8h.html" title="panic.h" alt="" coords="459,83,523,112"/>
-<area shape="rect" id="node15" href="$task_8h.html" title="task.h" alt="" coords="547,83,605,112"/>
-<area shape="rect" id="node17" href="$ecodes_8h.html" title="ecodes.h" alt="" coords="629,83,704,112"/>
-</map>

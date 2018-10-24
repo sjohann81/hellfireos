@@ -1,8 +1,0 @@
-<map id="hf_mboxinit" name="hf_mboxinit">
-<area shape="rect" id="node3" href="$semaphore_8h.html#aa4998a7405044ad6ab21a0f5bc2fc3ed" title="Initializes a semaphore and defines its initial value." alt="" coords="144,32,227,61"/>
-<area shape="rect" id="node5" href="$queue_8h.html#a9d255c6ef431d4983adc915679c382bd" title="Creates a queue of specified size." alt="" coords="276,32,393,61"/>
-<area shape="rect" id="node7" href="$malloc_8h.html#ab0f062a41b8de5e68376e9d9278e6cd5" title="hf_malloc" alt="" coords="444,5,521,35"/>
-<area shape="rect" id="node13" href="$malloc_8h.html#a334388848d841c4edf747ba9b0bcde1c" title="hf_free" alt="" coords="452,59,513,88"/>
-<area shape="rect" id="node9" href="$mutex_8h.html#a99e45d9cb59a325c9661733914f5c097" title="Locks a mutex." alt="" coords="579,5,664,35"/>
-<area shape="rect" id="node11" href="$mutex_8h.html#a7e6734fa0c286410af45c3143fffb2bc" title="Unlocks a mutex." alt="" coords="572,59,671,88"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="hf_queue_destroy" name="hf_queue_destroy">
-<area shape="rect" id="node3" href="$malloc_8h.html#a334388848d841c4edf747ba9b0bcde1c" title="hf_free" alt="" coords="180,32,241,61"/>
-<area shape="rect" id="node5" href="$mutex_8h.html#a99e45d9cb59a325c9661733914f5c097" title="Locks a mutex." alt="" coords="299,5,384,35"/>
-<area shape="rect" id="node7" href="$mutex_8h.html#a7e6734fa0c286410af45c3143fffb2bc" title="Unlocks a mutex." alt="" coords="292,59,391,88"/>
-</map>

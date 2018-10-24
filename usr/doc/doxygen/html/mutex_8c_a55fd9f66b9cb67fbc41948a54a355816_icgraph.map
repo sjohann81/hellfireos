@@ -1,4 +1,0 @@
-<map id="tsl" name="tsl">
-<area shape="rect" id="node3" href="$mutex_8c.html#a99e45d9cb59a325c9661733914f5c097" title="Locks a mutex." alt="" coords="95,5,180,35"/>
-<area shape="rect" id="node5" href="$condvar_8c.html#a2500f2dc6bebbd3b2c106c2062ad9cff" title="Wait on a condition variable." alt="" coords="231,5,321,35"/>
-</map>

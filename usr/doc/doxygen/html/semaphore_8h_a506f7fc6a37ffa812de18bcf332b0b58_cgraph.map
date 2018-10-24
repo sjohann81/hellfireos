@@ -1,9 +1,0 @@
-<map id="hf_semwait" name="hf_semwait">
-<area shape="rect" id="node3" href="$queue_8h.html#adc5c3236192e826aacc3ee0a81e4db82" title="Adds a node to the tail of the queue." alt="" coords="393,5,513,35"/>
-<area shape="rect" id="node5" href="$panic_8h.html#afaa3b7dc21eaab894153ef5cf7bf9a0f" title="Causes the kernel to panic." alt="" coords="427,165,480,195"/>
-<area shape="rect" id="node9" href="$task_8h.html#a001531473ded340a50bf9c3405402545" title="Yields the current task." alt="" coords="144,88,211,117"/>
-<area shape="rect" id="node7" href="$kprintf_8h.html#a80682af286bf85737036e5c569ab942a" title="Kernel short version of printf()." alt="" coords="568,165,627,195"/>
-<area shape="rect" id="node12" href="$scheduler_8h.html#a52ecf98c89cb386c22223d19b1926202" title="Best effort (BE) scheduler." alt="" coords="260,63,337,92"/>
-<area shape="rect" id="node14" href="$queue_8h.html#a4db7e356be08ec7e712d79ff199af13d" title="Counts the number of nodes in a queue." alt="" coords="396,112,511,141"/>
-<area shape="rect" id="node17" href="$queue_8h.html#a9b3331750ad55924e7bd46f9081bc603" title="Removes a node from the head of the queue." alt="" coords="388,59,519,88"/>
-</map>

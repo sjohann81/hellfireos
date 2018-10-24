@@ -1,7 +1,0 @@
-<map id="hf_recv" name="hf_recv">
-<area shape="rect" id="node3" href="$task_8h.html#ac70031d8f3665ab81d28924a08ee70e9" title="Get the current task id." alt="" coords="152,5,221,35"/>
-<area shape="rect" id="node5" href="$queue_8h.html#a4db7e356be08ec7e712d79ff199af13d" title="Counts the number of nodes in a queue." alt="" coords="129,59,244,88"/>
-<area shape="rect" id="node7" href="$queue_8h.html#a5c1a6ddc4456b31395777ea69b4dbd0e" title="Returns a node from the queue." alt="" coords="137,112,236,141"/>
-<area shape="rect" id="node9" href="$queue_8h.html#a9b3331750ad55924e7bd46f9081bc603" title="Removes a node from the head of the queue." alt="" coords="121,165,252,195"/>
-<area shape="rect" id="node11" href="$queue_8h.html#adc5c3236192e826aacc3ee0a81e4db82" title="Adds a node to the tail of the queue." alt="" coords="127,219,247,248"/>
-</map>

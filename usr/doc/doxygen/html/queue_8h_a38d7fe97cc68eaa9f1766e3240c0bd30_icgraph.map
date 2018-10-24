@@ -1,7 +1,0 @@
-<map id="hf_queue_swap" name="hf_queue_swap">
-<area shape="rect" id="node3" href="$scheduler_8c.html#a761e1f10a70d17e7bd7a729660542565" title="sort_rt_queue" alt="" coords="168,5,269,35"/>
-<area shape="rect" id="node9" href="$task_8c.html#ae369e4112ea0585309f59dc9039767f6" title="Kills a task." alt="" coords="191,59,247,88"/>
-<area shape="rect" id="node11" href="$task_8c.html#a10ae0383048d96d7b7e7a8567c39f0d9" title="Delays a task for an amount of time." alt="" coords="184,112,253,141"/>
-<area shape="rect" id="node5" href="$scheduler_8c.html#ae63de031dbb9678f4ed0a1ac3e82ef2e" title="Real time (RT) scheduler." alt="" coords="317,5,389,35"/>
-<area shape="rect" id="node7" href="$scheduler_8c.html#a606ec5940ea75925046ae6ebb7657800" title="The task dispatcher." alt="" coords="439,5,529,35"/>
-</map>

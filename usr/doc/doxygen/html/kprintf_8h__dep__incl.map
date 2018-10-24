@@ -1,8 +1,0 @@
-<map id="sys/include/kprintf.h" name="sys/include/kprintf.h">
-<area shape="rect" id="node3" href="$hellfire_8h.html" title="sys/include/hellfire.h" alt="" coords="5,83,147,112"/>
-<area shape="rect" id="node5" href="$main_8c.html" title="sys/kernel/main.c" alt="" coords="171,83,296,112"/>
-<area shape="rect" id="node7" href="$panic_8c.html" title="sys/kernel/panic.c" alt="" coords="320,83,448,112"/>
-<area shape="rect" id="node9" href="$task_8c.html" title="sys/kernel/task.c" alt="" coords="472,83,595,112"/>
-<area shape="rect" id="node11" href="$kprintf_8c.html" title="sys/lib/kprintf.c" alt="" coords="619,83,728,112"/>
-<area shape="rect" id="node13" href="$noc_8c.html" title="drivers/noc/noc.c" alt="" coords="752,83,875,112"/>
-</map>

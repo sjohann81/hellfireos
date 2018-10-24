@@ -1,4 +1,0 @@
-<map id="hf_send" name="hf_send">
-<area shape="rect" id="node3" href="$noc_8c.html#a73af25121fa7d699224d30913bb3cfa9" title="Returns the current cpu id number." alt="" coords="124,5,193,35"/>
-<area shape="rect" id="node5" href="$task_8h.html#ac70031d8f3665ab81d28924a08ee70e9" title="Get the current task id." alt="" coords="124,59,193,88"/>
-</map>

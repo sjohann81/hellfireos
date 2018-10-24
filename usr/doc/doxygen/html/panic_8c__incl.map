@@ -1,6 +1,0 @@
-<map id="sys/kernel/panic.c" name="sys/kernel/panic.c">
-<area shape="rect" id="node7" href="$kprintf_8h.html" title="kprintf.h" alt="" coords="157,83,227,112"/>
-<area shape="rect" id="node9" href="$kernel_8h.html" title="kernel.h" alt="" coords="251,83,317,112"/>
-<area shape="rect" id="node11" href="$panic_8h.html" title="panic.h" alt="" coords="341,83,405,112"/>
-<area shape="rect" id="node13" href="$scheduler_8h.html" title="scheduler.h" alt="" coords="429,83,517,112"/>
-</map>

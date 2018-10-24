@@ -1,6 +1,0 @@
-<map id="hf_mboxaccept" name="hf_mboxaccept">
-<area shape="rect" id="node3" href="$semaphore_8h.html#af596c894e7d3580a8d882abb0cd41e08" title="Signal a semaphore." alt="" coords="165,32,256,61"/>
-<area shape="rect" id="node5" href="$queue_8h.html#a9b3331750ad55924e7bd46f9081bc603" title="Removes a node from the head of the queue." alt="" coords="305,5,436,35"/>
-<area shape="rect" id="node7" href="$panic_8h.html#afaa3b7dc21eaab894153ef5cf7bf9a0f" title="Causes the kernel to panic." alt="" coords="344,59,397,88"/>
-<area shape="rect" id="node9" href="$kprintf_8h.html#a80682af286bf85737036e5c569ab942a" title="Kernel short version of printf()." alt="" coords="485,59,544,88"/>
-</map>

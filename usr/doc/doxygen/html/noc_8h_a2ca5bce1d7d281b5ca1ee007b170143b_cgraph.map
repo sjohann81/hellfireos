@@ -1,9 +1,0 @@
-<map id="hf_comm_destroy" name="hf_comm_destroy">
-<area shape="rect" id="node3" href="$queue_8h.html#a4db7e356be08ec7e712d79ff199af13d" title="Counts the number of nodes in a queue." alt="" coords="191,5,305,35"/>
-<area shape="rect" id="node5" href="$queue_8h.html#adc5c3236192e826aacc3ee0a81e4db82" title="Adds a node to the tail of the queue." alt="" coords="188,59,308,88"/>
-<area shape="rect" id="node7" href="$queue_8h.html#a9b3331750ad55924e7bd46f9081bc603" title="Removes a node from the head of the queue." alt="" coords="183,112,313,141"/>
-<area shape="rect" id="node9" href="$queue_8h.html#a8ada0f97b7e613a3241ce2064eef2998" title="Destroys a queue." alt="" coords="185,165,311,195"/>
-<area shape="rect" id="node11" href="$malloc_8h.html#a334388848d841c4edf747ba9b0bcde1c" title="hf_free" alt="" coords="364,165,425,195"/>
-<area shape="rect" id="node13" href="$mutex_8h.html#a99e45d9cb59a325c9661733914f5c097" title="Locks a mutex." alt="" coords="483,139,568,168"/>
-<area shape="rect" id="node15" href="$mutex_8h.html#a7e6734fa0c286410af45c3143fffb2bc" title="Unlocks a mutex." alt="" coords="476,192,575,221"/>
-</map>

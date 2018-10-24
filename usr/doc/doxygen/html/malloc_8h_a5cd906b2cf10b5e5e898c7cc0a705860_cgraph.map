@@ -1,5 +1,0 @@
-<map id="calloc" name="calloc">
-<area shape="rect" id="node3" href="$malloc_8h.html#a8704c31c2d7a73953f3c1c320447c24a" title="malloc" alt="" coords="111,32,169,61"/>
-<area shape="rect" id="node5" href="$mutex_8h.html#a99e45d9cb59a325c9661733914f5c097" title="Locks a mutex." alt="" coords="227,5,312,35"/>
-<area shape="rect" id="node7" href="$mutex_8h.html#a7e6734fa0c286410af45c3143fffb2bc" title="Unlocks a mutex." alt="" coords="220,59,319,88"/>
-</map>

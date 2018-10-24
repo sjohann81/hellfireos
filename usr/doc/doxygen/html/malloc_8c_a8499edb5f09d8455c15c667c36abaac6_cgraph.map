@@ -1,6 +1,0 @@
-<map id="realloc" name="realloc">
-<area shape="rect" id="node3" href="$malloc_8h.html#a8704c31c2d7a73953f3c1c320447c24a" title="malloc" alt="" coords="116,5,175,35"/>
-<area shape="rect" id="node9" href="$malloc_8h.html#afbedc913aa4651b3c3b4b3aecd9b4711" title="free" alt="" coords="124,59,167,88"/>
-<area shape="rect" id="node5" href="$mutex_8h.html#a99e45d9cb59a325c9661733914f5c097" title="Locks a mutex." alt="" coords="232,5,317,35"/>
-<area shape="rect" id="node7" href="$mutex_8h.html#a7e6734fa0c286410af45c3143fffb2bc" title="Unlocks a mutex." alt="" coords="225,59,324,88"/>
-</map>

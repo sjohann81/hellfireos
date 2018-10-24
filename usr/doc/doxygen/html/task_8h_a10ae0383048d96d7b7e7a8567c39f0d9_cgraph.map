@@ -1,9 +1,0 @@
-<map id="hf_delay" name="hf_delay">
-<area shape="rect" id="node3" href="$kprintf_8h.html#a80682af286bf85737036e5c569ab942a" title="Kernel short version of printf()." alt="" coords="307,63,365,93"/>
-<area shape="rect" id="node5" href="$queue_8h.html#a4db7e356be08ec7e712d79ff199af13d" title="Counts the number of nodes in a queue." alt="" coords="135,35,249,65"/>
-<area shape="rect" id="node7" href="$queue_8h.html#a5c1a6ddc4456b31395777ea69b4dbd0e" title="Returns a node from the queue." alt="" coords="143,89,241,118"/>
-<area shape="rect" id="node9" href="$panic_8h.html#afaa3b7dc21eaab894153ef5cf7bf9a0f" title="Causes the kernel to panic." alt="" coords="165,142,219,171"/>
-<area shape="rect" id="node12" href="$queue_8h.html#a38d7fe97cc68eaa9f1766e3240c0bd30" title="Swap the position of two nodes in the queue." alt="" coords="136,195,248,225"/>
-<area shape="rect" id="node14" href="$queue_8h.html#a9b3331750ad55924e7bd46f9081bc603" title="Removes a node from the head of the queue." alt="" coords="127,249,257,278"/>
-<area shape="rect" id="node16" href="$queue_8h.html#adc5c3236192e826aacc3ee0a81e4db82" title="Adds a node to the tail of the queue." alt="" coords="132,302,252,331"/>
-</map>

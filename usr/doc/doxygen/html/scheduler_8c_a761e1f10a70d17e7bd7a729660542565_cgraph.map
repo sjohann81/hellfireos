@@ -1,9 +1,0 @@
-<map id="sort_rt_queue" name="sort_rt_queue">
-<area shape="rect" id="node3" href="$queue_8h.html#a4db7e356be08ec7e712d79ff199af13d" title="Counts the number of nodes in a queue." alt="" coords="155,5,269,35"/>
-<area shape="rect" id="node5" href="$queue_8h.html#a5c1a6ddc4456b31395777ea69b4dbd0e" title="Returns a node from the queue." alt="" coords="163,59,261,88"/>
-<area shape="rect" id="node7" href="$queue_8h.html#a38d7fe97cc68eaa9f1766e3240c0bd30" title="Swap the position of two nodes in the queue." alt="" coords="156,112,268,141"/>
-<area shape="rect" id="node9" href="$panic_8h.html#afaa3b7dc21eaab894153ef5cf7bf9a0f" title="panic" alt="" coords="185,165,239,195"/>
-<area shape="rect" id="node11" href="$kprintf_8h.html#a80682af286bf85737036e5c569ab942a" title="Kernel short version of printf()." alt="" coords="317,165,376,195"/>
-<area shape="rect" id="node13" href="$kprintf_8c.html#ac75fc61f5543ccab896b3d9401e1ac61" title="kprint" alt="" coords="425,165,479,195"/>
-<area shape="rect" id="node15" href="$kprintf_8c.html#a4df1412e7ed44e7146d46d66664a474c" title="kitoa" alt="" coords="528,165,579,195"/>
-</map>

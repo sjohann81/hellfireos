@@ -1,5 +1,0 @@
-<map id="hf_sempost" name="hf_sempost">
-<area shape="rect" id="node3" href="$mailbox_8c.html#a452e61854cdbbbbd62d42195c0eb6b40" title="Posts a message on a mailbox." alt="" coords="151,5,249,35"/>
-<area shape="rect" id="node5" href="$mailbox_8c.html#a11db5966202c25f628538dcbbbc44314" title="Gets a message from a mailbox." alt="" coords="152,59,248,88"/>
-<area shape="rect" id="node7" href="$mailbox_8c.html#a3979e9de53c982b4bd24f177f109e107" title="Tries to gets a message from a mailbox." alt="" coords="145,112,255,141"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="hf_queue_create" name="hf_queue_create">
-<area shape="rect" id="node3" href="$noc_8h.html#acb44cf0de3a986b823c53d881bff9568" title="NoC driver: initializes the network interface." alt="" coords="205,5,261,35"/>
-<area shape="rect" id="node5" href="$noc_8h.html#a5bbe944c6ea57c62e7355d240cbfbfd0" title="Creates a communication queue for a task." alt="" coords="175,59,292,88"/>
-<area shape="rect" id="node7" href="$main_8c.html#a30575bb68ade0cf71c6fa97be9b3f47b" title="init_queues" alt="" coords="189,112,277,141"/>
-<area shape="rect" id="node11" href="$condvar_8c.html#a6f0858342a87feaa65201dcd20b2686d" title="Initializes a condition variable." alt="" coords="191,165,276,195"/>
-<area shape="rect" id="node13" href="$semaphore_8c.html#aa4998a7405044ad6ab21a0f5bc2fc3ed" title="Initializes a semaphore and defines its initial value." alt="" coords="192,219,275,248"/>
-<area shape="rect" id="node9" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title="HellfireOS kernel entry point and system initialization." alt="" coords="361,112,412,141"/>
-<area shape="rect" id="node15" href="$mailbox_8c.html#a1c4f9a442c0ae595230138059ffcb67c" title="Initializes a mailbox." alt="" coords="343,219,431,248"/>
-</map>

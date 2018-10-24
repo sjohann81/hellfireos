@@ -1,9 +1,0 @@
-<map id="drivers/noc/noc.c" name="drivers/noc/noc.c">
-<area shape="rect" id="node7" href="$kprintf_8h.html" title="kprintf.h" alt="" coords="157,83,227,112"/>
-<area shape="rect" id="node9" href="$malloc_8h.html" title="malloc.h" alt="" coords="251,83,320,112"/>
-<area shape="rect" id="node11" href="$queue_8h.html" title="queue.h" alt="" coords="344,83,411,112"/>
-<area shape="rect" id="node15" href="$panic_8h.html" title="panic.h" alt="" coords="509,83,573,112"/>
-<area shape="rect" id="node17" href="$task_8h.html" title="task.h" alt="" coords="597,83,656,112"/>
-<area shape="rect" id="node19" href="$ecodes_8h.html" title="ecodes.h" alt="" coords="680,83,755,112"/>
-<area shape="rect" id="node23" href="$noc_8h.html" title="noc.h" alt="" coords="883,83,936,112"/>
-</map>

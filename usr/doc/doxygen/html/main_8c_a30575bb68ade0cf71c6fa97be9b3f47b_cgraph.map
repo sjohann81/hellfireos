@@ -1,7 +1,0 @@
-<map id="init_queues" name="init_queues">
-<area shape="rect" id="node3" href="$queue_8h.html#a9d255c6ef431d4983adc915679c382bd" title="Creates a queue of specified size." alt="" coords="143,5,260,35"/>
-<area shape="rect" id="node5" href="$panic_8h.html#afaa3b7dc21eaab894153ef5cf7bf9a0f" title="panic" alt="" coords="175,59,228,88"/>
-<area shape="rect" id="node7" href="$kprintf_8h.html#a80682af286bf85737036e5c569ab942a" title="Kernel short version of printf()." alt="" coords="309,59,368,88"/>
-<area shape="rect" id="node9" href="$kprintf_8c.html#ac75fc61f5543ccab896b3d9401e1ac61" title="kprint" alt="" coords="417,59,471,88"/>
-<area shape="rect" id="node11" href="$kprintf_8c.html#a4df1412e7ed44e7146d46d66664a474c" title="kitoa" alt="" coords="520,59,571,88"/>
-</map>

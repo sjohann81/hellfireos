@@ -1,8 +1,0 @@
-<map id="hf_spawn" name="hf_spawn">
-<area shape="rect" id="node3" href="$kprintf_8h.html#a80682af286bf85737036e5c569ab942a" title="Kernel short version of printf()." alt="" coords="323,151,381,180"/>
-<area shape="rect" id="node5" href="$malloc_8h.html#ab0f062a41b8de5e68376e9d9278e6cd5" title="hf_malloc" alt="" coords="155,32,232,61"/>
-<area shape="rect" id="node11" href="$queue_8h.html#adc5c3236192e826aacc3ee0a81e4db82" title="Adds a node to the tail of the queue." alt="" coords="133,136,253,165"/>
-<area shape="rect" id="node13" href="$panic_8h.html#afaa3b7dc21eaab894153ef5cf7bf9a0f" title="Causes the kernel to panic." alt="" coords="167,189,220,219"/>
-<area shape="rect" id="node7" href="$mutex_8h.html#a99e45d9cb59a325c9661733914f5c097" title="Locks a mutex." alt="" coords="309,59,395,88"/>
-<area shape="rect" id="node9" href="$mutex_8h.html#a7e6734fa0c286410af45c3143fffb2bc" title="Unlocks a mutex." alt="" coords="303,5,401,35"/>
-</map>

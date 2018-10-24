@@ -1,8 +1,0 @@
-<map id="sys/include/task.h" name="sys/include/task.h">
-<area shape="rect" id="node3" href="$hellfire_8h.html" title="sys/include/hellfire.h" alt="" coords="5,83,147,112"/>
-<area shape="rect" id="node5" href="$main_8c.html" title="sys/kernel/main.c" alt="" coords="171,83,296,112"/>
-<area shape="rect" id="node7" href="$task_8c.html" title="sys/kernel/task.c" alt="" coords="320,83,443,112"/>
-<area shape="rect" id="node9" href="$condvar_8c.html" title="sys/sync/condvar.c" alt="" coords="467,83,603,112"/>
-<area shape="rect" id="node11" href="$semaphore_8c.html" title="sys/sync/semaphore.c" alt="" coords="627,83,781,112"/>
-<area shape="rect" id="node13" href="$noc_8c.html" title="drivers/noc/noc.c" alt="" coords="805,83,928,112"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="process_delay_queue" name="process_delay_queue">
-<area shape="rect" id="node3" href="$queue_8h.html#a4db7e356be08ec7e712d79ff199af13d" title="Counts the number of nodes in a queue." alt="" coords="212,5,327,35"/>
-<area shape="rect" id="node5" href="$queue_8h.html#a9b3331750ad55924e7bd46f9081bc603" title="Removes a node from the head of the queue." alt="" coords="204,59,335,88"/>
-<area shape="rect" id="node7" href="$panic_8h.html#afaa3b7dc21eaab894153ef5cf7bf9a0f" title="panic" alt="" coords="243,112,296,141"/>
-<area shape="rect" id="node15" href="$queue_8h.html#adc5c3236192e826aacc3ee0a81e4db82" title="Adds a node to the tail of the queue." alt="" coords="209,165,329,195"/>
-<area shape="rect" id="node9" href="$kprintf_8h.html#a80682af286bf85737036e5c569ab942a" title="Kernel short version of printf()." alt="" coords="384,112,443,141"/>
-<area shape="rect" id="node11" href="$kprintf_8c.html#ac75fc61f5543ccab896b3d9401e1ac61" title="kprint" alt="" coords="492,112,545,141"/>
-<area shape="rect" id="node13" href="$kprintf_8c.html#a4df1412e7ed44e7146d46d66664a474c" title="kitoa" alt="" coords="595,112,645,141"/>
-</map>
