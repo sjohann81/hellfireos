@@ -14,7 +14,7 @@
  * a basic communication protocol between the cores and the network interface, provided by
  * ni_ready(), ni_flush(), ni_read_packet() and ni_write_packet() helper functions (defined
  * on ni_generic.h). The generic interfaces were defined for a typical Hermes NoC configuration
- * (ni_hermes.c) but may be adapted for other NoCs or configurations if networks packets are
+ * (ni_hermes.c) but may be adapted for other NoCs or configurations if network packets are
  * abstracted in the format presented below.
  *
  * Packet format is as follows:
@@ -122,11 +122,17 @@ void ni_isr(void *arg)
 			return;
 		}
 
-		if (buf_ptr[PKT_TARGET_PORT] == 0xffff){
+		switch (buf_ptr[PKT_TARGET_PORT]) {
+		case 0x0000:
+			hf_queue_addtail(pktdrv_queue, buf_ptr);
+			return;
+		case 0xffff:
 			if (pktdrv_callback)
 				pktdrv_callback(buf_ptr);
 			hf_queue_addtail(pktdrv_queue, buf_ptr);
 			return;
+		default:
+			break;
 		}
 
 		for (k = 0; k < MAX_TASKS; k++)
@@ -258,6 +264,12 @@ int32_t hf_comm_destroy(uint16_t id)
 
  * @return channel of the first message that is waiting in queue (a value >= 0), ERR_COMM_EMPTY when no messages are
  * waiting in queue, ERR_COMM_UNFEASIBLE when no message queue (comm) was created.
+ * 
+ * Asynchronous communication is possible using this primitive, as it first tests if there is data
+ * ready for reception with hf_recv() which is a blocking primitive. The main advantage of using hf_recvprobe()
+ * along with hf_recv() is that a selective receive can be performed in the right communication channel. As
+ * the message is waiting at the beginning of the queue, a receive on its channel can be used to process the
+ * messages in order, avoiding packet loss.
  */
 int32_t hf_recvprobe(void)
 {
@@ -442,7 +454,7 @@ int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t
 }
 
 /**
- * @brief Receives a message from a task (blocking receive) with acknowledgement.
+ * @brief [DEPRECATED] Receives a message from a task (blocking receive) with acknowledgement.
  *
  * @param source_cpu is a pointer to a variable which will hold the source cpu
  * @param source_port is a pointer to a variable which will hold the source port
@@ -460,7 +472,8 @@ int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t
  * we will have a problem that may not be noticed before its too late. After the reception
  * of the whole message is completed, an acknowledgement is sent to the sender task. This works
  * as a flow control mechanism, avoiding buffer/queue overflows common to the raw protocol.
- * Message channel 65535 will be used for the flow control mechanism.
+ * Message channel 65535 will be used for the flow control mechanism. This routine must be used
+ * exclusively with hf_sendack().
  */
 int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16_t *size, uint16_t channel)
 {
@@ -475,7 +488,7 @@ int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uin
 }
 
 /**
- * @brief Sends a message to a task (blocking send) with acknowledgement.
+ * @brief [DEPRECATED] Sends a message to a task (blocking send) with acknowledgement.
  *
  * @param target_cpu is the target processor
  * @param target_port is the target task port
@@ -490,7 +503,7 @@ int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uin
  * The packets are injected, one by one, in the network through the network interface. After that, the
  * sender will wait for an acknowledgement from the receiver. This works as a flow control mechanism,
  * avoiding buffer/queue overflows common to the raw protocol. Message channel 65535 will be used for
- * the flow control mechanism.
+ * the flow control mechanism. This routine should be used exclusively with hf_recvack().
  */
 int32_t hf_sendack(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t size, uint16_t channel, uint32_t timeout)
 {
