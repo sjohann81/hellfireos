@@ -36,16 +36,7 @@
  * NOC_PACKET_SLOTS			number of slots in the shared packet queue per core
  */
 
-#include <hal.h>
-#include <libc.h>
-#include <kprintf.h>
-#include <malloc.h>
-#include <queue.h>
-#include <kernel.h>
-#include <panic.h>
-#include <task.h>
-#include <ecodes.h>
-#include <interrupt.h>
+#include <hellfire.h>
 #include <noc.h>
 #include <ni.h>
 #include <ni_generic.h>
@@ -100,7 +91,8 @@ void ni_init(void)
  * configurable size (individual queues are elastic if size is zero, limited to the size of free
  * buffer elements from the common pool). If port 0xffff (65535) is used as the target, the packet
  * is passed to a callback. This mechanism can be used to build custom OS functions (such as user
- * defined protocols, RPC or remote system calls).
+ * defined protocols, RPC or remote system calls). Port 0 is used as a discard function, for testing
+ * purposes.
  */
 void ni_isr(void *arg)
 {
@@ -264,7 +256,7 @@ int32_t hf_comm_destroy(uint16_t id)
 
  * @return channel of the first message that is waiting in queue (a value >= 0), ERR_COMM_EMPTY when no messages are
  * waiting in queue, ERR_COMM_UNFEASIBLE when no message queue (comm) was created.
- * 
+ *
  * Asynchronous communication is possible using this primitive, as it first tests if there is data
  * ready for reception with hf_recv() which is a blocking primitive. The main advantage of using hf_recvprobe()
  * along with hf_recv() is that a selective receive can be performed in the right communication channel. As
@@ -343,7 +335,7 @@ int32_t hf_recv(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16
 	seq = buf_ptr[PKT_SEQ];
 
 	payload_bytes = (NOC_PACKET_SIZE - PKT_HEADER_SIZE) * sizeof(uint16_t);
-	(*size % payload_bytes == 0)?(packets = *size / payload_bytes):(packets = *size / payload_bytes + 1);
+	packets = (*size % payload_bytes == 0) ? (*size / payload_bytes) : (*size / payload_bytes + 1);
 
 	while (++packet < packets){
 		if (buf_ptr[PKT_SEQ] != seq++)
@@ -415,7 +407,7 @@ int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t
 	if (pktdrv_tqueue[id] == NULL) return ERR_COMM_UNFEASIBLE;
 
 	payload_bytes = (NOC_PACKET_SIZE - PKT_HEADER_SIZE) * sizeof(uint16_t);
-	(size % payload_bytes == 0)?(packets = size / payload_bytes):(packets = size / payload_bytes + 1);
+	packets = (size % payload_bytes == 0) ? (size / payload_bytes) : (size / payload_bytes + 1);
 
 	while (++packet < packets){
 		out_buf[PKT_TARGET_CPU] = (NOC_COLUMN(target_cpu) << 4) | NOC_LINE(target_cpu);
@@ -454,7 +446,7 @@ int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t
 }
 
 /**
- * @brief [DEPRECATED] Receives a message from a task (blocking receive) with acknowledgement.
+ * @brief Receives a message from a task (blocking receive) with acknowledgement.
  *
  * @param source_cpu is a pointer to a variable which will hold the source cpu
  * @param source_port is a pointer to a variable which will hold the source port
@@ -472,7 +464,7 @@ int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t
  * we will have a problem that may not be noticed before its too late. After the reception
  * of the whole message is completed, an acknowledgement is sent to the sender task. This works
  * as a flow control mechanism, avoiding buffer/queue overflows common to the raw protocol.
- * Message channel 65535 will be used for the flow control mechanism. This routine must be used
+ * Message channel 32767 will be used for the flow control mechanism. This routine must be used
  * exclusively with hf_sendack().
  */
 int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16_t *size, uint16_t channel)
@@ -481,14 +473,14 @@ int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uin
 
 	error = hf_recv(source_cpu, source_port, buf, size, channel);
 	if (error == ERR_OK){
-		hf_send(*source_cpu, *source_port, "ok", 3, 0xffff);
+		hf_send(*source_cpu, *source_port, "ok", 3, 0x7fff);
 	}
 
 	return error;
 }
 
 /**
- * @brief [DEPRECATED] Sends a message to a task (blocking send) with acknowledgement.
+ * @brief Sends a message to a task (blocking send) with acknowledgement.
  *
  * @param target_cpu is the target processor
  * @param target_port is the target task port
@@ -502,7 +494,7 @@ int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uin
  * A message is broken into packets containing a header and part of the message as the payload.
  * The packets are injected, one by one, in the network through the network interface. After that, the
  * sender will wait for an acknowledgement from the receiver. This works as a flow control mechanism,
- * avoiding buffer/queue overflows common to the raw protocol. Message channel 65535 will be used for
+ * avoiding buffer/queue overflows common to the raw protocol. Message channel 32767 will be used for
  * the flow control mechanism. This routine should be used exclusively with hf_recvack().
  */
 int32_t hf_sendack(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t size, uint16_t channel, uint32_t timeout)
@@ -522,11 +514,11 @@ int32_t hf_sendack(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint1
 			if (k){
 				buf_ptr = hf_queue_get(pktdrv_tqueue[id], 0);
 				if (buf_ptr)
-					if (buf_ptr[PKT_CHANNEL] == 0xffff && buf_ptr[PKT_MSG_SIZE] == 3) break;
+					if (buf_ptr[PKT_CHANNEL] == 0x7fff && buf_ptr[PKT_MSG_SIZE] == 3) break;
 			}
 			if (((_read_us() / 1000) - time) > timeout) return ERR_COMM_TIMEOUT;
 		}
-		hf_recv(&source_cpu, &source_port, ack, &size, 0xffff);
+		hf_recv(&source_cpu, &source_port, ack, &size, 0x7fff);
 	}
 
 	return error;
