@@ -2,4 +2,4 @@ APP_DIR = $(SRC_DIR)/$(APP)
 
 app: kernel
 	$(CC) $(CFLAGS) \
-		$(APP_DIR)/noc_test6.c 
+		$(APP_DIR)/noc_rpc1.c 
