@@ -52,8 +52,7 @@ union proc_pkt_u {
 	int8_t proc_data[sizeof(struct proc_pkt_s) + RPC_MAX_PARAM_SIZE];
 };
 
-//struct queue *rpc_cpu_queue;
-sem_t rpc_lock;
+mutex_t rpc_lock;
 
 int32_t hf_register(uint32_t prognum, uint32_t procnum, int32_t (*pname)(int8_t *, int8_t *), uint16_t in_size, uint16_t out_size);
 int32_t hf_call(uint16_t cpu, uint32_t prognum, uint32_t procnum, int8_t *in, uint16_t in_size, int8_t *out, uint16_t out_size);

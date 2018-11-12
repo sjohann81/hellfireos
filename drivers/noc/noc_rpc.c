@@ -20,6 +20,18 @@
 #include <noc.h>
 #include <noc_rpc.h>
 
+/**
+ * @brief RPC callback
+ * 
+ * @param buf_ptr is a pointer to packet data.
+ * 
+ * @return ERR_OK.
+ * 
+ * This is called when RPC packets arrive. This routine just places the packet (pointer to
+ * a buffer taken from the NoC message queue pool) on the RPC thread message queue. On error
+ * (queue full), the pointer is put back to the NoC pool. TODO: treat RPC service as a critical
+ * event? The RR scheduler is behaving ok, but this is not enough!
+ */
 static int32_t rpc_callback(uint16_t *buf_ptr)
 {
 	int32_t rpc_driver;
@@ -28,27 +40,33 @@ static int32_t rpc_callback(uint16_t *buf_ptr)
 		kprintf("\nKERNEL: NoC RPC service queue full!");
 		hf_queue_addtail(pktdrv_queue, buf_ptr);
 	} else {
-/*		rpc_driver = hf_id("NoC RPC");
-		if (rpc_driver >= 0 && rpc_driver < MAX_TASKS)
-			krnl_tcb[rpc_driver].critical = 1;
-*/
+/*		krnl_tcb[noc_rpcdrv.thread_id].critical = 1; */
 	}
 	
-	return 0;
+	return ERR_OK;
 }
 
-// -look for prognum/procnum
-// -if found, compare in/out size, which should match to packet data
-// -take packet data and fill the list entry input parameters
-// -call (passing the address of both in/out parameters)
-// -copy out parameters to packet data, and send it back or send an error code on fail
-// send data structured as:
-// 4 bytes (prognum)
-// 4 bytes (procnum)
-// 2 bytes (in_size)
-// 2 bytes (out_size)
-// 4 bytes (ecode)
-// (output parameters)
+/**
+ * @brief Handles RPC calls from remote processors / threads.
+ *
+ * The service runs as a best effort task and waits for messages on port 0xffff (special case
+ * on the NoC driver. Data is received (composed of a header containing program and procedure
+ * identification and procedure parameters / size), and the remote call is handled:
+ * 
+ * 1) look for the prognum / procnum pair in a list (for a registered procedure);
+ * 2) compare input and output parameter sizes, which should match;
+ * 3) take packet data and fill input parameters;
+ * 4) call the procedure, passing input and output parameters by reference;
+ * 5) copy output parameters to packet data, and send it back or send an error code on fail.
+ *
+ * Data is sent structured as:
+ * - 4 bytes (prognum)
+ * - 4 bytes (procnum)
+ * - 2 bytes (in_size)
+ * - 2 bytes (out_size)
+ * - 4 bytes (ecode)
+ * - (output parameters)
+ */
 static void noc_rpcdrv_service(void)
 {
 	union proc_pkt_u proc_pkt;
@@ -100,10 +118,14 @@ static void noc_rpcdrv_service(void)
 	}
 }
 
-// init data structures
-// init rpc_service queue
-// set noc_rpcdrv_thread_id
-// configure noc driver (callback handler) to put callback packets on service queue
+/**
+ * @brief Initializes the NoC RPC driver
+ * 
+ * @return ERR_OK on success and ERR_ERROR on fail.
+ *
+ * Data structures related to the RPC driver are initialized, the RPC service thread is spawned
+ * and the RPC callback is registered for incoming RPC packets.
+ */
 static int32_t noc_rpcdrv_init(void)
 {
 	noc_rpcdrv.proc_list = hf_list_init();
@@ -115,10 +137,10 @@ static int32_t noc_rpcdrv_init(void)
 	}else{
 		kprintf("\nKERNEL: NoC RPC init failed");
 		
-		return -1;
+		return ERR_ERROR;
 	}
 	
-	return 0;
+	return ERR_OK;
 }
 
 // -check if the RPC subsystem is initialized (hook registered to the NoC packet driver callback). if not, register it.
@@ -135,7 +157,7 @@ int32_t hf_register(uint32_t prognum, uint32_t procnum, int32_t (*pname)(int8_t 
 	
 	if (noc_rpcdrv.thread_id == 0) {
 		if (noc_rpcdrv_init())
-			return -1;
+			return ERR_ERROR;
 	}
 	
 	k = hf_list_count(noc_rpcdrv.proc_list);
@@ -143,14 +165,14 @@ int32_t hf_register(uint32_t prognum, uint32_t procnum, int32_t (*pname)(int8_t 
 		proc_param = hf_list_get(noc_rpcdrv.proc_list, i);
 		if (proc_param) {
 			if (proc_param->prognum == prognum && proc_param->procnum == procnum)
-				return -1;
+				return ERR_ERROR;
 		}
 	}
 	
 	proc_param = (struct proc_param_s *)hf_malloc(sizeof(struct proc_param_s));
 	input = (int8_t *)hf_malloc(in_size);
 	output = (int8_t *)hf_malloc(out_size);
-	if (!proc_param || !input || !output) return -1;
+	if (!proc_param || !input || !output) return ERR_OUT_OF_MEMORY;
 	
 	proc_param->prognum = prognum;
 	proc_param->procnum = procnum;
@@ -163,7 +185,7 @@ int32_t hf_register(uint32_t prognum, uint32_t procnum, int32_t (*pname)(int8_t 
 	
 	kprintf("\nKERNEL: RPC registered prognum %d procnum %d at %x (in size %d, out size %d)", prognum, procnum, (uint32_t)pname, in_size, out_size);
 	
-	return 0;
+	return ERR_OK;
 }
 
 // send data structured as:
@@ -173,27 +195,21 @@ int32_t hf_register(uint32_t prognum, uint32_t procnum, int32_t (*pname)(int8_t 
 // 2 bytes (out_size)
 // 4 bytes (ecode)
 // (input parameters)
-// 
-// it is possible for multiple threads in the same CPU to make RPC calls in parallel to different CPUs, but
-// threads are blocked if they remotelly call the same CPU. This mechanism (using cpu, port and channel) avoid
-// conflicts of sustained multiple transactions involving multi-packet calls. remote CPUs are kept temporarily in
-// a queue. each CPU talks to the RPC remote driver in a different channel, so conflicts are avoided.
 int32_t hf_call(uint16_t cpu, uint32_t prognum, uint32_t procnum, int8_t *in, uint16_t in_size, int8_t *out, uint16_t out_size)
 {
 	union proc_pkt_u proc_pkt;
 	uint16_t rcpu, rport, rsize;
+	static volatile int8_t init = 0;
 	
 	if (in_size > RPC_MAX_PARAM_SIZE || out_size > RPC_MAX_PARAM_SIZE)
-		return -1;
+		return ERR_ERROR;
 		
-//	if (rpc_cpu_queue == NULL) {
-//		rpc_cpu_queue = hf_queue_create(RPC_MAX_PARALLEL_CALLS);
-//		if (rpc_cpu_queue == NULL) panic(PANIC_OOM);
-//	}
+	if (!init) {
+		hf_mtxinit(&rpc_lock);
+		init = 1;
+	}
 	
-	/* TODO: improve this so multiple threads may be making parallel RPC calls */
-	
-		
+	hf_mtxlock(&rpc_lock);
 	proc_pkt.proc_hdr.prognum = prognum;
 	proc_pkt.proc_hdr.procnum = procnum;
 	proc_pkt.proc_hdr.in_size = in_size;
@@ -205,15 +221,17 @@ int32_t hf_call(uint16_t cpu, uint32_t prognum, uint32_t procnum, int8_t *in, ui
 	 * this is a blocking primitive, and will hang if no response is received.
 	 */
 	hf_send(cpu, RPC_PORT, proc_pkt.proc_data, sizeof(struct proc_pkt_s) + in_size, RPC_SCHANNEL - hf_cpuid());
+	hf_mtxunlock(&rpc_lock);
+	
 	hf_recv(&rcpu, &rport, proc_pkt.proc_data, &rsize, RPC_SCHANNEL - hf_cpuid());
 	
 	if (proc_pkt.proc_hdr.ecode != 0)
 		return proc_pkt.proc_hdr.ecode;
 	
 	if (out_size != proc_pkt.proc_hdr.out_size)
-		return -1;
+		return ERR_ERROR;
 		
 	memcpy(out, proc_pkt.proc_data + sizeof(struct proc_pkt_s), out_size);
 		
-	return 0;
+	return ERR_OK;
 }
