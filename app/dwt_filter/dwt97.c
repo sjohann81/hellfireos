@@ -1,6 +1,6 @@
 /**
  *  dwt97.c - Fast discrete biorthogonal CDF 9/7 wavelet forward and inverse transform (lifting implementation)
- *  
+ *
  *  This code is provided "as is" and is given for educational purposes.
  *  2006 - Gregoire Pau - gregoire.pau@ebi.ac.uk
  */
@@ -108,7 +108,7 @@ void iwt97(double *x, int n) {
 
 	// Undo update 1
 	a = 0.05298011854;
-	for (i = 2; i < n; i += 2) 
+	for (i = 2; i < n; i += 2)
 		x[i] += a * (x[i-1] + x[i+1]);
 	x[0] += 2 * a * x[1];
 
@@ -122,10 +122,11 @@ void iwt97(double *x, int n) {
 void dwt(void) {
 	double x[N];
 	int32_t i;
+	int8_t tmp[20];
 
-	
+
 	tempbank = (double *)malloc(N * sizeof(double));
-	
+
 	if (!tempbank){
 		printf("out of memory.");
 		for (;;);
@@ -134,32 +135,38 @@ void dwt(void) {
 	// Makes a fancy cubic signal
 	for (i = 0; i < N; i++)
 		x[i] = 5 + i + 0.4 * i * i - 0.02 * i * i * i;
-  
+
 	// Prints original signal x
 	printf("Original signal:\n");
-	for (i = 0 ; i < N; i++)
-		printf("x[%d]=%f\n", i , x[i]);
+	for (i = 0 ; i < N; i++) {
+		ftoa(x[i], tmp, 6);
+		printf("x[%d]=%s\n", i , tmp);
+	}
 	printf("\n");
 
 	// Do the forward 9/7 transform
 	fwt97(x, N);
-  
+
 	// Prints the wavelet coefficients
 	printf("Wavelets coefficients:\n");
-	for (i = 0; i < N ; i++)
-		printf("wc[%d]=%f\n", i, x[i]);
+	for (i = 0; i < N ; i++) {
+		ftoa(x[i], tmp, 6);
+		printf("wc[%d]=%s\n", i, tmp);
+	}
 	printf("\n");
 
 	// Do the inverse 9/7 transform
-	iwt97(x, N); 
+	iwt97(x, N);
 
-	// Prints the reconstructed signal 
+	// Prints the reconstructed signal
 	printf("Reconstructed signal:\n");
-	for (i = 0; i < N; i++)
-		printf("xx[%d]=%f\n", i, x[i]);
-		
+	for (i = 0; i < N; i++) {
+		ftoa(x[i], tmp, 6);
+		printf("xx[%d]=%s\n", i, tmp);
+	}
+
 	free(tempbank);
-	
+
 	panic(0);
 }
 

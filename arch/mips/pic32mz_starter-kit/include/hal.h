@@ -77,7 +77,6 @@ size_t _get_task_sp(uint16_t task);
 void _set_task_tp(uint16_t task, void (*entry)());
 void *_get_task_tp(uint16_t task);
 void _timer_reset(void);
-void _cpu_idle(void);
 uint32_t _readcounter(void);
 uint64_t _read_us(void);
 void _soft_reset();

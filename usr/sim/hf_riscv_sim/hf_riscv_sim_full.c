@@ -12,20 +12,34 @@
 #define MEM_SIZE			0x00100000
 #define SRAM_BASE			0x40000000
 #define EXIT_TRAP			0xe0000000
+
 #define IRQ_VECTOR			0xf0000000
 #define IRQ_CAUSE			0xf0000010
 #define IRQ_MASK			0xf0000020
 #define IRQ_STATUS			0xf0000030
 #define IRQ_EPC				0xf0000040
-#define COUNTER				0xf0000050
-#define COMPARE				0xf0000060
-#define COMPARE2			0xf0000070
 #define EXTIO_IN			0xf0000080
 #define EXTIO_OUT			0xf0000090
 #define DEBUG_ADDR			0xf00000d0
-#define UART_WRITE			0xf00000e0
-#define UART_READ			0xf00000e0
-#define UART_DIVISOR			0xf00000f0
+
+#define S0CAUSE				0xe1000400
+
+#define TIMERCAUSE			0xe1020400
+#define TIMERCAUSE_INV			0xe1020800
+#define TIMERMASK			0xe1020c00
+
+#define TIMER0				0xe1024000
+#define TIMER1				0xe1024400
+#define TIMER1_PRE			0xe1024410
+#define TIMER1_CTC			0xe1024420
+#define TIMER1_OCR			0xe1024430
+
+#define UARTCAUSE			0xe1030400
+#define UARTCAUSE_INV			0xe1030800
+#define UARTMASK			0xe1030c00
+
+#define UART0				0xe1034000
+#define UART0_DIV			0xe1034010
 
 #define ntohs(A) ( ((A)>>8) | (((A)&0xff)<<8) )
 #define htons(A) ntohs(A)
@@ -36,7 +50,12 @@ typedef struct {
 	int32_t r[32];
 	uint32_t pc, pc_next;
 	int8_t *mem;
-	uint32_t vector, cause, mask, status, status_dly[4], epc, counter, compare, compare2;
+	uint32_t vector, cause, mask, status, status_dly[4], epc;
+	uint32_t s0cause;
+	uint32_t timercause, timercause_inv, timermask;
+	uint32_t timer0, timer1, timer1_pre, timer1_ctc, timer1_ocr;
+	uint32_t uartcause, uartcause_inv, uartmask;
+	uint64_t cycles;
 } state;
 
 int8_t sram[MEM_SIZE];
@@ -74,18 +93,28 @@ static int32_t mem_read(state *s, int32_t size, uint32_t address){
 	uint32_t value=0;
 	uint32_t *ptr;
 
-	switch(address){
+	switch (address){
 		case IRQ_VECTOR:	return s->vector;
-		case IRQ_CAUSE:		return s->cause | 0x0080 | 0x0040;
+		case IRQ_CAUSE:		return s->cause;
 		case IRQ_MASK:		return s->mask;
 		case IRQ_STATUS:	return s->status;
 		case IRQ_EPC:		return s->epc;
-		case COUNTER:		return s->counter;
-		case COMPARE:		return s->compare;
-		case COMPARE2:		return s->compare2;
-		case UART_READ:		return getchar();
-		case UART_DIVISOR:	return 0;
+		case S0CAUSE:		return s->s0cause;
+		case TIMERCAUSE:	return s->timercause;
+		case TIMERCAUSE_INV:	return s->timercause_inv;
+		case TIMERMASK:		return s->timermask;
+		case TIMER0:		return s->timer0;
+		case TIMER1:		return s->timer1;
+		case TIMER1_PRE:	return s->timer1_pre;
+		case TIMER1_CTC:	return s->timer1_ctc;
+		case TIMER1_OCR:	return s->timer1_ocr;
+		case UARTCAUSE:		return s->uartcause;
+		case UARTCAUSE_INV:	return s->uartcause_inv;
+		case UARTMASK:		return s->uartmask;
+		case UART0:		return getchar();
+		case UART0_DIV:		return 0;
 	}
+	if (address >= EXIT_TRAP) return 0;
 
 	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 
@@ -122,31 +151,38 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 	uint32_t i;
 	uint32_t *ptr;
 
-	switch(address){
+	switch (address){
 		case IRQ_VECTOR:	s->vector = value; return;
-		case IRQ_CAUSE:		s->cause = value; return;
 		case IRQ_MASK:		s->mask = value; return;
 		case IRQ_STATUS:	if (value == 0){ s->status = 0; for (i = 0; i < 4; i++) s->status_dly[i] = 0; }else{ s->status_dly[3] = value; } return;
 		case IRQ_EPC:		s->epc = value; return;
-		case COUNTER:		s->counter = value; return;
-		case COMPARE:		s->compare = value; s->cause &= 0xffef; return;
-		case COMPARE2:		s->compare2 = value; s->cause &= 0xffdf; return;
+		case TIMERCAUSE_INV:	s->timercause_inv = value & 0xff; return;
+		case TIMERMASK:		s->timermask = value & 0xff; return;
+		case TIMER0:		return;
+		case TIMER1:		s->timer1 = value & 0xffff; return;
+		case TIMER1_PRE:	s->timer1_pre = value & 0xffff; return;
+		case TIMER1_CTC:	s->timer1_ctc = value & 0xffff; return;
+		case TIMER1_OCR:	s->timer1_ocr = value & 0xffff; return;
+		case UARTCAUSE_INV:	s->uartcause_inv = value & 0xff; return;
+		case UARTMASK:		s->uartmask = value & 0xff; return;
+
 		case EXIT_TRAP:
 			fflush(stdout);
 			if (log_enabled)
 				fclose(fptr);
-			printf("\nend of simulation - %d cycles.\n", s->counter);
+			printf("\nend of simulation - %ld cycles.\n", s->cycles);
 			exit(0);
 		case DEBUG_ADDR:
 			if (log_enabled)
 				fprintf(fptr, "%c", (int8_t)(value & 0xff));
 			return;
-		case UART_WRITE:
-			fprintf(stderr, "%c", (int8_t)(value & 0xff));
+		case UART0:
+			fprintf(stdout, "%c", (int8_t)(value & 0xff));
 			return;
-		case UART_DIVISOR:
+		case UART0_DIV:
 			return;
 	}
+	if (address >= EXIT_TRAP) return;
 
 	ptr = (uint32_t *)(s->mem + (address % MEM_SIZE));
 
@@ -176,6 +212,14 @@ static void mem_write(state *s, int32_t size, uint32_t address, uint32_t value){
 			printf("\nerror");
 	}
 }
+
+#define BIT(n)                  ( 1<<(n) )
+#define BIT_MASK(len) (BIT(len)-1)
+#define BF_MASK(start, len) ( BIT_MASK(len)<<(start) )
+#define BF_PREP(x, start, len) (((x)&BIT_MASK(len))<<(start)) & BIT_MASK(len) )
+#define BF_GET(y, start, len) ( ((y)>>(start))&BIT_MASK(len) )
+#define BF_SET(y, x, start, len) (y=((y) &~ BF_MASK(start, len)) | BF_PREP(x, start, len))
+
 /*
 unique case (instr_i[15:13])
           3'b000: begin
@@ -206,11 +250,13 @@ uint32_t pre_decode(state *s, uint32_t *inst) {
 		case 0x0:
 			switch ((*inst & 0xe000) >> 13) {
 				case 0x0:	/* c.addi4spn -> addi rd', x2, imm */
-					if (*inst & 0x1fe0 == 0) goto fail;
-					*inst = ((*inst & 0x780) << 19) | ((*inst & 0x1800) << 13) | ((*inst & 0x20) << 18) | ((*inst & 0x40) << 16) | (0x2 << 15) | (0x1 << 10) | ((*inst & 0x1c) << 5) | 0x13;
+//					if (*inst & 0x1fe0 == 0) goto fail;
+//					if (BF_GET(*inst, 5, 8) == 0) goto fail;
+//					*inst = ((*inst & 0x780) << 19) | ((*inst & 0x1800) << 13) | ((*inst & 0x20) << 18) | ((*inst & 0x40) << 16) | (0x2 << 15) | (0x1 << 10) | ((*inst & 0x1c) << 5) | 0x13;
+
 					break;
 				case 0x2:	/* c.lw -> lw rd', imm(rs1') */
-					*inst = ((*inst & 0x20) << 21) | ((*inst & 0x1c0) << 13) | ((*inst & 0x40) << 16) | (0x1 << 18) | ((*inst & 0x380) << 8) | (0x2 << 12) | (0x1 << 10) | ((*inst & 0x1c) << 5) | 0x3;
+//					*inst = ((*inst & 0x20) << 21) | ((*inst & 0x1c0) << 13) | ((*inst & 0x40) << 16) | (0x1 << 18) | ((*inst & 0x380) << 8) | (0x2 << 12) | (0x1 << 10) | ((*inst & 0x1c) << 5) | 0x3;
 					break;
 				case 0x6:	/* c.sw -> sw rs2', imm(rs1') */
 				default: goto fail;
@@ -393,21 +439,61 @@ void cycle(state *s){
 	}
 
 	s->pc = s->pc_next;
-	if (rvc)
-		s->pc_next = s->pc_next + 2;
-	else
-		s->pc_next = s->pc_next + 4;
+	s->pc_next = s->pc_next + 4;
 	s->status = s->status_dly[0];
 	for (i = 0; i < 3; i++)
 		s->status_dly[i] = s->status_dly[i+1];
 
-	s->counter++;
-	if ((s->compare2 & 0xffffff) == (s->counter & 0xffffff)) s->cause |= 0x20;		/*IRQ_COMPARE2*/
-	if (s->compare == s->counter) s->cause |= 0x10;						/*IRQ_COMPARE*/
-	if (!(s->counter & 0x10000)) s->cause |= 0x8; else s->cause &= 0xfffffff7;		/*IRQ_COUNTER2_NOT*/
-	if (s->counter & 0x10000) s->cause |= 0x4; else s->cause &= 0xfffffffb;			/*IRQ_COUNTER2*/
-	if (!(s->counter & 0x40000)) s->cause |= 0x2; else s->cause &= 0xfffffffd;		/*IRQ_COUNTER_NOT*/
-	if (s->counter & 0x40000) s->cause |= 0x1; else s->cause &= 0xfffffffe;			/*IRQ_COUNTER*/
+	if (s->timer0 & 0x10000) {
+		s->timercause |= 0x01;
+	} else {
+		s->timercause &= 0xfe;
+	}
+	if (s->timer0 & 0x40000) {
+		s->timercause |= 0x02;
+	} else {
+		s->timercause &= 0xfd;
+	}
+	if (s->timer1 == s->timer1_ctc) {
+		s->timer1 = 0;
+		s->timercause ^= 0x4;
+	}
+	if (s->timer1 < s->timer1_ocr) {
+		s->timercause |= 0x8;
+	} else {
+		s->timercause &= 0xf7;
+	}
+	s->s0cause = (s->timercause ^ s->timercause_inv) & s->timermask ? 0x04 : 0x00;
+	s->cause = s->s0cause ? 0x01 : 0x00;
+
+	s->cycles++;
+	s->timer0++;
+	switch (s->timer1_pre) {
+		case 1:
+			if (!(s->timer0 & 3)) s->timer1++;
+			break;
+		case 2:
+			if (!(s->timer0 & 15)) s->timer1++;
+			break;
+		case 3:
+			if (!(s->timer0 & 63)) s->timer1++;
+			break;
+		case 4:
+			if (!(s->timer0 & 255)) s->timer1++;
+			break;
+		case 5:
+			if (!(s->timer0 & 1023)) s->timer1++;
+			break;
+		case 6:
+			if (!(s->timer0 & 4095)) s->timer1++;
+			break;
+		case 7:
+			if (!(s->timer0 & 16383)) s->timer1++;
+			break;
+		default:
+			s->timer1++;
+	}
+	s->timer1 &= 0xffff;
 
 	return;
 fail:
@@ -419,7 +505,7 @@ int main(int argc, char *argv[]){
 	state context;
 	state *s;
 	FILE *in;
-	int bytes, i;
+	int bytes;
 
 	s = &context;
 	memset(s, 0, sizeof(state));
@@ -450,24 +536,15 @@ int main(int argc, char *argv[]){
 		return 1;
 	}
 
+	memset(s, 0, sizeof(context));
 	s->pc = SRAM_BASE;
 	s->pc_next = s->pc + 4;
 	s->mem = &sram[0];
-	s->vector = 0;
-	s->cause = 0;
-	s->mask = 0;
-	s->status = 0;
-	for (i = 0; i < 4; i++)
-		s->status_dly[i] = 0;
-	s->epc = 0;
-	s->counter = 0;
-	s->compare = 0;
-	s->compare2 = 0;
 
 	for(;;){
 		cycle(s);
 	}
 
-	return(0);
+	return 0;
 }
 

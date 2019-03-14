@@ -30,7 +30,7 @@ void _ei(uint32_t status)
 {
 	VIC_IRQENABLE = status;
 }
- 
+
 uint32_t _di(void)
 {
 	uint32_t status;
@@ -104,6 +104,17 @@ uint8_t switch_get(uint16_t sw)
 }
 
 /* hardware dependent basic kernel stuff */
+void _cpu_idle(void)
+{
+}
+
+static void _idletask(void)
+{
+	for (;;){
+		_cpu_idle();
+	}
+}
+
 void _hardware_init(void)
 {
 	ioports_init();
@@ -135,7 +146,7 @@ void _timer_init(void)
 void _irq_init(void)
 {
 	kprintf("\nHAL: _irq_init()");
-	
+
 	_irq_register(INTMASK_TIMERINT0_1, dispatch_isr);
 	VIC_IRQENABLE = INTMASK_TIMERINT0_1;
 }
@@ -143,7 +154,7 @@ void _irq_init(void)
 void _device_init(void)
 {
 	kprintf("\nHAL: _device_init()");
-	
+
 #ifdef NOC_INTERCONNECT
 	ni_init();
 #endif
@@ -155,9 +166,19 @@ void _device_init(void)
 void _task_init(void)
 {
 	kprintf("\nHAL: _task_init()");
+
+	hf_spawn(_idletask, 0, 0, 0, "idle task", 1024);
 #ifdef USTACK
 	ustack_init();
 #endif
+	app_main();
+
+	kprintf("\nKERNEL: free heap: %d bytes", krnl_free);
+	kprintf("\nKERNEL: HellfireOS is up\n");
+
+	krnl_task = &krnl_tcb[0];
+	hf_schedlock(0);
+	_context_restore(krnl_task->task_context, 1);
 }
 
 void _set_task_sp(uint16_t task, size_t stack)
@@ -183,18 +204,14 @@ void *_get_task_tp(uint16_t task)
 void _timer_reset(void)
 {
 	static uint32_t timecount, lastcount = 0;
-	
+
 	if (TIMER0_MIS){
 		TIMER0_INTCLR = 1;
-		
+
 		timecount = _read_us();
 		krnl_pcb.tick_time = timecount - lastcount;
 		lastcount = timecount;
 	}
-}
-
-void _cpu_idle(void)
-{
 }
 
 uint32_t _readcounter(void)
@@ -206,12 +223,12 @@ uint64_t _read_us(void)
 {
 	static uint64_t timeref = 0;
 	static uint32_t tval2 = 0, tref = 0;
-	
+
 	if (tref == 0) _readcounter();
 	if (_readcounter() < tref) tval2++;
 	tref = _readcounter();
 	timeref = ((uint64_t)tval2 << 32) + (uint64_t)_readcounter();
-	
+
 	return timeref;
 }
 

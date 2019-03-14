@@ -71,7 +71,7 @@ int32_t strncmp(int8_t *s1, int8_t *s2, int32_t n){
 
 int8_t *strstr(const int8_t *string, const int8_t *find){
 	int32_t i;
-	
+
 	for(;;){
 		for(i = 0; string[i] == find[i] && find[i]; ++i);
 		if(find[i] == 0)
@@ -92,11 +92,11 @@ int32_t strlen(const int8_t *s){
 }
 
 int8_t *strchr(const int8_t *s, int32_t c){
-	while (*s != (int8_t)c) 
+	while (*s != (int8_t)c)
 		if (!*s++)
-			return 0; 
+			return 0;
 
-	return (int8_t *)s; 
+	return (int8_t *)s;
 }
 
 int8_t *strpbrk(int8_t *str, int8_t *set){
@@ -303,7 +303,7 @@ int32_t ftoa(float f, int8_t *outbuf, int32_t precision){
 		f = -f;
 		p++;
 	}
-	
+
 	fl.f = f;
 
 	exp2 = (fl.l >> 23) - 127;
@@ -348,7 +348,7 @@ int32_t ftoa(float f, int8_t *outbuf, int32_t precision){
 	}
 
 	*p = 0;
-	
+
 	return 0;
 }
 #endif
@@ -416,7 +416,7 @@ void srand(uint32_t seed){
 int32_t hexdump(int8_t *buf, uint32_t size){
 	uint32_t k, l;
 	int8_t ch;
-	
+
 	for(k = 0; k < size; k += 16){
 		printf("\n%08x ", buf + k);
 		for(l = 0; l < 16; l++){
@@ -433,7 +433,7 @@ int32_t hexdump(int8_t *buf, uint32_t size){
 		}
 		putchar('|');
 	}
-	
+
 	return 0;
 }
 
@@ -540,7 +540,7 @@ static int vsprintf(char **buf, const char *fmt, va_list args)
 			printchar(p, tmp[i]);
 	}
 	printchar(p, '\0');
-	
+
 	return 0;
 }
 
@@ -733,7 +733,7 @@ int64_t __ashldi3(int64_t u, uint32_t b){
 		w.s.low = (uint32_t) uu.s.low << b;
 		w.s.high = ((uint32_t) uu.s.high << b) | carries;
 	}
-	
+
 	return w.all;
 }
 
@@ -757,7 +757,7 @@ int64_t __ashrdi3(int64_t u, uint32_t b){
 		w.s.high = uu.s.high >> b;
 		w.s.low = ((uint32_t) uu.s.low >> b) | carries;
 	}
-	
+
 	return w.all;
 }
 
@@ -776,11 +776,11 @@ int64_t __lshrdi3(int64_t u, uint32_t b){
 		w.s.low = (uint32_t) uu.s.high >> -bm;
 	}else{
 		const uint32_t carries = (uint32_t) uu.s.high << bm;
-	
+
 		w.s.high = (uint32_t) uu.s.high >> b;
 		w.s.low = ((uint32_t) uu.s.low >> b) | carries;
 	}
-	
+
 	return w.all;
 }
 
@@ -1020,19 +1020,19 @@ int32_t __gesf2(float a, float b){
 
 int32_t __eqsf2(float a, float b){
 	union float_long f1, f2;
-	
+
 	f1.f = a;
 	f2.f = b;
-	
+
 	return !(f1.l == f2.l);
 }
 
 int32_t __nesf2(float a, float b){
 	union float_long f1, f2;
-	
+
 	f1.f = a;
 	f2.f = b;
-	
+
 	return (f1.l != f2.l);
 }
 
@@ -1177,9 +1177,9 @@ int32_t __fixsfsi(float a_fp){
 	af <<= 7;
 	shift = -(ae - 0x80 - 29);
 	if(shift > 0){
-		if(shift < 31) 
+		if(shift < 31)
 			af >>= shift;
-		else 
+		else
 			af = 0;
 	}
 	af = as ? -af: af;
@@ -1195,16 +1195,16 @@ uint32_t __fixunssfsi(float a_fp){
 	union float_long fb;
 
 	fb.f = a_fp;
-	a = fb.u;	
+	a = fb.u;
 	as = a >> 31;
 	ae = (a >> 23) & 0xff;
 	af = 0x00800000 | (a & 0x007fffff);
 	af <<= 7;
 	shift = -(ae - 0x80 - 29);
 	if(shift > 0){
-		if(shift < 31) 
+		if(shift < 31)
 			af >>= shift;
-		else 
+		else
 			af = 0;
 	}
 	af = as ? -af: af;
@@ -1222,7 +1222,7 @@ float __floatsisf(int32_t af){
 	af = af>=0 ? af: -af;
 	ae = 0x80 + 22;
 	fb.l = af;
-	if(af == 0) 
+	if(af == 0)
 		return fb.f;
 	while(af & 0xff000000){
 		++ae;
@@ -1785,19 +1785,19 @@ int __ledf2 (double a1, double a2){
 
 int __eqdf2 (double a1, double a2){
 	union double_long d1, d2;
-	
+
 	d1.d = a1;
 	d2.d = a2;
-	
+
 	return !(d1.ll == d2.ll);
 }
 
 int __nedf2 (double a1, double a2){
 	union double_long d1, d2;
-	
+
 	d1.d = a1;
 	d2.d = a2;
-	
+
 	return (d1.ll != d2.ll);
 }
 #endif

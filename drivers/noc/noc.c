@@ -464,7 +464,7 @@ int32_t hf_send(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t
  * we will have a problem that may not be noticed before its too late. After the reception
  * of the whole message is completed, an acknowledgement is sent to the sender task. This works
  * as a flow control mechanism, avoiding buffer/queue overflows common to the raw protocol.
- * Message channel 32767 will be used for the flow control mechanism. This routine must be used
+ * Message channel 65535 will be used for the flow control mechanism. This routine must be used
  * exclusively with hf_sendack().
  */
 int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uint16_t *size, uint16_t channel)
@@ -473,7 +473,7 @@ int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uin
 
 	error = hf_recv(source_cpu, source_port, buf, size, channel);
 	if (error == ERR_OK){
-		hf_send(*source_cpu, *source_port, "ok", 3, 0x7fff);
+		hf_send(*source_cpu, *source_port, "ok", 3, 65535);
 	}
 
 	return error;
@@ -494,7 +494,7 @@ int32_t hf_recvack(uint16_t *source_cpu, uint16_t *source_port, int8_t *buf, uin
  * A message is broken into packets containing a header and part of the message as the payload.
  * The packets are injected, one by one, in the network through the network interface. After that, the
  * sender will wait for an acknowledgement from the receiver. This works as a flow control mechanism,
- * avoiding buffer/queue overflows common to the raw protocol. Message channel 32767 will be used for
+ * avoiding buffer/queue overflows common to the raw protocol. Message channel 65535 will be used for
  * the flow control mechanism. This routine should be used exclusively with hf_recvack().
  */
 int32_t hf_sendack(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint16_t size, uint16_t channel, uint32_t timeout)
@@ -514,11 +514,11 @@ int32_t hf_sendack(uint16_t target_cpu, uint16_t target_port, int8_t *buf, uint1
 			if (k){
 				buf_ptr = hf_queue_get(pktdrv_tqueue[id], 0);
 				if (buf_ptr)
-					if (buf_ptr[PKT_CHANNEL] == 0x7fff && buf_ptr[PKT_MSG_SIZE] == 3) break;
+					if (buf_ptr[PKT_CHANNEL] == 65535 && buf_ptr[PKT_MSG_SIZE] == 3) break;
 			}
 			if (((_read_us() / 1000) - time) > timeout) return ERR_COMM_TIMEOUT;
 		}
-		hf_recv(&source_cpu, &source_port, ack, &size, 0x7fff);
+		hf_recv(&source_cpu, &source_port, ack, &size, 65535);
 	}
 
 	return error;

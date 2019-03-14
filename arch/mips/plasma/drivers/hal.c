@@ -8,7 +8,7 @@
 void putchar(int32_t value)
 {
 	while((MemoryRead(IRQ_STATUS) & IRQ_UART_WRITE_AVAILABLE) == 0);
-	MemoryWrite(UART_WRITE, value);	
+	MemoryWrite(UART_WRITE, value);
 }
 
 int32_t kbhit(void)
@@ -105,6 +105,17 @@ uint8_t switch_get(uint16_t sw)
 }
 
 /* hardware dependent basic kernel stuff */
+void _cpu_idle(void)
+{
+}
+
+static void _idletask(void)
+{
+	for (;;){
+		_cpu_idle();
+	}
+}
+
 void _hardware_init(void)
 {
 	if(!(MemoryRead(LOG_FACILITY) != 0xa5a5a5a5)){						// detect if running on simulator
@@ -129,7 +140,7 @@ void _sched_init(void)
 void _timer_init(void)
 {
 	uint32_t m;
-	
+
 	kprintf("\nHAL: _timer_init()");
 	_irq_register(IRQ_COUNTER18, dispatch_isr);
 	_irq_register(IRQ_COUNTER18_NOT, dispatch_isr);
@@ -157,9 +168,19 @@ void _device_init(void)
 void _task_init(void)
 {
 	kprintf("\nHAL: _task_init()");
+
+	hf_spawn(_idletask, 0, 0, 0, "idle task", 1024);
 #ifdef USTACK
 	ustack_init();
 #endif
+	app_main();
+
+	kprintf("\nKERNEL: free heap: %d bytes", krnl_free);
+	kprintf("\nKERNEL: HellfireOS is up\n");
+
+	krnl_task = &krnl_tcb[0];
+	hf_schedlock(0);
+	_context_restore(krnl_task->task_context, 1);
 }
 
 void _set_task_sp(uint16_t task, size_t stack)
@@ -195,10 +216,6 @@ void _timer_reset(void)
 	lastcount = timecount;
 }
 
-void _cpu_idle(void)
-{
-}
-
 uint32_t _readcounter(void)
 {
 	return MemoryRead(COUNTER_REG);
@@ -208,12 +225,12 @@ uint64_t _read_us(void)
 {
 	static uint64_t timeref = 0;
 	static uint32_t tval2 = 0, tref = 0;
-	
+
 	if (tref == 0) _readcounter();
 	if (_readcounter() < tref) tval2++;
 	tref = _readcounter();
 	timeref = ((uint64_t)tval2 << 32) + (uint64_t)_readcounter();
-	
+
 	return (timeref / (CPU_SPEED / 1000000));
 }
 

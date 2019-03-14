@@ -7,19 +7,19 @@
 #ifndef DEBUG_PORT
 void putchar(int32_t value)
 {
-	while ((IRQ_CAUSE & IRQ_UART_WRITE_AVAILABLE) == 0);
-	UART = value;
+	while (UARTCAUSE & MASK_UART0_WRITEBUSY);
+	UART0 = value;
 }
 
 int32_t kbhit(void)
 {
-	return IRQ_CAUSE & IRQ_UART_READ_AVAILABLE;
+	return UARTCAUSE & MASK_UART0_DATAAVAIL;
 }
 
 int32_t getchar(void)
 {
 	while (!kbhit());
-	return UART;
+	return UART0;
 }
 #else
 void putchar(int32_t value)
@@ -49,17 +49,17 @@ void delay_ms(uint32_t msec)
 	volatile uint32_t cur, last, delta, msecs;
 	uint32_t cycles_per_msec;
 
-	last = COUNTER;
+	last = TIMER0;
 	delta = msecs = 0;
 	cycles_per_msec = CPU_SPEED / 1000;
-	while(msec > msecs){
-		cur = COUNTER;
+	while (msec > msecs) {
+		cur = TIMER0;
 		if (cur < last)
 			delta += (cur + (CPU_SPEED - last));
 		else
 			delta += (cur - last);
 		last = cur;
-		if (delta >= cycles_per_msec){
+		if (delta >= cycles_per_msec) {
 			msecs += delta / cycles_per_msec;
 			delta %= cycles_per_msec;
 		}
@@ -71,17 +71,17 @@ void delay_us(uint32_t usec)
 	volatile uint32_t cur, last, delta, usecs;
 	uint32_t cycles_per_usec;
 
-	last = COUNTER;
+	last = TIMER0;
 	delta = usecs = 0;
 	cycles_per_usec = CPU_SPEED / 1000000;
-	while(usec > usecs){
-		cur = COUNTER;
+	while (usec > usecs) {
+		cur = TIMER0;
 		if (cur < last)
 			delta += (cur + (CPU_SPEED - last));
 		else
 			delta += (cur - last);
 		last = cur;
-		if (delta >= cycles_per_usec){
+		if (delta >= cycles_per_usec) {
 			usecs += delta / cycles_per_usec;
 			delta %= cycles_per_usec;
 		}
@@ -93,8 +93,10 @@ static void uart_init(uint32_t baud)
 	uint16_t d;
 
 	d = (uint16_t)(CPU_SPEED / baud);
-	UART_DIVISOR = d;
-	d = UART;
+	UART0DIV = d;
+	UART0 = 0;
+
+	PAALTCFG0 |= MASK_UART0;
 }
 
 static void ioports_init(void)
@@ -116,9 +118,21 @@ uint8_t switch_get(uint16_t sw)
 }
 
 /* hardware dependent basic kernel stuff */
+void _cpu_idle(void)
+{
+}
+
+static void _idletask(void)
+{
+	for (;;){
+		_cpu_idle();
+	}
+}
+
 void _hardware_init(void)
 {
 	ioports_init();
+	uart_init(TERM_BAUD);
 }
 
 void _vm_init(void)
@@ -132,23 +146,40 @@ void _sched_init(void)
 	kprintf("\nHAL: _sched_init()");
 }
 
+void timer0b_handler(void)
+{
+	dispatch_isr(0);
+}
+
+void timer1ctc_handler(void)
+{
+	dispatch_isr(0);
+}
+
 void _timer_init(void)
 {
 	kprintf("\nHAL: _timer_init()");
 #if TIME_SLICE == 0
-	_irq_register(IRQ_COUNTER, dispatch_isr);
-	_irq_register(IRQ_COUNTER_NOT, dispatch_isr);
-	IRQ_MASK = IRQ_COUNTER;
+	TIMERMASK |= MASK_TIMER0B;
 #else
-	_irq_register(IRQ_COMPARE2, dispatch_isr);
-	COMPARE2 = COUNTER + (CPU_SPEED/1000000) * TIME_SLICE;
-	IRQ_MASK = IRQ_COMPARE2;
+	TIMER1PRE = TIMERPRE_DIV64;
+	/* unlock TIMER1 for reset */
+	TIMER1 = TIMERSET;
+	TIMER1 = 0;
+	/* timer1 divisor is 64, so divide everything by 64 */
+	TIMER1CTC = ((CPU_SPEED / 1000000) * TIME_SLICE) >> 6;
+
+	TIMERMASK |= MASK_TIMER1CTC;
 #endif
 }
 
 void _irq_init(void)
 {
 	kprintf("\nHAL: _irq_init()");
+	/* enable mask for Segment 0 (tied to IRQ0 line) */
+	IRQ_MASK = MASK_IRQ0;
+	/* global interrupts enable */
+	IRQ_STATUS = 1;
 }
 
 void _device_init(void)
@@ -165,9 +196,19 @@ void _device_init(void)
 void _task_init(void)
 {
 	kprintf("\nHAL: _task_init()");
+
+	hf_spawn(_idletask, 0, 0, 0, "idle task", 1024);
 #ifdef USTACK
 	ustack_init();
 #endif
+	app_main();
+
+	kprintf("\nKERNEL: free heap: %d bytes", krnl_free);
+	kprintf("\nKERNEL: HellfireOS is up\n");
+
+	krnl_task = &krnl_tcb[0];
+	hf_schedlock(0);
+	_context_restore(krnl_task->task_context, 1);
 }
 
 void _set_task_sp(uint16_t task, size_t stack)
@@ -193,44 +234,27 @@ void *_get_task_tp(uint16_t task)
 void _timer_reset(void)
 {
 	static uint32_t timecount, lastcount = 0;
-	
-#if TIME_SLICE == 0
-	uint32_t m;
 
-	m = IRQ_MASK;							// read interrupt mask
-	m ^= (IRQ_COUNTER | IRQ_COUNTER_NOT);				// toggle timer interrupt mask
-	IRQ_MASK = m;
-#else
-	uint32_t val;
-
-	val = COUNTER;
-	val += (CPU_SPEED/1000000) * TIME_SLICE;
-	COMPARE2 = val;
-#endif
 	timecount = _read_us();
 	krnl_pcb.tick_time = timecount - lastcount;
 	lastcount = timecount;
 }
 
-void _cpu_idle(void)
-{
-}
-
 uint32_t _readcounter(void)
 {
-	return COUNTER;
+	return TIMER0;
 }
 
 uint64_t _read_us(void)
 {
 	static uint64_t timeref = 0;
 	static uint32_t tval2 = 0, tref = 0;
-	
+
 	if (tref == 0) _readcounter();
 	if (_readcounter() < tref) tval2++;
 	tref = _readcounter();
 	timeref = ((uint64_t)tval2 << 32) + (uint64_t)_readcounter();
-	
+
 	return (timeref / (CPU_SPEED / 1000000));
 }
 
@@ -239,4 +263,3 @@ void _panic(void)
 	volatile uint32_t *trap_addr = (uint32_t *)0xe0000000;
 	*trap_addr = 0;
 }
-

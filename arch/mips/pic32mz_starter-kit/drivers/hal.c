@@ -22,7 +22,7 @@ PIC32MZ_DEVCFG (
 void putchar(int32_t value)
 {
 	while (U2STA & USTA_UTXBF);
-	U2TXREG = value;	
+	U2TXREG = value;
 }
 
 int32_t kbhit(void)
@@ -75,10 +75,10 @@ static void uart_init(uint32_t baud)
 static void ioports_init(void)
 {
 	// TODO: init leds, buttons and switches
-	
+
 	TRISBSET =	(1 << 12);		/* SW1 - RB12 (active low) - this will be used as a RESET button */
   	CNPUB = 	(1 << 12);		/* enable pull-up */
-	
+
 	TRISKCLR = (1 << 1) | (1 << 2) | (1 << 3);	/* software SPI (outputs): RK1 (cs), RK2 (sck), RK3 (mosi) */
 	TRISKSET = (1 << 4) | (1 << 5);			/* software SPI (inputs) : RK4 (miso) RK5 (irq) */
 }
@@ -86,7 +86,7 @@ static void ioports_init(void)
 uint32_t _port_read(uint32_t port)
 {
 	uint32_t data = 0;
-	
+
 	switch(port){
 		case RA:
 			data = PORTA;
@@ -177,10 +177,21 @@ uint8_t switch_get(uint16_t sw)
 }
 
 /* hardware dependent basic kernel stuff */
+void _cpu_idle(void)
+{
+}
+
+static void _idletask(void)
+{
+	for (;;){
+		_cpu_idle();
+	}
+}
+
 void _hardware_init(void)
 {
 	uint32_t temp_CP0;
-	
+
 	/* configure board registers (clock source, multiplier...) */
 //	SYSKEY = 0xAA996655;
 //	SYSKEY = 0x556699AA;
@@ -188,10 +199,10 @@ void _hardware_init(void)
 //	SYSKEY = 0x33333333;
 //	while (OSCCON & 0x1);
 //	PB5DIV = (PB5DIV & 0xff80) | 0x2;	/* 50MHz for Ethernet */
-	
+
 	ioports_init();
 	uart_init(TERM_BAUD);
-	
+
 	/* configure the interrupt controller to compatibility mode */
 	asm volatile("di");			/* Disable all interrupts */
 	mtc0 (CP0_EBASE, 1, 0x9d000000);	/* Set an EBase value of 0x9D000000 */
@@ -218,7 +229,7 @@ void _sched_init(void)
 void _timer_init(void)
 {
 	uint32_t val;
-	
+
 	kprintf("\nHAL: _timer_init()");
 #if TIME_SLICE == 0
 	_irq_register(0, 0x00000200, dispatch_isr);
@@ -262,9 +273,19 @@ void _device_init(void)
 void _task_init(void)
 {
 	kprintf("\nHAL: _task_init()");
+
+	hf_spawn(_idletask, 0, 0, 0, "idle task", 1024);
 #ifdef USTACK
 	ustack_init();
 #endif
+	app_main();
+
+	kprintf("\nKERNEL: free heap: %d bytes", krnl_free);
+	kprintf("\nKERNEL: HellfireOS is up\n");
+
+	krnl_task = &krnl_tcb[0];
+	hf_schedlock(0);
+	_context_restore(krnl_task->task_context, 1);
 }
 
 void _set_task_sp(uint16_t task, size_t stack)
@@ -290,7 +311,7 @@ void *_get_task_tp(uint16_t task)
 void _timer_reset(void)
 {
 	static uint32_t timecount, lastcount = 0;
-		
+
 #if TIME_SLICE == 0
 	IFSCLR(0) = 0x00000200;
 #else
@@ -299,10 +320,6 @@ void _timer_reset(void)
 	timecount = _read_us();
 	krnl_pcb.tick_time = timecount - lastcount;
 	lastcount = timecount;
-}
-
-void _cpu_idle(void)
-{
 }
 
 uint32_t _readcounter(void)
@@ -314,12 +331,12 @@ uint64_t _read_us(void)
 {
 	static uint64_t timeref = 0;
 	static uint32_t tval2 = 0, tref = 0;
-	
+
 	if (tref == 0) _readcounter();
 	if (_readcounter() < tref) tval2++;
 	tref = _readcounter();
 	timeref = ((uint64_t)tval2 << 32) + (uint64_t)_readcounter();
-	
+
 	return (timeref / (CPU_SPEED / 1000000));
 }
 
@@ -330,13 +347,13 @@ void _soft_reset()
 	NVMKEY = 0x556699AA;
 
 	RSWRST |= 1;
-    
+
 	/* read RSWRST register to trigger reset */
 	volatile int32_t *p = (int32_t *)&RSWRST;
 	*p;
 
 	/* prevent any unwanted code execution until reset occurs*/
-	while (1);  
+	while (1);
 }
 
 void _panic(void)
