@@ -292,6 +292,15 @@ typedef void				(*funcptr)();
 #define XTEA_OUT0			(*(volatile uint32_t *)(XTEA_BASE + 0x070))
 #define XTEA_OUT1			(*(volatile uint32_t *)(XTEA_BASE + 0x080))
 
+/* software SPI interface for GPIO */
+/* SPI read / write ports */
+#define SPI_INPORT			PAIN
+#define SPI_OUTPORT			PAOUT
+#define SPI_CS0				MASK_P4
+#define SPI_SCK				MASK_P5
+#define SPI_MOSI			MASK_P6
+#define SPI_MISO			MASK_P7
+
 /* hardware dependent stuff */
 #define STACK_MAGIC			0xb00bb00b
 typedef uint32_t context[20];

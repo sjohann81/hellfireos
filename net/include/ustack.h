@@ -1,7 +1,8 @@
 /* general configuration definitions */
-#define PACKET_SIZE		1518		/* must be even! between 576 and 1518 (max. for Ethernet) */
+#define FRAME_SIZE		1518		/* must be even! between 594 (MTU=576) and 1518 (MTU=1500, max. for Ethernet) */
 #define ARP_CACHE_SIZE		16		/* number of entries on the ARP cache */
-#define IP_CFG_PING		113
+#define IP_CFG_PING		113		/* ping payload magic size for IP configuration */
+#define UDP_DEFAULT_PORT	30168
 
 /* SLIP link definitions */
 #define SLIP_END		192
@@ -20,8 +21,11 @@
 #define FRAME_IP		0x0800		// IPv4
 #define FRAME_IEEE		0x8100 		// IEEE 802.1Q
 #define FRAME_IPV6		0x86dd		// IPv6
+#define FRAME_TEST		0x8888
 
 // ARP definitions
+#define ARP_TRIES		3
+#define ARP_WAIT		100
 #define ARP_HARDW_OFS		14		// Hardware address type
 #define ARP_PROT_OFS		16		// Protocol
 #define ARP_HLEN_PLEN_OFS	18		// byte length of each hardw. / prot. address
@@ -36,6 +40,19 @@
 #define IP_HLEN_PLEN		0x0604		// MAC = 6 byte long, IP = 4 byte long
 #define OP_ARP_REQUEST		1		// operations for ARP-frames
 #define OP_ARP_ANSWER		2
+
+// BOOTP definitions
+#define BOOTP_TRIES		3
+#define BOOTP_WAIT		1000
+#define	IPPORT_BOOTPS		67
+#define	IPPORT_BOOTPC		68
+#define BOOTREPLY		2
+#define BOOTREQUEST		1
+#define BPFLAG_BROADCAST	(1 << 15)
+#define HTYPE_ETHERNET		1
+#define TAG_END			255
+#define TAG_SUBNET_MASK		1
+#define TAG_GATEWAY		3
 
 /* IP layer definitions */
 #define IP_HDR_VHL		0
@@ -123,29 +140,49 @@ struct arp_entry {
 	uint8_t mac[6];
 };
 
+struct bootp {
+	uint8_t bp_op;			/* packet opcode type */
+	uint8_t bp_htype;		/* hardware addr type */
+	uint8_t bp_hlen;		/* hardware addr length */
+	uint8_t bp_hops;		/* gateway hops */
+	uint8_t bp_xid[4];		/* transaction ID */
+	uint16_t bp_secs;		/* seconds since boot began */
+	uint16_t bp_flags;		/* RFC1532 broadcast, etc. */
+	uint8_t bp_ciaddr[4];		/* client IP address */
+	uint8_t bp_yiaddr[4];		/* 'your' IP address */
+	uint8_t bp_siaddr[4];		/* (next) server IP address */
+	uint8_t bp_riaddr[4];		/* relay IP address */
+	uint8_t bp_chaddr[16];		/* client hardware address */
+	int8_t bp_sname[64];		/* server host name */
+	int8_t bp_file[128];		/* boot file name */
+	uint8_t bp_vend[64];		/* vendor-specific area */
+};
+
 extern uint8_t myip[4];
 extern uint8_t mynm[4];
 extern uint8_t mygw[4];
 extern uint8_t mymac[6];
 extern struct arp_entry arp_cache[ARP_CACHE_SIZE];
 
-/* layer 1 */
-extern uint8_t *frame_in, *frame_out;
-extern uint8_t mymac[6];
+extern void ustack_init(void);
 
-extern int32_t en_init();
-extern int32_t en_watchdog(void);
+/* layer 1 */
+extern uint8_t *packet;
+extern int32_t en_init(void);
+extern uint8_t en_linkup(void);
 extern void en_ll_output(uint8_t *frame, uint16_t size);
 extern int32_t en_ll_input(uint8_t *frame);
 
 /* layer 2 */
-void ustack_init(void);
 uint16_t netif_send(uint8_t *packet, uint16_t len);
 uint16_t netif_recv(uint8_t *packet);
 int32_t arp_reply(uint8_t *frame);
 int32_t arp_request(uint8_t *frame);
 int32_t arp_update(uint8_t *ip, uint8_t *mac);
 int32_t arp_check(uint8_t *ip, uint8_t *mac);
+uint16_t bootp_request(uint8_t *frame);
+uint16_t bootp_handle_reply(uint8_t *frame);
+int32_t bootp_boot(uint8_t *packet);
 
 /* layer 3 */
 int32_t ip_addr_maskcmp(uint8_t addr1[4], uint8_t addr2[4], uint8_t mask[4]);
@@ -162,3 +199,4 @@ int32_t udp_out(uint8_t dst_addr[4], uint16_t src_port, uint16_t dst_port, uint8
 int32_t udp_in(uint8_t *packet);
 void udp_set_callback(void (*callback)(uint8_t *packet));
 void *udp_get_callback(void);
+

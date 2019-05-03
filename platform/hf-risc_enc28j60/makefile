@@ -1,4 +1,4 @@
-APP = app/ustack_uudp2
+APP = app/ustack_raw
 ARCH = riscv/hf-riscv
 
 SERIAL_BAUD=57600

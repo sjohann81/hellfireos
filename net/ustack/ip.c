@@ -12,7 +12,7 @@ static uint32_t ipchksum(uint8_t *packet)
 	uint32_t sum=0;
 	uint16_t i;
 
-	for(i = 0; i < 20; i += 2)
+	for (i = 0; i < 20; i += 2)
 		sum += ((uint32_t)packet[i] << 8) | (uint32_t)packet[i + 1];
 	while (sum & 0xffff0000)
 		sum = (sum & 0xffff) + (sum >> 16);
@@ -100,7 +100,7 @@ int32_t ip_out(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 	packet[IP_HDR_FLAGS1] = 0x00;
 	packet[IP_HDR_FLAGS2] = 0x00;
 	packet[IP_HDR_TTL] = IP_DEFAULT_TTL;
-	/* IP_HDR_PROTO ?? */
+	/* IP_HDR_PROTO must be filled! */
 	packet[IP_HDR_SRCADDR1] = myip[0];
 	packet[IP_HDR_SRCADDR2] = myip[1];
 	packet[IP_HDR_SRCADDR3] = myip[2];
@@ -121,39 +121,30 @@ int32_t ip_out(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 
 int32_t ip_in(uint8_t dst_addr[4], uint8_t *packet, uint16_t len)
 {
-	uint8_t configured;
 	int32_t val = 0;
 
-	configured = myip[0] | myip[1] | myip[2] | myip[3];
 	if (packet[IP_HDR_VHL] != (IP_VER_IHL >> 8)) return -1;				/* IP version / options error (not supported) */
 	if (((packet[IP_HDR_FLAGS1] << 8) | (packet[IP_HDR_FLAGS2])) &
 		(IP_FLAG_MOREFRAG | IP_FRAGOFS_MASK)) return -1;			/* IP fragmented frames not supported */
 	if (packet[IP_HDR_TTL] == 0) return -1;						/* TP TTL has expired */
-	if (configured){								/* if already configured by a magic ping */
-		if (!ip_addr_cmp(&packet[IP_HDR_DESTADDR1], dst_addr)) return -1; 	/* IP destination address error */
-		if (ipchksum(packet) != 0xffff) return -1;				/* IP checksum error */
 
-		switch(packet[IP_HDR_PROTO]){
-			case IP_PROTO_ICMP:
-				val = icmp_echo_reply(packet, len);
-				break;
-			case IP_PROTO_UDP:
-				val = udp_in(packet);
-				break;
-			default:							/* IP protocol error */
-				return -1;
-		}
-	}else{
-		if (packet[IP_HDR_PROTO] == IP_PROTO_ICMP && ~configured &&
-			len == IP_CFG_PING + IP_HEADER_SIZE + ICMP_HDR_SIZE){		/* configure the IP address */
-			myip[0] = packet[IP_HDR_DESTADDR1];
-			myip[1] = packet[IP_HDR_DESTADDR2];
-			myip[2] = packet[IP_HDR_DESTADDR3];
-			myip[3] = packet[IP_HDR_DESTADDR4];
-		}
+	if (!ip_addr_cmp(&packet[IP_HDR_DESTADDR1], dst_addr))
+		if (!ip_addr_isbroadcast(&packet[IP_HDR_DESTADDR1], mynm))
+			if (!ip_addr_ismulticast(&packet[IP_HDR_DESTADDR1]))
+				return -1;						/* IP destination address error */
+
+	if (ipchksum(packet) != 0xffff) return -1;					/* IP checksum error */
+
+	switch (packet[IP_HDR_PROTO]) {
+		case IP_PROTO_ICMP:
+			val = icmp_echo_reply(packet, len);
+			break;
+		case IP_PROTO_UDP:
+			val = udp_in(packet);
+			break;
+		default:								/* IP protocol error */
+			return -1;
 	}
 
 	return val;
 }
-
-

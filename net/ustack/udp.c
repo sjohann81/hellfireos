@@ -18,10 +18,10 @@ static uint16_t udpchksum(uint8_t *packet, uint16_t len)
 	sum += ((uint32_t)packet[IP_HDR_SRCADDR1] << 8) | (uint32_t)packet[IP_HDR_SRCADDR2];
 	sum += ((uint32_t)packet[IP_HDR_SRCADDR3] << 8) | (uint32_t)packet[IP_HDR_SRCADDR4];
 	sum += ((uint32_t)packet[IP_HDR_DESTADDR1] << 8) | (uint32_t)packet[IP_HDR_DESTADDR2];
-	sum += ((uint32_t)packet[IP_HDR_DESTADDR3] << 8) |(uint32_t)packet[IP_HDR_DESTADDR4];
+	sum += ((uint32_t)packet[IP_HDR_DESTADDR3] << 8) | (uint32_t)packet[IP_HDR_DESTADDR4];
 	sum += IP_PROTO_UDP;
 	sum += len;
-	for(i = IP_HEADER_SIZE; i < len + IP_HEADER_SIZE-1; i += 2)
+	for (i = IP_HEADER_SIZE; i < len + IP_HEADER_SIZE-1; i += 2)
 		sum += ((uint32_t)packet[i] << 8) | (uint32_t)packet[i + 1];
 	if (len & 1)
 		sum += (uint32_t)packet[len + IP_HEADER_SIZE-1] << 8;
@@ -84,7 +84,7 @@ int32_t udp_in(uint8_t *packet)
 	src_port = (packet[UDP_HDR_SRCPORT1] << 8) | packet[UDP_HDR_SRCPORT2];
 	dst_port = (packet[UDP_HDR_DESTPORT1] << 8) | packet[UDP_HDR_DESTPORT2];
 
-	switch(dst_port){
+	switch (dst_port) {
 		case PORT_ECHO:							/* Echo protocol, RFC862 */
 			dst_addr[0] = packet[IP_HDR_SRCADDR1];
 			dst_addr[1] = packet[IP_HDR_SRCADDR2];

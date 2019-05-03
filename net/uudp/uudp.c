@@ -4,6 +4,7 @@
 
 static struct list *comm_list;
 mutex_t uudplock;
+uint8_t frame_out[FRAME_SIZE];
 
 /*
 this is called from the UDP layer. this all happens inside the network service (ustack_service), as it
@@ -74,7 +75,7 @@ int32_t hf_uudp_create(struct uudp *comm, uint16_t listen_port, uint32_t qsize)
 		return ERR_OUT_OF_MEMORY;
 
 	for (i = 0; i < qsize; i++){
-		ptr = hf_malloc(PACKET_SIZE);
+		ptr = hf_malloc(FRAME_SIZE);
 		if (ptr == NULL){
 			while (hf_queue_count(comm->free_buffers))
 				hf_free(hf_queue_remhead(comm->free_buffers));
@@ -147,7 +148,7 @@ int32_t hf_uudp_recv(struct uudp *comm, uint8_t src_ip[4], uint16_t *src_port, u
 	ptr = (uint8_t *)hf_queue_remhead(comm->pkt_queue);
 	len = (ptr[UDP_HDR_LEN1] << 8) | (ptr[UDP_HDR_LEN2] & 0xff);
 	
-	if (len > PACKET_SIZE - ETH_HEADER_SIZE - UDP_HEADER_SIZE)
+	if (len > FRAME_SIZE - ETH_HEADER_SIZE - UDP_HEADER_SIZE)
 		return ERR_ERROR;
 	
 	memcpy(src_ip, &ptr[IP_HDR_SRCADDR1], 4);
@@ -169,7 +170,7 @@ int32_t hf_uudp_send(struct uudp *comm, uint8_t dst_ip[4], uint16_t dst_port, ui
 {
 	int32_t val, tries = 0;
 
-	if (len > PACKET_SIZE - ETH_HEADER_SIZE - UDP_HEADER_SIZE)
+	if (len > FRAME_SIZE - ETH_HEADER_SIZE - UDP_HEADER_SIZE)
 		return ERR_ERROR;
 	
 	hf_mtxlock(&uudplock);

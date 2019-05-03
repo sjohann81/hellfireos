@@ -263,13 +263,11 @@
 /* stp TX buffer at end of mem */
 #define TXSTOP_INIT		0x1FFF
 /* max frame length which the conroller will accept: */
-#define MAX_FRAMELEN		1518        // (note: maximum ethernet frame length would be 1518)
+#define MAX_FRAMELEN		1518        // (note: maximum ethernet frame length would be 1518 - header (14), payload (1500), crc (4))
 
-uint8_t *frame_in, *frame_out;
+extern uint8_t mymac[6];
 
-uint8_t mymac[6];
-
-int32_t en_init();
-int32_t en_watchdog(void);
+int32_t en_init(void);
+uint8_t en_linkup(void);
 void en_ll_output(uint8_t *frame, uint16_t size);
 int32_t en_ll_input(uint8_t *frame);

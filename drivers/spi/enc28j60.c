@@ -2,15 +2,6 @@
  * description:   Microchip ENC28J60 MAC/Ethernet network driver
  * date:          12/2016
  * author:        Sergio Johann Filho <sergio.filho@pucrs.br>
- * 
- * based on several sources:
- * 
- * http://www.oryx-embedded.com/doc/enc28j60_8c_source.html
- * https://chromium.googlesource.com/chromiumos/third_party/u-boot-next/+/master/drivers/net/enc28j60.c
- * https://github.com/grissiom/rtgui-stm32-tut/blob/master/enc28j60.c
- * https://chromium.googlesource.com/chromiumos/third_party/u-boot-next/+/master/drivers/net/enc28j60_lpc2292.c
- * 
- * TODO: link state diagnostics, error recovery and datasheet errata.
  */
 
 #include <hellfire.h>
@@ -29,11 +20,11 @@ uint8_t enc28j60_readop(uint8_t op, uint8_t address)
 	spi_start();
 	// issue read command
 	spi_sendrecv(op | (address & ADDR_MASK));
+	// read data
+	data = spi_sendrecv(0x00);
 	// do dummy read if needed (for mac and mii, see datasheet page 29)
 	if (address & 0x80)
 		spi_sendrecv(0x00);
-	// read data
-	data = spi_sendrecv(0x00);
 	spi_stop();
 
 	return data;
@@ -108,7 +99,7 @@ void enc28j60_phywrite(uint8_t address, uint16_t data)
 	enc28j60_write(MIWRL, data);
 	enc28j60_write(MIWRH, data >> 8);
 	// wait until the PHY write completes
-	while(enc28j60_read(MISTAT) & MISTAT_BUSY){
+	while (enc28j60_read(MISTAT) & MISTAT_BUSY){
 		delay_us(15);
 		if (i++ > 3333) break;
 	}
@@ -123,7 +114,7 @@ uint16_t enc28j60_phyread(uint8_t address)
 	// read the PHY data
 	enc28j60_write(MICMD, MICMD_MIIRD);
 	// wait until the PHY read completes
-	while(enc28j60_read(MISTAT) & MISTAT_BUSY){
+	while (enc28j60_read(MISTAT) & MISTAT_BUSY){
 		delay_us(15);
 		if (i++ > 3333) break;
 	}
@@ -141,22 +132,46 @@ void enc28j60_clkout(uint8_t clk)
 	enc28j60_write(ECOCON, clk & 0x7);
 }
 
-static int32_t en_configure()
+uint8_t enc28j60_getrev(void)
+{
+	return (enc28j60_read(EREVID));
+}
+
+void enc28j60_powerdown(void) {
+	enc28j60_writeop(ENC28J60_BIT_FIELD_CLR, ECON1, ECON1_RXEN);
+	delay_ms(50);
+	enc28j60_writeop(ENC28J60_BIT_FIELD_SET, ECON2, ECON2_VRPS);
+	delay_ms(50);
+	enc28j60_writeop(ENC28J60_BIT_FIELD_SET, ECON2, ECON2_PWRSV);
+}
+
+void enc28j60_powerup(void) {
+	enc28j60_writeop(ENC28J60_BIT_FIELD_CLR, ECON2, ECON2_PWRSV);
+	delay_ms(50);
+	enc28j60_writeop(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_RXEN);
+	delay_ms(50);
+}
+
+int32_t en_init()
 {
 	uint16_t phyid1, phyid2;
 	
+	// initialize I/O
+	spi_setup(SPI_CS0, 0);
+	
 	// perform system reset (see Rev. B4 Silicon Errata point 2)
 	enc28j60_writeop(ENC28J60_SOFT_RESET, 0, ENC28J60_SOFT_RESET);
-	delay_ms(10);
+	delay_ms(50);
 	
 	/* check chip id */
 	phyid1 = enc28j60_phyread(PHHID1);
 	phyid2 = enc28j60_phyread(PHHID2) << 8;
 	
-	if (phyid1 != ENC_PHHID1_VALUE || (phyid2 & ENC_PHHID2_MASK) != ENC_PHHID2_VALUE){
+	if (phyid1 == 0 && phyid2 == 0){
 		kprintf("\nHAL: Ethernet PHY not detected phyid1 = %x, phyid2 = %x", phyid1, phyid2);
-		return 0;
-	}else{
+
+		return -1;
+	} else {
 		kprintf("\nHAL: Ethernet device: enc28j60, revision id: %x", enc28j60_read(EREVID));	
 	}
 	
@@ -191,12 +206,13 @@ static int32_t en_configure()
 	// 06 08 -- ff ff ff ff ff ff -> ip checksum for theses bytes=f7f9
 	// in binary these poitions are:11 0000 0011 1111
 	// This is hex 303F->EPMM0=0x3f,EPMM1=0x30
-	enc28j60_write(ERXFCON, ERXFCON_UCEN | ERXFCON_CRCEN | ERXFCON_PMEN);
+	// Unfortunately, broadcasts are needed for BOOTP.
+/*	enc28j60_write(ERXFCON, ERXFCON_UCEN | ERXFCON_CRCEN | ERXFCON_PMEN);
 	enc28j60_write(EPMM0, 0x3f);
 	enc28j60_write(EPMM1, 0x30);
 	enc28j60_write(EPMCSL, 0xf9);
 	enc28j60_write(EPMCSH, 0xf7);
-
+*/
 	// do bank 2 stuff
 	// enable MAC receive
 	enc28j60_write(MACON1, MACON1_MARXEN | MACON1_TXPAUS | MACON1_RXPAUS);
@@ -214,22 +230,22 @@ static int32_t en_configure()
 	enc28j60_write(MAMXFLL, MAX_FRAMELEN & 0xFF);
 	enc28j60_write(MAMXFLH, MAX_FRAMELEN >> 8);
 	
-	// do bank 3 stuff
-	// write MAC address
-	// NOTE: MAC address in ENC28J60 is byte-backward
-	enc28j60_write(MAADR5, ENC28J60_MAC0);
-	enc28j60_write(MAADR4, ENC28J60_MAC1);
-	enc28j60_write(MAADR3, ENC28J60_MAC2);
-	enc28j60_write(MAADR2, ENC28J60_MAC3);
-	enc28j60_write(MAADR1, ENC28J60_MAC4);
-	enc28j60_write(MAADR0, ENC28J60_MAC5);
-	
 	mymac[0] = ENC28J60_MAC0;
 	mymac[1] = ENC28J60_MAC1;
 	mymac[2] = ENC28J60_MAC2;
 	mymac[3] = ENC28J60_MAC3;
 	mymac[4] = ENC28J60_MAC4;
 	mymac[5] = ENC28J60_MAC5;
+	
+	// do bank 3 stuff
+	// write MAC address
+	// NOTE: MAC address in ENC28J60 is byte-backward
+	enc28j60_write(MAADR5, mymac[0]);
+	enc28j60_write(MAADR4, mymac[1]);
+	enc28j60_write(MAADR3, mymac[2]);
+	enc28j60_write(MAADR2, mymac[3]);
+	enc28j60_write(MAADR1, mymac[4]);
+	enc28j60_write(MAADR0, mymac[5]);
 	
 	kprintf("\nHAL: Ethernet interface en0: MAC address %x:%x:%x:%x:%x:%x",
 		mymac[0], mymac[1], mymac[2], mymac[3], mymac[4], mymac[5]);
@@ -243,39 +259,15 @@ static int32_t en_configure()
 	// enable packet reception
 	enc28j60_writeop(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_RXEN);
 	
-	return 1;
-}
-
-int32_t en_init()
-{
-	// initialize I/O
-	spi_setup(SPI_CS0, 0);
-	
-	// configure the Ethernet chip
-	if (!en_configure()) return 0;
-	
-	/* allocate raw frame buffers */
-	frame_in = (uint8_t *)malloc(MAX_FRAMELEN);
-	frame_out = (uint8_t *)malloc(MAX_FRAMELEN);
-	if (!frame_in || !frame_out) panic(PANIC_OOM);
-	
 	hf_mtxinit(&enclock);
-	
 	en_irqconfig();
 	
-	return 1;
-}
-
-// read the revision of the chip:
-uint8_t enc28j60_getrev(void)
-{
-	return (enc28j60_read(EREVID));
-}
-
-
-int32_t en_watchdog(void)
-{
 	return 0;
+}
+
+uint8_t en_linkup(void)
+{
+	return ((ntohs(enc28j60_phyread(PHSTAT2)) >> 8) & 4);
 }
 
 int32_t en_ll_input(uint8_t *frame)
@@ -286,7 +278,7 @@ int32_t en_ll_input(uint8_t *frame)
 	hf_mtxlock(&enclock);
 	
 	// check if a frame has been received
-	if(enc28j60_read(EPKTCNT) == 0){
+	if (enc28j60_read(EPKTCNT) == 0){
 		hf_mtxunlock(&enclock);
 		return 0;
 	}
@@ -296,11 +288,11 @@ int32_t en_ll_input(uint8_t *frame)
 	// Set the read pointer to the start of the received frame
 	enc28j60_write(ERDPTL, (encpktptr));
 	enc28j60_write(ERDPTH, (encpktptr) >> 8);
-	
+
 	// read the next frame pointer
 	encpktptr = enc28j60_readop(ENC28J60_READ_BUF_MEM, 0);
 	encpktptr |= enc28j60_readop(ENC28J60_READ_BUF_MEM, 0) << 8;
-	
+
 	// read frame length (see datasheet page 43)
 	size = enc28j60_readop(ENC28J60_READ_BUF_MEM, 0);
 	size |= enc28j60_readop(ENC28J60_READ_BUF_MEM, 0) << 8;
@@ -338,25 +330,27 @@ void en_ll_output(uint8_t *frame, uint16_t size)
 	hf_mtxlock(&enclock);
 	hf_schedlock(1);
 	
+	// Reset the transmit logic. See Rev. B4 Silicon Errata points 12 and 13.
+	if ((enc28j60_read(EIR) & EIR_TXERIF)) {
+		enc28j60_writeop(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRST);
+		enc28j60_writeop(ENC28J60_BIT_FIELD_CLR, ECON1, ECON1_TXRST);
+		enc28j60_writeop(ENC28J60_BIT_FIELD_CLR, EIR, EIR_TXERIF | EIR_TXIF);
+	}
+
 	// Set the write pointer to start of transmit buffer area
 	enc28j60_write(EWRPTL, TXSTART_INIT & 0xFF);
 	enc28j60_write(EWRPTH, TXSTART_INIT >> 8);
-	
+
 	// Set the TXND pointer to correspond to the frame size given
 	enc28j60_write(ETXNDL, (TXSTART_INIT + size) & 0xFF);
 	enc28j60_write(ETXNDH, (TXSTART_INIT + size) >> 8);
-	
+
 	// write per-packet control byte (0x00 means use macon3 settings)
 	enc28j60_writeop(ENC28J60_WRITE_BUF_MEM, 0, 0x00);
-	
-	// copy the frame into the transmit buffer
+
+	// copy the packet into the transmit buffer
 	enc28j60_writebuf(frame, size);
-	
-	// Reset the transmit logic problem. See Rev. B4 Silicon Errata point 12.
-	if ((enc28j60_read(EIR) & EIR_TXERIF)){
-		enc28j60_writeop(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRST);
-		enc28j60_writeop(ENC28J60_BIT_FIELD_CLR, ECON1, ECON1_TXRST);
-	}
+
 	// send the contents of the transmit buffer onto the network
 	enc28j60_writeop(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRTS);
 
