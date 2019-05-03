@@ -276,3 +276,61 @@ int32_t sched_rma(void)
 		return 0;
 	}
 }
+
+/**
+ * @brief Real time (RT) scheduler (callback).
+ *
+ * @return Real time task id.
+ *
+ * The scheduling algorithm is Earliest Deadline First.
+ * 	- Sort the queue of RT tasks by period;
+ * 	- Update real time information (remaining deadline and capacity) of the
+ * whole task set.
+ * 	- If the task at the head of the queue fits the requirements to be scheduled
+ * (not blocked, has jobs to execute and no task with higher priority according to EDF
+ * was selected) then register the task to be scheduled.
+ */
+
+int32_t sched_edf(void)
+{
+	int32_t i, j, k;
+	uint16_t id = 0;
+	struct tcb_entry *e1, *e2;
+
+	k = hf_queue_count(krnl_rt_queue);
+	if (k == 0)
+		return 0;
+
+	for (i = 0; i < k-1; i++){
+		for (j = i + 1; j < k; j++){
+			e1 = hf_queue_get(krnl_rt_queue, i);
+			e2 = hf_queue_get(krnl_rt_queue, j);
+			if (e1->deadline_rem > e2->deadline_rem)
+				if (hf_queue_swap(krnl_rt_queue, i, j))
+					panic(PANIC_CANT_SWAP);
+		}
+	}
+
+	for (i = 0; i < k; i++){
+		rt_queue_next();
+		if (krnl_task->state != TASK_BLOCKED && krnl_task->capacity_rem > 0 && !id){
+			id = krnl_task->id;
+			--krnl_task->capacity_rem;
+		}
+		if (--krnl_task->deadline_rem == 0){
+			krnl_task->deadline_rem = krnl_task->period;
+			if (krnl_task->capacity_rem > 0) krnl_task->deadline_misses++;
+			krnl_task->capacity_rem = krnl_task->capacity;
+		}
+	}
+
+	if (id){
+		krnl_task = &krnl_tcb[id];
+		krnl_task->rtjobs++;
+		return id;
+	}else{
+		/* no RT task to run */
+		krnl_task = &krnl_tcb[0];
+		return 0;
+	}
+}

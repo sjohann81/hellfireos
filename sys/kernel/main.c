@@ -31,7 +31,7 @@ static void print_config(void)
 {
 	kprintf("\n===========================================================");
 	kprintf("\nHellfireOS %s (%s) [%s, %s]", KERN_VER, __VERSION__, __DATE__, __TIME__);
-	kprintf("\nEmbedded Systems Group - GSE, PUCRS - [2007 - 2018]");
+	kprintf("\nEmbedded Systems Group - GSE, PUCRS - [2007 - 2019]");
 	kprintf("\n===========================================================\n");
 	kprintf("\narch:          %s", CPU_ARCH);
 	kprintf("\nsys clk:       %d kHz", CPU_SPEED/1000);
@@ -75,7 +75,7 @@ static void clear_tcb(void)
 static void clear_pcb(void)
 {
 	/* setup callbacks for the schedulers */
-	krnl_pcb.sched_rt = sched_rma;
+	krnl_pcb.sched_rt = sched_edf;
 	krnl_pcb.sched_be = sched_priorityrr;
 	/* and clear the process control block */
 	krnl_pcb.coop_cswitch = 0;
