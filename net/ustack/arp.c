@@ -4,7 +4,8 @@
  * author:        Sergio Johann Filho <sergio.johann@acad.pucrs.br>
  */
 
-#include "ustack.h"
+#include <hellfire.h>
+#include <ustack.h>
 
 struct arp_entry arp_cache[ARP_CACHE_SIZE];
 static uint32_t arp_index = 0;

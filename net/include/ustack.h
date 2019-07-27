@@ -1,3 +1,5 @@
+#include <stdarg.h>
+
 /* general configuration definitions */
 #define FRAME_SIZE		1518		/* must be even! between 594 (MTU=576) and 1518 (MTU=1500, max. for Ethernet) */
 #define ARP_CACHE_SIZE		16		/* number of entries on the ARP cache */
