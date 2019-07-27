@@ -154,7 +154,8 @@ void enc28j60_powerup(void) {
 
 int32_t en_init()
 {
-	uint16_t phyid1, phyid2;
+//	uint16_t phyid1, phyid2;
+	uint8_t rev;
 	
 	// initialize I/O
 	spi_setup(SPI_CS0, 0);
@@ -164,9 +165,10 @@ int32_t en_init()
 	delay_ms(50);
 	
 	/* check chip id */
-	phyid1 = enc28j60_phyread(PHHID1);
-	phyid2 = enc28j60_phyread(PHHID2) << 8;
-	
+//	phyid1 = enc28j60_phyread(PHHID1);
+//	phyid2 = enc28j60_phyread(PHHID2) << 8;
+	rev = enc28j60_read(EREVID);
+/*	
 	if (phyid1 == 0 && phyid2 == 0){
 		kprintf("\nHAL: Ethernet PHY not detected phyid1 = %x, phyid2 = %x", phyid1, phyid2);
 
@@ -174,6 +176,9 @@ int32_t en_init()
 	} else {
 		kprintf("\nHAL: Ethernet device: enc28j60, revision id: %x", enc28j60_read(EREVID));	
 	}
+*/	
+	if (!(rev > 0 && rev < 255))
+		return -1;
 	
 	// do bank 0 stuff
 	// initialize receive buffer
@@ -262,7 +267,7 @@ int32_t en_init()
 	hf_mtxinit(&enclock);
 	en_irqconfig();
 	
-	return 0;
+	return rev;
 }
 
 uint8_t en_linkup(void)
