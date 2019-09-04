@@ -1,4 +1,4 @@
-APP = app/sched_test2
+APP = app/sched_test3
 ARCH = riscv/hf-riscv
 
 SERIAL_BAUD=57600
