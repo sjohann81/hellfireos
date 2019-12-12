@@ -12,7 +12,7 @@ void task(void){
 }
 
 void app_main(void){
-	hf_spawn(task, 4, 1, 4, "task a", 2048);
-	hf_spawn(task, 5, 2, 5, "task b", 2048);
-	hf_spawn(task, 7, 2, 7, "task c", 2048);
+	hf_spawn(task, 20, 3, 7, "task a", 2048);
+	hf_spawn(task, 5, 2, 4, "task b", 2048);
+	hf_spawn(task, 10, 1, 8, "task c", 2048);
 }
