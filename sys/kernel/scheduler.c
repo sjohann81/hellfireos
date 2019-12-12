@@ -61,6 +61,39 @@ static void rt_queue_next()
 		panic(PANIC_CANT_PLACE_RT);
 }
 
+static uint16_t rt_schedule(int32_t k)
+{
+	int32_t i;
+	uint16_t id = 0;
+
+	for (i = 0; i < k; i++){
+		rt_queue_next();
+		if (krnl_task->state != TASK_BLOCKED && krnl_task->capacity_rem > 0 && !id){
+			id = krnl_task->id;
+			--krnl_task->capacity_rem;
+		}
+
+		if (--krnl_task->deadline_rem == 0)
+			if (krnl_task->capacity_rem > 0) krnl_task->deadline_misses++;
+
+		if (--krnl_task->period_rem == 0){
+			krnl_task->period_rem = krnl_task->period;
+			krnl_task->capacity_rem = krnl_task->capacity;
+			krnl_task->deadline_rem = krnl_task->deadline;
+		}
+	}
+
+	if (id){
+		krnl_task = &krnl_tcb[id];
+		krnl_task->rtjobs++;
+		return id;
+	}else{
+		/* no RT task to run */
+		krnl_task = &krnl_tcb[0];
+		return 0;
+	}
+}
+
 
 /**
  * @brief Task dispatcher.
@@ -236,7 +269,6 @@ done:
 int32_t sched_rma(void)
 {
 	int32_t i, j, k;
-	uint16_t id = 0;
 	struct tcb_entry *e1, *e2;
 
 	k = hf_queue_count(krnl_rt_queue);
@@ -253,28 +285,7 @@ int32_t sched_rma(void)
 		}
 	}
 
-	for (i = 0; i < k; i++){
-		rt_queue_next();
-		if (krnl_task->state != TASK_BLOCKED && krnl_task->capacity_rem > 0 && !id){
-			id = krnl_task->id;
-			--krnl_task->capacity_rem;
-		}
-		if (--krnl_task->deadline_rem == 0){
-			krnl_task->deadline_rem = krnl_task->period;
-			if (krnl_task->capacity_rem > 0) krnl_task->deadline_misses++;
-			krnl_task->capacity_rem = krnl_task->capacity;
-		}
-	}
-
-	if (id){
-		krnl_task = &krnl_tcb[id];
-		krnl_task->rtjobs++;
-		return id;
-	}else{
-		/* no RT task to run */
-		krnl_task = &krnl_tcb[0];
-		return 0;
-	}
+	return rt_schedule(k);
 }
 
 /**
@@ -282,8 +293,45 @@ int32_t sched_rma(void)
  *
  * @return Real time task id.
  *
+ * The scheduling algorithm is Deadline Monotonic.
+ * 	- Sort the queue of RT tasks by deadline;
+ * 	- Update real time information (remaining deadline and capacity) of the
+ * whole task set.
+ * 	- If the task at the head of the queue fits the requirements to be scheduled
+ * (not blocked, has jobs to execute and no task with higher priority according to RM
+ * was selected) then register the task to be scheduled.
+ */
+
+int32_t sched_dma(void)
+{
+	int32_t i, j, k;
+	struct tcb_entry *e1, *e2;
+
+	k = hf_queue_count(krnl_rt_queue);
+	if (k == 0)
+		return 0;
+
+	for (i = 0; i < k-1; i++){
+		for (j = i + 1; j < k; j++){
+			e1 = hf_queue_get(krnl_rt_queue, i);
+			e2 = hf_queue_get(krnl_rt_queue, j);
+			if (e1->deadline > e2->deadline)
+				if (hf_queue_swap(krnl_rt_queue, i, j))
+					panic(PANIC_CANT_SWAP);
+		}
+	}
+
+	return rt_schedule(k);
+}
+
+
+/**
+ * @brief Real time (RT) scheduler (callback).
+ *
+ * @return Real time task id.
+ *
  * The scheduling algorithm is Earliest Deadline First.
- * 	- Sort the queue of RT tasks by period;
+ * 	- Sort the queue of RT tasks by remaining deadline;
  * 	- Update real time information (remaining deadline and capacity) of the
  * whole task set.
  * 	- If the task at the head of the queue fits the requirements to be scheduled
@@ -294,7 +342,6 @@ int32_t sched_rma(void)
 int32_t sched_edf(void)
 {
 	int32_t i, j, k;
-	uint16_t id = 0;
 	struct tcb_entry *e1, *e2;
 
 	k = hf_queue_count(krnl_rt_queue);
@@ -311,26 +358,38 @@ int32_t sched_edf(void)
 		}
 	}
 
-	for (i = 0; i < k; i++){
-		rt_queue_next();
-		if (krnl_task->state != TASK_BLOCKED && krnl_task->capacity_rem > 0 && !id){
-			id = krnl_task->id;
-			--krnl_task->capacity_rem;
-		}
-		if (--krnl_task->deadline_rem == 0){
-			krnl_task->deadline_rem = krnl_task->period;
-			if (krnl_task->capacity_rem > 0) krnl_task->deadline_misses++;
-			krnl_task->capacity_rem = krnl_task->capacity;
+	return rt_schedule(k);
+}
+
+/**
+ * @brief Real time (RT) scheduler (callback).
+ *
+ * @return Real time task id.
+ *
+ * The scheduling algorithm is Least Laxity First (Least Slack Time)
+ */
+
+int32_t sched_llf(void)
+{
+	int32_t i, j, k;
+	int32_t sl1, sl2;
+	struct tcb_entry *e1, *e2;
+
+	k = hf_queue_count(krnl_rt_queue);
+	if (k == 0)
+		return 0;
+
+	for (i = 0; i < k-1; i++){
+		for (j = i + 1; j < k; j++){
+			e1 = hf_queue_get(krnl_rt_queue, i);
+			e2 = hf_queue_get(krnl_rt_queue, j);
+			sl1 = e1->deadline - e1->capacity_rem;
+			sl2 = e2->deadline - e2->capacity_rem;
+			if (sl1 > sl2)
+				if (hf_queue_swap(krnl_rt_queue, i, j))
+					panic(PANIC_CANT_SWAP);
 		}
 	}
 
-	if (id){
-		krnl_task = &krnl_tcb[id];
-		krnl_task->rtjobs++;
-		return id;
-	}else{
-		/* no RT task to run */
-		krnl_task = &krnl_tcb[0];
-		return 0;
-	}
+	return rt_schedule(k);
 }

@@ -251,6 +251,7 @@ int32_t hf_spawn(void (*task)(), uint16_t period, uint16_t capacity, uint16_t de
 	krnl_task->period = period;
 	krnl_task->capacity = capacity;
 	krnl_task->deadline = deadline;
+	krnl_task->period_rem = period;
 	krnl_task->capacity_rem = capacity;
 	krnl_task->deadline_rem = deadline;
 	krnl_task->rtjobs = 0;

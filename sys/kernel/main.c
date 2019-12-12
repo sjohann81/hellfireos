@@ -59,6 +59,7 @@ static void clear_tcb(void)
 		krnl_task->period = 0;
 		krnl_task->capacity = 0;
 		krnl_task->deadline = 0;
+		krnl_task->period_rem = 0;
 		krnl_task->capacity_rem = 0;
 		krnl_task->deadline_rem = 0;
 		krnl_task->ptask = NULL;

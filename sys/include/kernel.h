@@ -39,8 +39,9 @@ struct tcb_entry {
 	uint16_t period;				/*!< task period */
 	uint16_t capacity;				/*!< task capacity */
 	uint16_t deadline;				/*!< task deadline */
+	uint16_t period_rem;				/*!< remaining period counter*/
 	uint16_t capacity_rem;				/*!< remaining capacity on period */
-	uint16_t deadline_rem;				/*!< remaining time slices on period */
+	uint16_t deadline_rem;				/*!< countdown to deadline */
 	context task_context;				/*!< task context */
 	void (*ptask)(void);				/*!< task entry point, pointer to function */
 	size_t *pstack;					/*!< task stack area (bottom) */
