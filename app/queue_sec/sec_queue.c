@@ -35,7 +35,7 @@ void sniffer(void)
 	void *elem;
 	
 	while (1) {
-		if (hf_queue_count(sq.q)) {
+		if (hf_queue_count(sec->q)) {
 			elem = hf_queue_get(sec->q, 0);
 			hexdump(elem, 128);
 		}
