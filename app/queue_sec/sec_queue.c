@@ -4,6 +4,7 @@
 #define Q_SIZE	40
 
 struct sec_queue sq;
+struct sec_queue *sec = &sq;
 	
 void sender(void)
 {
@@ -12,7 +13,7 @@ void sender(void)
 	uint8_t message[128] = "the quick brown fox jumps over the lazy dog";
 	
 	while (1) {
-		sec_send(&sq, Q_SIZE, message, xtea_key, iv);
+		sec_send(sec, Q_SIZE, message, xtea_key, iv);
 		delay_ms(1000);
 	}
 }
@@ -24,7 +25,7 @@ void receiver(void)
 	uint8_t buf[128];
 
 	while (1) {
-		sec_recv(&sq, Q_SIZE, buf, xtea_key, iv);
+		sec_recv(sec, Q_SIZE, buf, xtea_key, iv);
 		printf("\nmsg: %s", buf);
 	}
 }
@@ -35,7 +36,7 @@ void sniffer(void)
 	
 	while (1) {
 		if (hf_queue_count(sq.q)) {
-			elem = hf_queue_get(sq.q, 0);
+			elem = hf_queue_get(sec->q, 0);
 			hexdump(elem, 128);
 		}
 	}
@@ -43,8 +44,8 @@ void sniffer(void)
 
 void app_main(void)
 {
-	hf_mtxinit(&sq.m);
-	sq.q = hf_queue_create(Q_SIZE);
+	hf_mtxinit(&sec->m);
+	sec->q = hf_queue_create(Q_SIZE);
 	
 	hf_spawn(sender, 0, 0, 0, "sender 1", 1024);
 	hf_spawn(receiver, 0, 0, 0, "receiver 1", 1024);
