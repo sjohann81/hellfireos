@@ -98,20 +98,20 @@ union float_long{
 #define EXPD(fp)	(((fp.l.upper) >> 20) & 0x7FF)
 #define SIGND(fp)	((fp.l.upper) & SIGNBIT)
 #define MANTD(fp)	(((((fp.l.upper) & 0xFFFFF) | HIDDEND) << 10) | (fp.l.lower >> 22))
-#define HIDDEND_LL	((long long)1 << 52)
+#define HIDDEND_LL	((int64_t)1 << 52)
 #define MANTD_LL(fp)	((fp.ll & (HIDDEND_LL-1)) | HIDDEND_LL)
-#define PACKD_LL(s,e,m)	(((long long)((s)+((e)<<20))<<32)|(m))
+#define PACKD_LL(s,e,m)	(((int64_t)((s)+((e)<<20))<<32)|(m))
 
 union double_long {
 	double d;
 	struct {
 #ifdef LITTLE_ENDIAN
-		unsigned long lower;
-		long upper;
+		uint32_t lower;
+		int32_t upper;
 #else
-		long upper;
-		unsigned long lower;
+		int32_t upper;
+		uint32_t lower;
 #endif
 	} l;
-	long long ll;
+	int64_t ll;
 };
