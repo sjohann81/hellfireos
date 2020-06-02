@@ -187,22 +187,22 @@ void _task_init(void)
 
 void _set_task_sp(uint16_t task, size_t stack)
 {
-	krnl_tcb[task].task_context[12] = stack;
+	krnl_tcb[task].task_context[14] = stack;
 }
 
 size_t _get_task_sp(uint16_t task)
 {
-	return krnl_tcb[task].task_context[12];
+	return krnl_tcb[task].task_context[14];
 }
 
 void _set_task_tp(uint16_t task, void (*entry)())
 {
-	krnl_tcb[task].task_context[13] = (size_t)entry;
+	krnl_tcb[task].task_context[15] = (size_t)entry;
 }
 
 void *_get_task_tp(uint16_t task)
 {
-	return (void *)krnl_tcb[task].task_context[13];
+	return (void *)krnl_tcb[task].task_context[15];
 }
 
 void _timer_reset(void)

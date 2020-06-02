@@ -93,10 +93,12 @@ _context_save:
 	sw    s7, 28(a0)
 	sw    s8, 32(a0)
 	sw    s9, 36(a0)
-	sw    gp, 40(a0)
-	sw    tp, 44(a0)
-	sw    sp, 48(a0)
-	sw    ra, 52(a0)
+	sw    s10,40(a0)
+	sw    s11,44(a0)
+	sw    gp, 48(a0)
+	sw    tp, 52(a0)
+	sw    sp, 56(a0)
+	sw    ra, 60(a0)
 	ori   a0, zero, 0
 	ret
 
@@ -112,10 +114,12 @@ _context_restore:
 	lw    s7, 28(a0)
 	lw    s8, 32(a0)
 	lw    s9, 36(a0)
-	lw    gp, 40(a0)
-	lw    tp, 44(a0)
-	lw    sp, 48(a0)
-	lw    ra, 52(a0)
+	lw    s10,40(a0)
+	lw    s11,44(a0)
+	lw    gp, 48(a0)
+	lw    tp, 52(a0)
+	lw    sp, 56(a0)
+	lw    ra, 60(a0)
 	ori   a0, a1, 0
 	csrs  mstatus, 8
 	ret
