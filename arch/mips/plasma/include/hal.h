@@ -37,6 +37,7 @@ typedef void				(*funcptr)();
 #define TICK_TIME_REG			0x200000B0	/* simulator only */
 #define OUT_FACILITY			0x200000D0	/* not implemented on hw, but yeah on sim */
 #define LOG_FACILITY			0x200000E0	/* simulator only */
+#define EXIT_TRAP			0x200000F0	/* simulator only */
 
 #define IRQ_UART_READ_AVAILABLE		0x01
 #define IRQ_UART_WRITE_AVAILABLE	0x02
